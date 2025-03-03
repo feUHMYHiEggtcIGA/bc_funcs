@@ -579,6 +579,7 @@ def g_drop_positive(
             arr = np.array(arr)
 
     return arr[arr < 0]
+
 def g_drop_negative(
     arr: np.ndarray,
     check_args_transform: bool = True,
