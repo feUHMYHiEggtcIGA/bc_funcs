@@ -43,19 +43,45 @@ where I: Iterator<Item = &'a f64>
             positive += el
         }
     }
-    match positive {
-        0.0 => negative / transf::g_dz(positive),
-        _ => negative / positive,
+    negative = negative.abs();
+    match negative {
+        0.0 => positive / transf::g_dz(negative),
+        _ => positive / negative,
     }
 }
 
 
 #[cfg(test)]
 mod tests {
-    // use super::*;
+    use super::*;
 
     #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
+    fn percent_1() {
+        assert_eq!(
+            g_percent(&100.0, &105.0),
+            0.05
+        );
+    }
+    
+    #[test]
+    fn profit_factor_1() {
+        assert_eq!(
+            g_profit_factor(vec![1.0, 2.0, -1.0].iter()),
+            3.0,
+        )
+    }
+    
+    #[test]
+    fn profit_factor_2() {
+        let res = g_profit_factor(vec![1.0, 2.0].iter());
+
+        assert_ne!(
+            res,
+            3.0
+        );
+        assert_ne!(
+            res,
+            std::f64::NAN,
+        );
     }
 }

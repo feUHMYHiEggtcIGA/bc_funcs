@@ -23,6 +23,12 @@ pub fn g_ema(
     (src * alpha) + (ema_last * (1.0 - alpha))
 }
 
+pub fn g_alpha_ema(
+    window: &f64,
+) -> f64 {
+    2.0 / (*window + 1.0)
+}
+
 /// Calculates EMA with the last result stored in a buffer.
 ///
 /// # Arguments
@@ -50,20 +56,20 @@ pub fn g_ema_rm(
 /// * `f64`: the last EMA value.
 pub fn g_ema_f64_from_iter<'a, I>(
     iter_: I,
-    window: usize,
+    window: &usize,
 ) -> f64
 where I: Iterator<Item = &'a f64>
 {
     let mut res = 0.0;
-    let alpha = 2.0 / (window as f64 + 1.0);
+    let alpha = 2.0 / (*window as f64 + 1.0);
     
     for (i, el) in iter_.enumerate() {
-        if i < window {
+        if i < *window {
             res += el;
             continue;
         }
-        if i == window {
-            res /= window as f64;
+        if i == *window {
+            res /= *window as f64;
         }
         res = g_ema(
             el, 
@@ -84,23 +90,23 @@ where I: Iterator<Item = &'a f64>
 /// * `Vec<f64>`: a vector of EMA values.
 pub fn g_ema_vec_from_iter<'a, I>(
     iter_: I,
-    window: usize,
+    window: &usize,
 ) -> Vec<f64>
 where I: Iterator<Item = &'a f64>
 {
-    let mut res: Vec<f64> = (0..window)
+    let mut res: Vec<f64> = (0..*window)
         .map(|_| core::f64::NAN)
         .collect();
     let mut res_last = 0.0;
-    let alpha = 2.0 / (window as f64 + 1.0);
+    let alpha = 2.0 / (*window as f64 + 1.0);
     
     for (i, el) in iter_.enumerate() {
-        if i < window {
+        if i < *window {
             res_last += el;
             continue;
         }
-        if i == window {
-            res_last /= window as f64;
+        if i == *window {
+            res_last /= *window as f64;
             res.push(res_last); // Corrected for proper indexing
         }
         res.push(g_ema(
@@ -127,6 +133,12 @@ pub fn g_rma(
     alpha: &f64,
 ) -> f64 {
     *alpha * *src + (1.0 - *alpha) * *rma_last
+}
+
+pub fn g_alpha_rma(
+    window: &f64,
+) -> f64 {
+    1.0 / *window
 }
 
 /// Calculates RMA with the last result stored in a buffer.
@@ -156,20 +168,20 @@ pub fn g_rma_rm(
 /// * `f64`: the last RMA value.
 pub fn g_rma_f64_from_iter<'a, I>(
     iter_: I,
-    window: usize,
+    window: &usize,
 ) -> f64 
 where I: Iterator<Item = &'a f64>
 {
     let mut res = 0.0;
-    let alpha = 1.0 / window as f64;
+    let alpha = 1.0 / *window as f64;
     
     for (i, el) in iter_.enumerate() {
-        if i < window {
+        if i < *window {
             res += el;
             continue;
         }
-        if i == window {
-            res /= window as f64;
+        if i == *window {
+            res /= *window as f64;
         }
         res = g_rma(
             el, 
@@ -190,22 +202,22 @@ where I: Iterator<Item = &'a f64>
 /// * `Vec<f64>`: a vector of RMA values.
 pub fn g_rma_vec_from_iter<'a, I>(
     iter_: I,
-    window: usize,
+    window: &usize,
 ) -> Vec<f64>
 where I: Iterator<Item = &'a f64>
 {
-    let mut res: Vec<f64> = (0..window).map(|_| std::f64::NAN)
+    let mut res: Vec<f64> = (0..*window).map(|_| std::f64::NAN)
         .collect();
     let mut res_last: f64 = 0.0;
-    let alpha = 1.0 / window as f64;
+    let alpha = 1.0 / *window as f64;
     
     for (i, el) in iter_.enumerate() {
-        if i < window {
+        if i < *window {
             res_last += el;
             continue;
         }
-        if i == window {
-            res_last /= window as f64;
+        if i == *window {
+            res_last /= *window as f64;
             res.push(res_last);
         }
         res.push(g_rma(
@@ -221,7 +233,7 @@ where I: Iterator<Item = &'a f64>
 #[cfg(test)]
 mod tests {
     #[test]
-    fn it_works() {
+    fn test_1() {
         assert_eq!(2 + 2, 4);
     }
 }
