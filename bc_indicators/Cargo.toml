@@ -1,0 +1,8 @@
+[package]
+name = "bc_indicators"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+bc_utils = {path = "../bc_utils"}
+bc_utils_ml = {path = "../bc_utils_ml"}
