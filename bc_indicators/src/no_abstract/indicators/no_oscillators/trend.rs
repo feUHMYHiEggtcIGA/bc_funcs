@@ -23,6 +23,14 @@ pub fn g_ema(
     (src * alpha) + (ema_last * (1.0 - alpha))
 }
 
+/// Calculates the alpha value for Exponential Moving Average (EMA) based on the given window size.
+///
+/// # Arguments
+/// * `window`: the window size.
+///
+/// # Returns
+/// * `f64`: the alpha value for EMA.
+
 pub fn g_alpha_ema(
     window: &f64,
 ) -> f64 {
@@ -113,7 +121,7 @@ where I: Iterator<Item = &'a f64>
             el, 
             &res_last, 
             &alpha,
-        )); // Corrected for proper indexing
+        ));
     }
     res
 }
@@ -134,6 +142,14 @@ pub fn g_rma(
 ) -> f64 {
     *alpha * *src + (1.0 - *alpha) * *rma_last
 }
+
+/// Calculates the alpha value for Risk Management Average (RMA) based on the given window size.
+///
+/// # Arguments
+/// * `window`: the window size.
+///
+/// # Returns
+/// * `f64`: the alpha value for RMA.
 
 pub fn g_alpha_rma(
     window: &f64,
