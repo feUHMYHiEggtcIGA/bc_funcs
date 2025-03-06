@@ -68,7 +68,7 @@ pub fn g_ema_f64_from_iter<'a, I>(
 where I: Iterator<Item = &'a f64>
 {
     let mut res = 0.0;
-    let alpha = 2.0 / (*window as f64 + 1.0);
+    let alpha = g_alpha_ema(&(*window as f64));
     
     for (i, el) in iter_.enumerate() {
         if i < *window {
@@ -105,7 +105,7 @@ where I: Iterator<Item = &'a f64>
         .map(|_| core::f64::NAN)
         .collect();
     let mut res_last = 0.0;
-    let alpha = 2.0 / (*window as f64 + 1.0);
+    let alpha = g_alpha_ema(&(*window as f64));
     
     for (i, el) in iter_.enumerate() {
         if i < *window {
@@ -187,7 +187,7 @@ pub fn g_rma_f64_from_iter<'a, I>(
 where I: Iterator<Item = &'a f64>
 {
     let mut res = 0.0;
-    let alpha = 1.0 / *window as f64;
+    let alpha = g_alpha_rma(&(*window as f64));
     
     for (i, el) in iter_.enumerate() {
         if i < *window {
@@ -223,7 +223,7 @@ where I: Iterator<Item = &'a f64>
     let mut res: Vec<f64> = (0..*window).map(|_| std::f64::NAN)
         .collect();
     let mut res_last: f64 = 0.0;
-    let alpha = 1.0 / *window as f64;
+    let alpha = g_alpha_rma(&(*window as f64));
     
     for (i, el) in iter_.enumerate() {
         if i < *window {
