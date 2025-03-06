@@ -30,7 +30,6 @@ pub fn g_ema(
 ///
 /// # Returns
 /// * `f64`: the alpha value for EMA.
-
 pub fn g_alpha_ema(
     window: &f64,
 ) -> f64 {
@@ -150,7 +149,6 @@ pub fn g_rma(
 ///
 /// # Returns
 /// * `f64`: the alpha value for RMA.
-
 pub fn g_alpha_rma(
     window: &f64,
 ) -> f64 {
