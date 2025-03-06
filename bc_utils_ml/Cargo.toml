@@ -1,5 +1,5 @@
 [package]
-name = "bc_utils_ml_rs"
+name = "bc_utils_ml"
 version = "0.1.0"
 edition = "2024"
 
