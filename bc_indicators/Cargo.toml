@@ -6,3 +6,5 @@ edition = "2024"
 [dependencies]
 bc_utils = {path = "../bc_utils"}
 bc_utils_ml = {path = "../bc_utils_ml"}
+ndarray = "^0.16"
+num-traits = "^0.2.19"

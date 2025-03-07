@@ -4,79 +4,67 @@
 /// functions, although this is done explicitly.
 
 use std::collections::HashMap;
+use std::ops;
+
+use num_traits::Float;
+
+use bc_utils_ml::transf as ml_transf;
 
 
-/// Calculates the Exponential Moving Average (EMA) for a given value and previous EMA.
-///
-/// # Arguments
-/// * `src`: the current value.
-/// * `ema_last`: the previous EMA value.
-/// * `alpha`: the smoothing coefficient.
-///
-/// # Returns
-/// * `f64`: the current EMA value.
-pub fn g_ema(
-    src: &f64,
-    ema_last: &f64,
-    alpha: &f64,
-) -> f64 {
-    (src * alpha) + (ema_last * (1.0 - alpha))
+pub fn g_ema<T>(
+    src: &T,
+    ema_last: &T,
+    alpha: &T,
+) -> T 
+where 
+    T: Float
+{
+    (*src * *alpha) + (*ema_last * (T::one() - *alpha))
 }
 
-/// Calculates the alpha value for Exponential Moving Average (EMA) based on the given window size.
-///
-/// # Arguments
-/// * `window`: the window size.
-///
-/// # Returns
-/// * `f64`: the alpha value for EMA.
-pub fn g_alpha_ema(
-    window: &f64,
-) -> f64 {
-    2.0 / (*window + 1.0)
+pub fn g_alpha_ema<T>(
+    window: &T,
+) -> T 
+where
+    T: Float
+{
+    T::from(2.0).unwrap() / (*window + T::from(1.0).unwrap())
 }
 
-/// Calculates EMA with the last result stored in a buffer.
-///
-/// # Arguments
-/// * `src`: the current value.
-/// * `buff`: a buffer to store the last result and smoothing coefficient.
-///
-/// # Returns
-/// * `f64`: the current EMA value.
-pub fn g_ema_rm(
-    src: &f64,
-    buff: &mut HashMap<&'static str, f64>
-) -> f64 {
+pub fn g_ema_rm<T>(
+    src: &T,
+    buff: &mut HashMap<&'static str, T>
+) -> T 
+where 
+    T: Float
+{
     let res = g_ema(src, &buff["res"], &buff["alpha"]);
     buff.insert("res", res);
     res
 }
 
-/// Calculates EMA for an iterator of values with a specified window.
-///
-/// # Arguments
-/// * `iter_`: an iterator of values.
-/// * `window`: the size of the window for averaging.
-///
-/// # Returns
-/// * `f64`: the last EMA value.
-pub fn g_ema_f64_from_iter<'a, I>(
+pub fn g_ema_float<'a, I, T>(
     iter_: I,
     window: &usize,
-) -> f64
-where I: Iterator<Item = &'a f64>
+) -> T
+where 
+    I: Iterator<Item = &'a T>,
+    T: Float,
+    T: 'a,
+    T: ops::AddAssign,
+    T: ops::DivAssign,
 {
-    let mut res = 0.0;
-    let alpha = g_alpha_ema(&(*window as f64));
+    let mut res = T::zero();
+    let window_t = T::from(*window).unwrap();
     
+    let alpha = g_alpha_ema(&window_t);
     for (i, el) in iter_.enumerate() {
         if i < *window {
-            res += el;
+            res += *el;
             continue;
         }
         if i == *window {
-            res /= *window as f64;
+            res /= window_t;
         }
         res = g_ema(
             el, 
@@ -87,34 +75,32 @@ where I: Iterator<Item = &'a f64>
     res
 }
 
-/// Calculates EMA for an iterator of values with a specified window and returns a vector of values.
-///
-/// # Arguments
-/// * `iter_`: an iterator of values.
-/// * `window`: the size of the window for averaging.
-///
-/// # Returns
-/// * `Vec<f64>`: a vector of EMA values.
-pub fn g_ema_vec_from_iter<'a, I>(
+pub fn g_ema_vec<'a, I, T>(
     iter_: I,
     window: &usize,
-) -> Vec<f64>
-where I: Iterator<Item = &'a f64>
+) -> Vec<T>
+where 
+    I: Iterator<Item = &'a T>,
+    T: Float,
+    T: 'a,
+    T: ops::AddAssign,
+    T: ops::DivAssign,
 {
-    let mut res: Vec<f64> = (0..*window)
-        .map(|_| core::f64::NAN)
+    let mut res: Vec<T> = (0..*window)
+        .map(|_| T::nan())
         .collect();
-    let mut res_last = 0.0;
-    let alpha = g_alpha_ema(&(*window as f64));
+    let mut res_last = T::zero();
+    let window_t = T::from(*window).unwrap();
     
+    let alpha = g_alpha_ema(&window_t);
     for (i, el) in iter_.enumerate() {
         if i < *window {
-            res_last += el;
+            res_last += *el;
             continue;
         }
         if i == *window {
-            res_last /= *window as f64;
-            res.push(res_last); // Corrected for proper indexing
+            res_last /= window_t;
+            res.push(res_last);
         }
         res.push(g_ema(
             el, 
@@ -125,77 +111,51 @@ where I: Iterator<Item = &'a f64>
     res
 }
 
-/// Calculates the Rolling Moving Average (RMA) for a given value and previous RMA.
-///
-/// # Arguments
-/// * `src`: the current value.
-/// * `rma_last`: the previous RMA value.
-/// * `alpha`: the smoothing coefficient.
-///
-/// # Returns
-/// * `f64`: the current RMA value.
-pub fn g_rma(
-    src: &f64,
-    rma_last: &f64,
-    alpha: &f64,
-) -> f64 {
-    *alpha * *src + (1.0 - *alpha) * *rma_last
+pub fn g_rma<T: Float>(
+    src: &T,
+    rma_last: &T,
+    alpha: &T,
+) -> T {
+    *alpha * *src + (T::one()- *alpha) * *rma_last
 }
 
-/// Calculates the alpha value for Risk Management Average (RMA) based on the given window size.
-///
-/// # Arguments
-/// * `window`: the window size.
-///
-/// # Returns
-/// * `f64`: the alpha value for RMA.
-pub fn g_alpha_rma(
-    window: &f64,
-) -> f64 {
-    1.0 / *window
+pub fn g_alpha_rma<T: Float>(
+    window: &T,
+) -> T {
+    T::one() / *window
 }
 
-/// Calculates RMA with the last result stored in a buffer.
-///
-/// # Arguments
-/// * `src`: the current value.
-/// * `buff`: a buffer to store the last result and smoothing coefficient.
-///
-/// # Returns
-/// * `f64`: the current RMA value.
-pub fn g_rma_rm(
-    src: &f64,
-    buff: &mut HashMap<&'static str, f64>
-) -> f64 {
+pub fn g_rma_rm<T: Float>(
+    src: &T,
+    buff: &mut HashMap<&'static str, T>
+) -> T {
     let res = g_rma(src, &buff["res"], &buff["alpha"]);
     buff.insert("res", res);
     res
 }
 
-/// Calculates RMA for an iterator of values with a specified window.
-///
-/// # Arguments
-/// * `iter_`: an iterator of values.
-/// * `window`: the size of the window for averaging.
-///
-/// # Returns
-/// * `f64`: the last RMA value.
-pub fn g_rma_f64_from_iter<'a, I>(
+pub fn g_rma_float<'a, I, T>(
     iter_: I,
     window: &usize,
-) -> f64 
-where I: Iterator<Item = &'a f64>
+) -> T
+where 
+    I: Iterator<Item = &'a T>,
+    T: Float,
+    T: 'a,
+    T: ops::AddAssign,
+    T: ops::DivAssign,
 {
-    let mut res = 0.0;
-    let alpha = g_alpha_rma(&(*window as f64));
+    let mut res = T::zero();
+    let window_t = T::from(*window as f64).unwrap();
     
+    let alpha = g_alpha_rma(&window_t);
     for (i, el) in iter_.enumerate() {
         if i < *window {
-            res += el;
+            res += *el;
             continue;
         }
         if i == *window {
-            res /= *window as f64;
+            res /= window_t;
         }
         res = g_rma(
             el, 
@@ -206,32 +166,31 @@ where I: Iterator<Item = &'a f64>
     res
 }
 
-/// Calculates RMA for an iterator of values with a specified window and returns a vector of values.
-///
-/// # Arguments
-/// * `iter_`: an iterator of values.
-/// * `window`: the size of the window for averaging.
-///
-/// # Returns
-/// * `Vec<f64>`: a vector of RMA values.
-pub fn g_rma_vec_from_iter<'a, I>(
+pub fn g_rma_vec<'a, I, T>(
     iter_: I,
     window: &usize,
-) -> Vec<f64>
-where I: Iterator<Item = &'a f64>
+) -> Vec<T>
+where 
+    I: Iterator<Item = &'a T>,
+    T: Float,
+    T: 'a,
+    T: ops::AddAssign,
+    T: ops::DivAssign,
 {
-    let mut res: Vec<f64> = (0..*window).map(|_| std::f64::NAN)
+    let mut res: Vec<T> = (0..*window)
+        .map(|_| T::nan())
         .collect();
-    let mut res_last: f64 = 0.0;
-    let alpha = g_alpha_rma(&(*window as f64));
-    
+    let mut res_last: T = T::zero();
+    let window_t = T::from(*window as f64).unwrap();
+
+    let alpha = g_alpha_rma(&window_t);
     for (i, el) in iter_.enumerate() {
         if i < *window {
-            res_last += el;
+            res_last += *el;
             continue;
         }
         if i == *window {
-            res_last /= *window as f64;
+            res_last /= window_t;
             res.push(res_last);
         }
         res.push(g_rma(
@@ -243,11 +202,44 @@ where I: Iterator<Item = &'a f64>
     res
 }
 
+pub fn g_rational_quadratic_float<'a, I, T>(
+    src: I,
+    window: &T,
+    relative_weight: &T,
+    start_at_bar: &usize,
+) -> T 
+where 
+    I: Iterator<Item = &'a T>,
+    T: Float,
+    T: 'a,
+    T: ops::AddAssign,
+    T: ops::MulAssign,
+    T: ops::DivAssign,
+{
+    let mut current_weight: T = T::zero();
+    let mut cumulative_weight: T = T::zero();
+    let two = T::from(2.0).unwrap();
+    let one = T::one();
+
+
+    for (i, y) in src.enumerate() {
+        let w: T = (
+            (one + T::from(*start_at_bar - i).unwrap().powf(two)) 
+            / ((*window).powf(two) * two * *relative_weight))
+                .powf(-(*relative_weight)
+        );
+        current_weight += w * *y;
+        cumulative_weight += w;
+    }
+    ml_transf::g_nz(current_weight / cumulative_weight, T::zero())
+}
 
 #[cfg(test)]
 mod tests {
+    use crate::no_abstract::indicators::no_oscillators::trend::g_alpha_ema;
+
     #[test]
-    fn test_1() {
-        assert_eq!(2 + 2, 4);
+    fn test_alpha_ema1() {
+        assert_eq!(g_alpha_ema(&9.0), 0.2);
     }
 }

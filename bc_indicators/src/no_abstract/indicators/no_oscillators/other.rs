@@ -50,7 +50,6 @@ where I: Iterator<Item = &'a f64>
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;

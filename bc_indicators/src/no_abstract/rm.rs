@@ -17,7 +17,7 @@ where I: Iterator<Item = &'a f64>
 {
     HashMap::from([
         ("alpha", trend::g_alpha_ema(&(*window as f64))),
-        ("res", trend::g_ema_f64_from_iter(src, window))
+        ("res", trend::g_ema_float(src, window))
     ])
 }
 
@@ -28,7 +28,7 @@ pub fn g_rm_rma<'a, I>(
 where I: Iterator<Item = &'a f64> 
 {
     HashMap::from([
-        ("res", trend::g_rma_f64_from_iter(src, window)),
+        ("res", trend::g_rma_float(src, window)),
         ("alpha", trend::g_alpha_rma(&(*window as f64))),
     ])
 }
@@ -39,6 +39,12 @@ mod tests {
 
     #[test]
     fn test_rm_trend_ma_1() {
-        
+        assert_eq!(
+            g_rm_trend_ma(),
+            HashMap::from([
+                ("trend", 0.0),
+                ("l", 0.0),
+            ])
+        )
     }
 }
