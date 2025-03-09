@@ -17,7 +17,7 @@ pub fn g_ema<T>(
     alpha: &T,
 ) -> T 
 where 
-    T: Float
+    T: Float,
 {
     (*src * *alpha) + (*ema_last * (T::one() - *alpha))
 }
@@ -26,7 +26,7 @@ pub fn g_alpha_ema<T>(
     window: &T,
 ) -> T 
 where
-    T: Float
+    T: Float,
 {
     T::from(2.0).unwrap() / (*window + T::from(1.0).unwrap())
 }
@@ -48,9 +48,9 @@ pub fn g_ema_float<'a, I, T>(
     window: &usize,
 ) -> T
 where 
-    I: Iterator<Item = &'a T>,
     T: Float,
     T: 'a,
+    I: Iterator<Item = &'a T>,
     T: ops::AddAssign,
     T: ops::DivAssign,
 {
@@ -71,42 +71,6 @@ where
             &res, 
             &alpha,
         );
-    }
-    res
-}
-
-pub fn g_ema_vec<'a, I, T>(
-    iter_: I,
-    window: &usize,
-) -> Vec<T>
-where 
-    I: Iterator<Item = &'a T>,
-    T: Float,
-    T: 'a,
-    T: ops::AddAssign,
-    T: ops::DivAssign,
-{
-    let mut res: Vec<T> = (0..*window)
-        .map(|_| T::nan())
-        .collect();
-    let mut res_last = T::zero();
-    let window_t = T::from(*window).unwrap();
-    
-    let alpha = g_alpha_ema(&window_t);
-    for (i, el) in iter_.enumerate() {
-        if i < *window {
-            res_last += *el;
-            continue;
-        }
-        if i == *window {
-            res_last /= window_t;
-            res.push(res_last);
-        }
-        res.push(g_ema(
-            el, 
-            &res_last, 
-            &alpha,
-        ));
     }
     res
 }
@@ -162,42 +126,6 @@ where
             &res, 
             &alpha,
         );
-    }
-    res
-}
-
-pub fn g_rma_vec<'a, I, T>(
-    iter_: I,
-    window: &usize,
-) -> Vec<T>
-where 
-    I: Iterator<Item = &'a T>,
-    T: Float,
-    T: 'a,
-    T: ops::AddAssign,
-    T: ops::DivAssign,
-{
-    let mut res: Vec<T> = (0..*window)
-        .map(|_| T::nan())
-        .collect();
-    let mut res_last: T = T::zero();
-    let window_t = T::from(*window as f64).unwrap();
-
-    let alpha = g_alpha_rma(&window_t);
-    for (i, el) in iter_.enumerate() {
-        if i < *window {
-            res_last += *el;
-            continue;
-        }
-        if i == *window {
-            res_last /= window_t;
-            res.push(res_last);
-        }
-        res.push(g_rma(
-            &el, 
-            &res_last, 
-            &alpha,
-        ));
     }
     res
 }
