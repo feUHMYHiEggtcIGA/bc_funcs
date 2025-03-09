@@ -1,20 +1,29 @@
-pub fn g_vec_positive<'a, I>(
+use num_traits::Float;
+
+
+pub fn g_vec_positive<'a, I, T>(
     iter_: I,
-) -> Vec<&'a f64> 
-where I: Iterator<Item = &'a f64>,
+) -> Vec<&'a T> 
+where 
+    I: Iterator<Item = &'a T>,
+    T: Float,
+    T: 'a,
 {
     iter_
-        .filter(|v| **v > 0.0)
+        .filter(|v| **v > T::zero())
         .collect()
 }
 
-pub fn g_vec_negative<'a, I>(
+pub fn g_vec_negative<'a, I, T>(
     iter_: I,
-) -> Vec<&'a f64> 
-where I: Iterator<Item = &'a f64>,
+) -> Vec<&'a T> 
+where 
+    I: Iterator<Item = &'a T>,
+    T: Float,
+    T: 'a,
 {
     iter_
-        .filter(|v| **v < 0.0)
+        .filter(|v| **v < T::zero())
         .collect()
 }
 
