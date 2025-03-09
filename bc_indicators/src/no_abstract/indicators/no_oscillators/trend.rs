@@ -164,10 +164,18 @@ where
 
 #[cfg(test)]
 mod tests {
-    use crate::no_abstract::indicators::no_oscillators::trend::g_alpha_ema;
+    use crate::no_abstract::indicators::no_oscillators::trend::{g_alpha_ema, g_alpha_rma};
 
     #[test]
-    fn test_alpha_ema1() {
+    fn t_alpha_ema_1() {
         assert_eq!(g_alpha_ema(&9.0), 0.2);
+    }
+
+    #[test]
+    fn t_alpha_rma_1() {
+        assert_eq!(
+            g_alpha_rma(&10.0),
+            0.1,
+        )
     }
 }
