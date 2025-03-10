@@ -1,3 +1,5 @@
+use std::panic::set_hook;
+
 use num_traits::Float;
 
 
@@ -60,4 +62,133 @@ pub fn g_rstrip(
         }
     }
     &s[cut_index..]
+}
+
+pub fn g_nz<T: Float>(
+    num: T, 
+    exc_value: T,
+) -> T {
+    if num.is_nan() {
+        exc_value
+    } else {
+        num
+    }
+}
+
+pub fn g_nz_vec<T, F>(
+    iter_: T,
+    exc_value: F,
+) -> Vec<F>
+where 
+    T: Iterator<Item = F>,
+    F: Float,
+{
+    iter_
+        .map(|num| g_nz(num, exc_value))
+        .collect()
+}
+
+pub fn g_normalize<'a, T, F>(
+    iter_: T,
+    to_normalize: &F,
+    min_new: F,
+    max_new: F,
+) -> F
+where 
+    T: Iterator<Item = &'a F>,
+    F: 'a,
+    F: Float,
+    F: std::ops::Sub<Output = F>,
+    F: std::ops::Div<Output = F>,
+    F: std::ops::Mul<Output = F>,
+    F: std::ops::Add<Output = F>,
+{
+    let mut min_historic = &F::nan();
+    let mut max_historic = &F::nan();
+
+    for num in iter_ {
+        min_historic = if num < &min_historic {num} else {min_historic};
+        max_historic = if num > &max_historic {num} else {min_historic};
+    };
+    (*to_normalize - *min_historic)
+        / (*max_historic - *min_historic)
+        * (max_new - min_new)
+        + min_new
+}
+
+pub fn g_dz<F: Float>(
+    num: F,
+) -> F {
+    if num == F::zero() {
+        F::from(1e-10).unwrap()
+    }
+    else {
+        num
+    }
+}
+
+pub fn g_vec_drop_nan<F: Float>(
+    vec: Vec<F>,
+) -> Vec<F> {
+    vec.into_iter()
+       .filter(|&x|!x.is_nan())
+       .collect()
+}
+
+pub fn g_abs<T>(
+    num: &T,
+) -> T 
+where
+    T: Float,
+{
+    if *num < T::zero() {
+        -*num
+    } else {
+        *num
+    }
+}
+
+pub fn g_avg<'a, T, I>(
+    arr: I,
+) -> T 
+where 
+    T: Float,
+    T: 'a,
+    I: Iterator<Item = &'a T>,
+    T: std::ops::AddAssign<T>,
+{
+    let mut count = 0;
+    let mut sum = T::zero();
+
+    for (i, el) in arr.enumerate() {
+        count = i;
+        sum += *el;
+    }
+    sum / T::from(count + 1).unwrap()
+}
+
+pub fn g_vec1_roll_shift<'a, T, I>(
+    iter_: I,
+    len_iter: usize,
+    shift: i8,
+) -> Vec<&'a T>
+where 
+    I: Iterator<Item = &'a T>,
+    T: 'a,
+{    
+    let mut res: Vec<&'a T> = iter_.collect();
+    let shift_usize = shift.abs() as usize;
+
+    for (i, el) in iter_.enumerate() {
+        if shift > 0 {
+            if i < shift_usize {
+                res[i] = res[shift_usize - i];
+    
+            }
+
+        }
+    }
+    res
+
+    
 }

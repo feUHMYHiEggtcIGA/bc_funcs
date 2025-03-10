@@ -1,6 +1,6 @@
 use num_traits::Float;
 
-use bc_utils_ml::transf;
+use bc_utils::transf;
 
 
 pub fn g_percent<T>(

@@ -8,8 +8,15 @@ use std::ops;
 
 use num_traits::Float;
 
-use bc_utils_ml::transf as ml_transf;
+use bc_utils::transf;
 
+
+pub fn g_sma_rm<T>(
+    src: &T,
+    buff: &mut HashMap<&'static str, T>
+) -> T {
+    let res <
+}
 
 pub fn g_ema<T>(
     src: &T,
@@ -28,7 +35,7 @@ pub fn g_alpha_ema<T>(
 where
     T: Float,
 {
-    T::from(2.0).unwrap() / (*window + T::from(1.0).unwrap())
+    T::from(2.0).unwrap() / (*window + T::one())
 }
 
 pub fn g_ema_rm<T>(
@@ -159,7 +166,7 @@ where
         current_weight += w * *y;
         cumulative_weight += w;
     }
-    ml_transf::g_nz(current_weight / cumulative_weight, T::zero())
+    transf::g_nz(current_weight / cumulative_weight, T::zero())
 }
 
 #[cfg(test)]

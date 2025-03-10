@@ -2,8 +2,8 @@ use std::collections::HashMap;
 
 use num_traits::Float;
 
-use crate::no_abstract::indicators::no_oscillators::trend::{self, g_rma_float};
-use bc_utils_ml::transf;
+use crate::no_abstract::indicators::no_oscillators::trend;
+use bc_utils::transf;
 
 pub fn g_rsi<'a, T>(
     rma1: &T,
@@ -60,8 +60,8 @@ where
         u.push(change.max(T::zero()));
         d.push((-change).max(T::zero()));
     }
-    let rma1 = g_rma_float(u.iter(), &window);
-    let rma2 = g_rma_float(d.iter(), &window);
+    let rma1 = trend::g_rma_float(u.iter(), &window);
+    let rma2 = trend::g_rma_float(d.iter(), &window);
     g_rsi(&rma1, &rma2)
 }
 
