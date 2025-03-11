@@ -1,5 +1,3 @@
-use std::{clone, panic::set_hook};
-
 use num_traits::Float;
 
 
@@ -179,9 +177,9 @@ where
     let mut res: Vec<&'a T> = iter_.collect();
     
     if shift > 0 {
-        res.rotate_left(shift_usize);
-    } else if shift < 0 {
         res.rotate_right(shift_usize);
+    } else if shift < 0 {
+        res.rotate_left(shift_usize);
     }
     res
 }
@@ -209,15 +207,17 @@ where
                 }
             )
             .collect()
-    } else {
+    } else if shift < 0 {
         res
             .iter()
             .enumerate()
             .map(
                 |(i, v)| {
-                    if i < iter_len - shift_usize {to_replace} else {*v}
+                    if i > iter_len - shift_usize - 1 {to_replace} else {*v}
                 }
             )
                 .collect()
+    } else {
+        res
     }
 }
