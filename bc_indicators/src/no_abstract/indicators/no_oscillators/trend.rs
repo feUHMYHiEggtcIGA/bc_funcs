@@ -11,11 +11,26 @@ use num_traits::Float;
 use bc_utils::transf;
 
 
-pub fn g_sma_rm<T>(
-    src: &T,
-    buff: &mut HashMap<&'static str, T>
-) -> T {
-    let res <
+pub fn g_sma_rm<'a, T, I>(
+    src: &'a T,
+    window: &T,
+    buff_iter: &mut HashMap<&'static str, Vec<&'a T>>,
+) -> T 
+where
+    T: Float,
+    T: std::iter::Sum,
+    T: 'a,
+{
+    buff_iter.insert(
+        "src", 
+        transf::g_vec1_roll_replace_el(
+            buff_iter["src"].iter().map(|v| *v),
+            buff_iter["src"].len(),
+            1,
+            src,
+        )
+    );
+    buff_iter["src"].iter().map(|x| **x).sum::<T>() / *window
 }
 
 pub fn g_ema<T>(

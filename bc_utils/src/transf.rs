@@ -1,4 +1,4 @@
-use std::panic::set_hook;
+use std::{clone, panic::set_hook};
 
 use num_traits::Float;
 
@@ -167,28 +167,57 @@ where
     sum / T::from(count + 1).unwrap()
 }
 
-pub fn g_vec1_roll_shift<'a, T, I>(
+pub fn g_vec1_roll<'a, T, I>(
     iter_: I,
-    len_iter: usize,
     shift: i8,
 ) -> Vec<&'a T>
 where 
     I: Iterator<Item = &'a T>,
     T: 'a,
 {    
-    let mut res: Vec<&'a T> = iter_.collect();
     let shift_usize = shift.abs() as usize;
-
-    for (i, el) in iter_.enumerate() {
-        if shift > 0 {
-            if i < shift_usize {
-                res[i] = res[shift_usize - i];
+    let mut res: Vec<&'a T> = iter_.collect();
     
-            }
-
-        }
+    if shift > 0 {
+        res.rotate_left(shift_usize);
+    } else if shift < 0 {
+        res.rotate_right(shift_usize);
     }
     res
+}
 
-    
+pub fn g_vec1_roll_replace_el<'a, T, I>(
+    iter_: I,
+    iter_len: usize,
+    shift: i8,
+    to_replace: &'a T,
+) -> Vec<&'a T>
+where 
+    T: 'a,
+    I: Iterator<Item = &'a T>,
+{
+    let res = g_vec1_roll(iter_, shift);
+    let shift_usize = shift.abs() as usize;
+
+    if shift > 0 {
+        res
+            .iter()
+            .enumerate()
+            .map(
+                |(i, v)| {
+                    if i < shift_usize {to_replace} else {*v}
+                }
+            )
+            .collect()
+    } else {
+        res
+            .iter()
+            .enumerate()
+            .map(
+                |(i, v)| {
+                    if i < iter_len - shift_usize {to_replace} else {*v}
+                }
+            )
+                .collect()
+    }
 }
