@@ -1,5 +1,3 @@
-use std::ops::{Index, IndexMut};
-
 use num_traits::Float;
 
 

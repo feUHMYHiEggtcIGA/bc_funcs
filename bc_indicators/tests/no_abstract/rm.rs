@@ -1,28 +1,11 @@
 use std::collections::HashMap;
 
-use num_traits::Float;
-
 use super::indicators::no_oscillators::trend;
 
 pub fn g_rm_trend_ma() -> HashMap<&'static str, f64> {
     HashMap::from([
         ("trend", 0.0),
         ("l", 0.0),
-    ])
-}
-
-pub fn g_rm_sma<'a, I, T>(
-    src: I,
-    len_src: &usize,
-    window: &usize,
-) -> HashMap<&'static str, Vec<&'a T>>
-where 
-    I: Iterator<Item = &'a T>,
-    T: Float,
-    T: 'a,
-{
-    HashMap::from([
-        ("src", src.skip(*len_src - *window).collect::<Vec<&'a T>>())
     ])
 }
 
