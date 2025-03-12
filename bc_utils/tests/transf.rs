@@ -40,7 +40,7 @@ fn t_vec1_roll_replace_el_1() {
     assert_eq!(
         g_vec1_roll_replace_el(
             vec.iter(), 
-            vec.len(), 
+            &vec.len(), 
             -1, 
             &4,
         ),

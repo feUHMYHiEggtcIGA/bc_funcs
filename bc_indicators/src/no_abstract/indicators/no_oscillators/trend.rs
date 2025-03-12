@@ -11,9 +11,8 @@ use num_traits::Float;
 use bc_utils::transf;
 
 
-pub fn g_sma_rm<'a, T, I>(
+pub fn g_sma_rm<'a, T>(
     src: &'a T,
-    window: &T,
     buff_iter: &mut HashMap<&'static str, Vec<&'a T>>,
 ) -> T 
 where
@@ -21,16 +20,41 @@ where
     T: std::iter::Sum,
     T: 'a,
 {
+    let len_src = buff_iter["src"].len();
+
     buff_iter.insert(
         "src", 
         transf::g_vec1_roll_replace_el(
             buff_iter["src"].iter().map(|v| *v),
-            buff_iter["src"].len(),
+            &len_src,
             1,
             src,
         )
     );
-    buff_iter["src"].iter().map(|x| **x).sum::<T>() / *window
+    buff_iter["src"].iter().map(|x| **x).sum::<T>() / T::from(len_src).unwrap()
+}
+
+pub fn g_sma_rm_nolink<'a, T>(
+    src: T,
+    buff_iter: &mut HashMap<&'static str, Vec<T>>,
+) -> T 
+where
+    T: Float,
+    T: std::iter::Sum,
+    T: 'a,
+{
+    let len_src = buff_iter["src"].len();
+
+    buff_iter.insert(
+        "src", 
+        transf::g_vec1_roll_replace_el(
+            buff_iter["src"].iter(),
+            &len_src,
+            1,
+            &src,
+        ).iter().map(|v| **v).collect()
+    );
+    buff_iter["src"].iter().map(|x| *x).sum::<T>() / T::from(len_src).unwrap()
 }
 
 pub fn g_ema<T>(
@@ -186,7 +210,7 @@ where
 
 #[cfg(test)]
 mod tests {
-    use crate::no_abstract::indicators::no_oscillators::trend::{g_alpha_ema, g_alpha_rma};
+    use super::*;
 
     #[test]
     fn t_alpha_ema_1() {

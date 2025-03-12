@@ -26,30 +26,29 @@ use bc_utils::transf;
 /// * `T`: float number
 pub fn g_tqo_b<T>(
     trend_abs: &T,
-    noise: &T,
+    correlation_factor: &T,
+    diff_sma: &T,
 ) -> T 
 where 
     T: Float,
 {
-    *trend_abs / (*trend_abs + *noise)
+    *trend_abs / (*trend_abs + *correlation_factor * *diff_sma)
 }
 
-pub fn g_tqo_b_rm<'a, T, I>(
+pub fn g_tqo_b_rm<'a, T>(
     src: &T,
-    window_fast: &T,
-    window_slow: &T,
     window_trend: &T,
+    correlation_factor: &T,
     noise_type: &str,
-    window_noise: &T,
     rm: &mut HashMap<&'static str, T>,
     rm_ema_fast: &mut HashMap<&'static str, T>,
     rm_ema_slow: &mut HashMap<&'static str, T>,
-    rm_sma: &mut HashMap<&'static str, I>,
+    rm_sma: &mut HashMap<&'static str, Vec<T>>,
 ) -> T 
 where 
     T: Float,
     T: 'a,
-    I: Iterator<Item = &'a T>,
+    T: std::iter::Sum,
 {
     let ema_fast = trend::g_ema_rm(src, rm_ema_fast);
     let ema_slow = trend::g_ema_rm(src, rm_ema_slow);
@@ -62,9 +61,20 @@ where
             rm["trend"] * (T::one() - alpha) + cpc * alpha
         } else {T::zero()};
     let diff = transf::g_abs(&(cpc - trend));
-
-
-
+    let diff_sma;
+    if noise_type == "linear" {
+        diff_sma = trend::g_sma_rm_nolink(
+            diff,
+            rm_sma
+        );
+    } else {
+        diff_sma = trend::g_sma_rm_nolink(
+            diff.powf(T::from(2).unwrap()), 
+            rm_sma
+        ).powf(T::from(2).unwrap());
+    }
+    let trend_abs = trend.abs();
+    g_tqo_b(&trend_abs, correlation_factor, &diff_sma)
 }
 
 // wto

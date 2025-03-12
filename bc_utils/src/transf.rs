@@ -1,3 +1,5 @@
+use std::ops::{Index, IndexMut};
+
 use num_traits::Float;
 
 
@@ -147,7 +149,7 @@ where
 }
 
 pub fn g_avg<'a, T, I>(
-    arr: I,
+    iter_: I,
 ) -> T 
 where 
     T: Float,
@@ -158,7 +160,7 @@ where
     let mut count = 0;
     let mut sum = T::zero();
 
-    for (i, el) in arr.enumerate() {
+    for (i, el) in iter_.enumerate() {
         count = i;
         sum += *el;
     }
@@ -186,7 +188,7 @@ where
 
 pub fn g_vec1_roll_replace_el<'a, T, I>(
     iter_: I,
-    iter_len: usize,
+    iter_len: &usize,
     shift: i8,
     to_replace: &'a T,
 ) -> Vec<&'a T>
@@ -213,7 +215,7 @@ where
             .enumerate()
             .map(
                 |(i, v)| {
-                    if i > iter_len - shift_usize - 1 {to_replace} else {*v}
+                    if i > *iter_len - shift_usize - 1 {to_replace} else {*v}
                 }
             )
                 .collect()
@@ -221,3 +223,18 @@ where
         res
     }
 }
+
+// fn g_rolling<'a, I, T>(
+//     obj: T
+// ) -> I
+// where 
+//     // I: Iterator<Item = &'a T>,
+//     // T: 'a,
+//     T: Index<T>,
+//     T: IndexMut<T>,
+//     T: IntoIterator,
+//     T: Iterator,
+//     T: Sized,
+// {
+//     obj.map(|v|);
+// }
