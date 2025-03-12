@@ -156,7 +156,7 @@ where
     T: ops::DivAssign,
 {
     let mut res = T::zero();
-    let window_t = T::from(*window as f64).unwrap();
+    let window_t = T::from(*window).unwrap();
     
     let alpha = g_alpha_rma(&window_t);
     for (i, el) in iter_.enumerate() {

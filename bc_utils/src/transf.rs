@@ -184,6 +184,25 @@ where
     res
 }
 
+// pub fn g_iter_roll<'a, T, I>(
+//     iter_: I,
+//     shift: i8,
+// ) -> Iter<'a, &'a T>
+// where 
+//     I: Iterator<Item = &'a T>,
+//     T: 'a,
+// {    
+//     let shift_usize = shift.abs() as usize;
+//     let mut res: Vec<&'a T> = iter_.collect();
+    
+//     if shift > 0 {
+//         res.rotate_right(shift_usize);
+//     } else if shift < 0 {
+//         res.rotate_left(shift_usize);
+//     }
+//     res.iter().ro
+// }
+
 pub fn g_vec1_roll_replace_el<'a, T, I>(
     iter_: I,
     iter_len: &usize,
