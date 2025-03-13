@@ -34,6 +34,16 @@ fn t_dropnan_1() {
 }
 
 #[test]
+fn t_vec1_roll_1() {
+    let vec = vec![1, 2, 3];
+    
+    assert_eq!(
+        g_vec1_roll(vec.iter(), 1),
+        vec![&3, &1, &2]
+    );
+}
+
+#[test]
 fn t_vec1_roll_replace_el_1() {
     let vec = vec![1, 2, 3];
     
