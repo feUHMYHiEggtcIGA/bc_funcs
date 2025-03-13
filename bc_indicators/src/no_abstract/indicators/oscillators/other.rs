@@ -29,15 +29,19 @@ where
     let change = *src - rm["src"];
     let u = T::zero().max(change.clone());
     let d = T::zero().max(-change.clone());
-
+    
     let rma1 = trend::g_rma_rm(&u, rm_rma1);
     let rma2 = trend::g_rma_rm(&d, rm_rma2);
-    g_rsi(&rma1, &rma2)
+    let res = g_rsi(&rma1, &rma2);
+    rm.insert("src", *src);
+    rm_rma1.insert("res", rma1);
+    rm_rma2.insert("res", rma2);
+    res
 }
 
 pub fn g_rsi_float<'a, T, I>(
     src: I,
-    window: usize,
+    window: &usize,
 ) -> T
 where 
     T: Float,
@@ -60,8 +64,8 @@ where
         d.push((-change).max(T::zero()));
         src_l = *el;
     }
-    let rma1 = trend::g_rma_float(u.iter(), &window);
-    let rma2 = trend::g_rma_float(d.iter(), &window);
+    let rma1 = trend::g_rma_float(u.iter(), window);
+    let rma2 = trend::g_rma_float(d.iter(), window);
     g_rsi(&rma1, &rma2)
 }
 
@@ -99,7 +103,25 @@ mod tests {
                     &mut rm_rma2,
                 ), 
             4),
-            40.41,
+            40.4103,
+        )
+    }
+
+    #[test]
+    fn g_rsi_float_1() {
+        let vec = vec![
+            2.2599,
+            2.2654, 2.2742, 2.2736, 2.2706, 2.2736, 
+            2.2735, 2.2733, 2.2624, 2.2618, 2.2628, 
+            2.2649, 2.2591, 2.2577, 2.2546, 2.2584, 
+            2.2555, 2.2553, 2.2559, 2.2542, 2.2547,
+        ];
+
+        assert_eq!(
+            transf::g_round_float(
+                g_rsi_float(vec.iter(), &2,),
+            4),
+            40.4103,
         )
     }
 }

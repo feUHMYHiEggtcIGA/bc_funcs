@@ -280,6 +280,7 @@ mod tests {
         ];
         let mut rm = g_rm_rma(
             vec.iter(),
+            &vec.len(),
             &WINDOW,
         );
 

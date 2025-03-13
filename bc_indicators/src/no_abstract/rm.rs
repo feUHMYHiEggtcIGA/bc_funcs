@@ -5,6 +5,10 @@ use bc_utils::transf;
 
 use super::indicators::no_oscillators::trend;
 
+
+/// функции, возвращающие rm значения
+/// возвращают готовые значения для переиспользования 
+/// в rm функциях
 pub fn g_rm_trend_ma<T>() -> HashMap<&'static str, T> 
 where 
     T: Float,
@@ -56,6 +60,7 @@ where I: Iterator<Item = &'a f64>
 
 pub fn g_rm_rma<'a, I, T>(
     src: I,
+    len_src: &usize,
     window: &usize,
 ) -> HashMap<&'static str, T>
 where 
@@ -66,15 +71,10 @@ where
     T: std::ops::AddAssign,
     T: std::ops::DivAssign,
 {
-    let owned_values: Vec<T> = transf::g_vec1_roll(src, 1)
-        .into_iter()
-        .cloned()
-        .collect();
-
     HashMap::from([
         ("alpha", trend::g_alpha_rma(&T::from(*window).unwrap())),
         ("res", trend::g_rma_float(
-            owned_values.iter(),
+            src.take(*len_src - 1),
             window,
         )),
     ])
@@ -101,7 +101,10 @@ where
     let mut d: Vec<T> = Vec::new();
     let mut src_l = T::nan();
 
-    for (i, el) in src.clone().enumerate() {
+    for (i, el) in src
+        .clone()
+        .enumerate() 
+    {
         if i == 0 {
             src_l = *el;
             continue;
@@ -114,11 +117,10 @@ where
         }
         src_l = *el;
     }
-
     (
-        HashMap::from([("src", *src.skip(*len_src - 2).next().unwrap())]),
-        g_rm_rma(u.iter(), &window),
-        g_rm_rma(d.iter(), &window)
+        HashMap::from([("src", src_l)]),
+        g_rm_rma(u.iter(), &u.len(), &window),
+        g_rm_rma(d.iter(), &d.len(), &window)
     )
 }
 
@@ -187,7 +189,11 @@ mod tests {
             2.2649, 2.2591, 2.2577, 2.2546, 2.2584, 
             2.2555, 2.2553, 2.2559, 2.2542, 2.2547,
         ];
-        let mut rm = g_rm_rma(vec.iter(), &WINDOW);
+        let mut rm = g_rm_rma(
+            vec.iter(),
+            &vec.len(),
+            &WINDOW
+        );
         rm.insert(
             "res",
              transf::g_round_float(rm["res"], 4)
