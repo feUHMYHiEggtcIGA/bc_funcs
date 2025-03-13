@@ -241,6 +241,17 @@ where
     }
 }
 
+pub fn g_round_float<T>(
+    num: T,
+    precision: usize,
+) -> T
+where 
+    T: Float,
+{
+    let mult = T::from(10.0.powi(precision as i32)).unwrap();
+    (num * mult).round() / mult
+}
+
 // fn g_rolling<'a, I, T>(
 //     obj: T
 // ) -> I

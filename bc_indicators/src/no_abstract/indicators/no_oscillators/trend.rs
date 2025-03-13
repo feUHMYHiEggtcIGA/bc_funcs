@@ -13,25 +13,24 @@ use bc_utils::transf;
 
 pub fn g_sma_rm<'a, T>(
     src: &'a T,
+    window: &usize,
     buff_iter: &mut HashMap<&'static str, Vec<&'a T>>,
 ) -> T 
 where
     T: Float,
     T: std::iter::Sum,
     T: 'a,
-{
-    let len_src = buff_iter["src"].len();
-
-    buff_iter.insert(
-        "src", 
-        transf::g_vec1_roll_replace_el(
+    {
+        buff_iter.insert(
+            "src", 
+            transf::g_vec1_roll_replace_el(
             buff_iter["src"].iter().map(|v| *v),
-            &len_src,
-            1,
+            window,
+            -1,
             src,
         )
     );
-    buff_iter["src"].iter().map(|x| **x).sum::<T>() / T::from(len_src).unwrap()
+    buff_iter["src"].iter().map(|x| **x).sum::<T>() / T::from(*window).unwrap()
 }
 
 pub fn g_sma_rm_nolink<'a, T>(
@@ -211,6 +210,10 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::no_abstract::rm::*;
+
+
+    const WINDOW: usize = 2;
 
     #[test]
     fn t_alpha_ema_1() {
@@ -223,5 +226,66 @@ mod tests {
             g_alpha_rma(&10.0),
             0.1,
         )
+    }
+
+    #[test]
+    fn t_sma_rm_1() {
+        let vec = vec![
+            2.2599,
+            2.2654, 2.2742, 2.2736, 2.2706, 2.2736, 
+            2.2735, 2.2733, 2.2624, 2.2618, 2.2628, 
+            2.2649, 2.2591, 2.2577, 2.2546, 2.2584, 
+            2.2555, 2.2553, 2.2559, 2.2542, 2.2547,
+        ];
+        let mut rm = g_rm_sma(
+            vec.iter(),
+            &vec.len(),
+            &WINDOW,
+        );
+
+        assert_eq!(
+            transf::g_round_float(g_sma_rm(&2.2547, &WINDOW, &mut rm), 4),
+            2.2545,
+        );
+    }
+
+    #[test]
+    fn t_ema_rm_1() {
+        let vec = vec![
+            2.2599,
+            2.2654, 2.2742, 2.2736, 2.2706, 2.2736, 
+            2.2735, 2.2733, 2.2624, 2.2618, 2.2628, 
+            2.2649, 2.2591, 2.2577, 2.2546, 2.2584, 
+            2.2555, 2.2553, 2.2559, 2.2542, 2.2547,
+        ];
+        let mut rm = g_rm_ema(
+            vec.iter(),
+            &WINDOW,
+        );
+
+        assert_eq!(
+            transf::g_round_float(g_ema_rm(&2.2547, &mut rm), 4),
+            2.2547,
+        );
+    }
+
+    #[test]
+    fn t_rma_rm_1() {
+        let vec = vec![
+            2.2599,
+            2.2654, 2.2742, 2.2736, 2.2706, 2.2736, 
+            2.2735, 2.2733, 2.2624, 2.2618, 2.2628, 
+            2.2649, 2.2591, 2.2577, 2.2546, 2.2584, 
+            2.2555, 2.2553, 2.2559, 2.2542, 2.2547,
+        ];
+        let mut rm = g_rm_rma(
+            vec.iter(),
+            &WINDOW,
+        );
+
+        assert_eq!(
+            transf::g_round_float(g_rma_rm(&2.2547, &mut rm), 4),
+            2.2549,
+        );
     }
 }

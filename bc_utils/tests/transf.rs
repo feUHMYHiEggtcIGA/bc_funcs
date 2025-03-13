@@ -47,3 +47,11 @@ fn t_vec1_roll_replace_el_1() {
         vec![&2, &3, &4],
     );
 }
+
+#[test]
+fn t_round_float_1() {
+    assert_eq!(
+        1.123,
+        g_round_float(1.123456, 3),
+    )
+}
