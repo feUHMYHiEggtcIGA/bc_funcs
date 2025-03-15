@@ -1,4 +1,2 @@
-#[cfg(test)]
-mod unit;
-
+pub mod unit;
 pub mod common;

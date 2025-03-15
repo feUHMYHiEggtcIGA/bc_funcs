@@ -1,6 +1,6 @@
 use bc_utils::transf;
 
-use super::super::common;
+use super::super::super::super::super::common;
 use bc_indicators::no_abstract::indicators::no_oscillators::trend::*;
 use bc_indicators::no_abstract::rm;
 

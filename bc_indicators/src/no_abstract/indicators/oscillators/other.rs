@@ -41,6 +41,7 @@ where
 
 pub fn g_rsi_float<'a, T, I>(
     src: I,
+    len_src: &usize,
     window: &usize,
 ) -> T
 where 
@@ -54,7 +55,10 @@ where
     let mut d: Vec<T> = Vec::new();
     let mut src_l = T::nan();
 
-    for (i, el) in src.enumerate() {
+    for (i, el) in src
+        .skip(*len_src - *window * 10)
+        .enumerate() 
+    {
         if i == 0 {
             src_l = *el;
             continue;

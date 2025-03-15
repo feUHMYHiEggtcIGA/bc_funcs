@@ -3,6 +3,8 @@ use std::collections::HashMap;
 use num_traits::Float;
 
 use crate::no_abstract::indicators::no_oscillators::trend;
+use crate::no_abstract::indicators::no_oscillators::trend::g_ema_rm;
+use crate::no_abstract::rm;
 use bc_utils::create;
 use bc_utils::transf;
 
@@ -35,9 +37,78 @@ where
     *trend_abs / (*trend_abs + *correlation_factor * *diff_sma)
 }
 
+pub fn g_tqo_b_float<'a, T, I>(
+    src: I,
+    len_src: &usize,
+    window_ema_fast: &usize,
+    window_ema_slow: &usize,
+    window_trend: &usize,
+    window_noise: &usize,
+    correlation_factor: &T,
+    add_iters: &usize,
+    noise_type: &str,
+) -> T
+where 
+    T: Float,
+    T: 'a,
+    I: Iterator<Item = &'a T>,
+    T: std::ops::AddAssign,
+    T: std::ops::DivAssign,
+    T: std::ops::SubAssign,
+    I: Clone,
+    T: std::fmt::Display + std::fmt::Debug,
+{
+    let alpha_trend = trend::g_alpha_ema(&T::from(*window_trend).unwrap());
+    let num_need = *window_noise + *window_trend + *add_iters;
+    let src_take = src.clone().take(*len_src - num_need + 1);
+    let mut rm_ema_fast = rm::g_rm_ema(src_take.clone(), window_ema_fast);
+    let mut rm_ema_slow = rm::g_rm_ema(src_take.clone(), window_ema_slow);
+    let mut ema_fast;
+    let mut ema_slow;
+    let mut reversal;
+    let mut reversal_l = T::nan();
+    let mut cpc;
+    let mut cpc_l = T::nan();
+    let mut trend = T::nan();
+    let mut trend_l = T::nan();
+    let mut diff = T::zero();
+    let mut src_l = src_take
+        .take(*len_src - num_need)
+        .last()
+        .unwrap();
+
+    for (i, el) in src
+        .skip(*len_src - num_need)
+        .enumerate()
+    {
+        ema_fast = g_ema_rm(el, &mut rm_ema_fast);
+        ema_slow = g_ema_rm(el, &mut rm_ema_slow);
+        reversal = create::g_sign(&(ema_fast - ema_slow));
+        if reversal == reversal_l {
+            cpc = cpc_l + *el - *src_l;
+            trend = trend_l * (T::one() - alpha_trend) + cpc * alpha_trend;
+        } else {
+            cpc = T::zero();
+            trend = T::zero();
+        }
+        if i > num_need - *window_noise - 1 {
+            diff += (cpc - trend).abs();
+        }
+        reversal_l = reversal;
+        cpc_l = cpc;
+        trend_l = trend;
+        src_l = el;
+    }
+    g_tqo_b(
+        &trend.abs(), 
+        &correlation_factor,
+        &(diff / T::from(*window_noise).unwrap()),
+    )
+}
+
 pub fn g_tqo_b_rm<'a, T>(
     src: &T,
-    window_trend: &T,
+    window_noise: &usize,
     correlation_factor: &T,
     noise_type: &str,
     rm: &mut HashMap<&'static str, T>,
@@ -52,24 +123,25 @@ where
 {
     let ema_fast = trend::g_ema_rm(src, rm_ema_fast);
     let ema_slow = trend::g_ema_rm(src, rm_ema_slow);
-    let alpha = trend::g_alpha_ema(window_trend);
 
     let reversal = create::g_sign(&(ema_fast - ema_slow));
     let cpc = if reversal == rm["reversal"] {rm["cpc"] + *src - rm["src"]} 
         else {T::zero()};
     let trend = if reversal == rm["reversal"] {
-            rm["trend"] * (T::one() - alpha) + cpc * alpha
+            rm["trend"] * (T::one() - rm["alpha"]) + cpc * rm["alpha"]
         } else {T::zero()};
     let diff = transf::g_abs(&(cpc - trend));
     let diff_sma;
     if noise_type == "linear" {
         diff_sma = trend::g_sma_rm_nolink(
             diff,
+            window_noise,
             rm_sma
         );
     } else {
         diff_sma = trend::g_sma_rm_nolink(
             diff.powf(T::from(2).unwrap()), 
+            window_noise,
             rm_sma
         ).powf(T::from(2).unwrap());
     }
