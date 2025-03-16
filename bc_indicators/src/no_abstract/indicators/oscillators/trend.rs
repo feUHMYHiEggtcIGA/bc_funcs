@@ -92,17 +92,26 @@ where
             trend = T::zero();
         }
         if i > num_need - *window_noise - 1 {
-            diff += (cpc - trend).abs();
+            if noise_type == "linear" {
+                diff += (cpc - trend).abs();
+            } else {
+                diff += (cpc - trend).abs().powi(2);
+            }
         }
         reversal_l = reversal;
         cpc_l = cpc;
         trend_l = trend;
         src_l = el;
     }
+    let diff_sma = if noise_type == "linear" {
+        diff / T::from(*window_noise).unwrap()
+    } else {
+        (diff / T::from(*window_noise).unwrap()).sqrt()
+    };
     g_tqo_b(
         &trend.abs(), 
         &correlation_factor,
-        &(diff / T::from(*window_noise).unwrap()),
+        &diff_sma,
     )
 }
 

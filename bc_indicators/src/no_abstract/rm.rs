@@ -2,10 +2,8 @@ use std::collections::HashMap;
 
 use num_traits::Float;
 use bc_utils::transf;
-use bc_utils::create;
 
-use super::indicators::no_oscillators::trend::g_ema_rm;
-use super::indicators::no_oscillators::trend::{self, g_ema_float};
+use super::indicators::no_oscillators::trend;
 
 
 /// functions that return rm values
@@ -136,51 +134,3 @@ where
         g_rm_rma(d.iter(), &d.len(), &window)
     )
 }
-
-// pub fn g_rm_tqo_b<'a, T, I>(
-//     src: I,
-//     len_src: &usize,
-//     window_ema_fast: &usize,
-//     window_ema_slow: &usize,
-//     window_noise: &usize,
-//     window_trend: &usize,
-// ) -> (
-//     HashMap<&'static str, T>,
-//     HashMap<&'static str, T>,
-//     HashMap<&'static str, T>,
-//     HashMap<&'static str, Vec<T>>,
-// )
-// where
-//     I: Iterator<Item = &'a T>,
-//     T: Float,
-//     T: 'a,
-//     T: std::ops::AddAssign,
-//     T: std::ops::DivAssign,
-//     I: Clone,
-// {
-//     let src_m1 = src.take(*len_src - 1);
-//     let src_el_l = src_m1.last().unwrap();
-//     let alpha = trend::g_alpha_ema(&T::from(*window_trend).unwrap());
-    
-//     let rm_ema_fast = g_rm_ema(src_m1.clone(), window_ema_fast);
-//     let rm_ema_slow = g_rm_ema(src_m1.clone(), window_ema_slow);
-//     let reversal_l = create::g_sign(&(rm_ema_fast["res"] - rm_ema_slow["res"]));
-//     let ema_fast = g_ema_rm(src_el_l, &mut rm_ema_fast);
-//     let ema_slow = g_ema_rm(src_el_l, &mut rm_ema_slow);
-//     let reversal = create::g_sign(&(ema_fast - ema_slow));
-//     let cpc = if reversal == reversal_l {
-//         T::zero() + *src_el_l - *src_m1.take(*len_src - 1).last().unwrap()
-//     } else {T::zero()};
-//     (
-//         HashMap::from([
-//             ("alpha", alpha),
-//             ("reversal", reversal),
-//             ("cpc", cpc),
-//             (
-//                 "trend", if reversal == reversal_l {
-//                     T::zero() * (T::one() - alpha) + cpc * alpha
-//                 } else {T::zero()}
-//             )
-//         ]),
-//     )
-// }
