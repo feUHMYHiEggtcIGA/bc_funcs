@@ -1,4 +1,4 @@
-use bc_indicators::no_abstract::indicators::no_oscillators::other::*;
+use bc_indicators::indicators::no_oscillators::other::*;
 
 #[test]
 fn t_percent_1() {

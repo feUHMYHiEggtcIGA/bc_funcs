@@ -7,7 +7,6 @@ use std::collections::HashMap;
 use std::ops;
 
 use num_traits::Float;
-
 use bc_utils::transf;
 
 

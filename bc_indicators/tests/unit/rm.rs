@@ -1,9 +1,9 @@
 use std::collections::HashMap;
 
-use super::super::super::common;
+use super::super::common;
 use bc_utils::transf;
 
-use bc_indicators::no_abstract::rm::*;
+use bc_indicators::rm::*;
 
 
 #[test]
@@ -98,5 +98,43 @@ fn t_rm_rsi_1() {
     );
 }
 
-// check rm condition
-// check skip
+#[test]
+fn t_rm_tqo_1() {
+    let src = common::g_vec_prices();
+    
+    assert_eq!(
+        g_rm_tqo(
+            src.iter(),
+            &src.len(),
+            &2,
+            &3,
+            &4,
+            &2,
+            &10,
+            "linear"
+        ),
+        (
+            HashMap::from([
+                ("cpc", -0.008199999999999985),
+                ("src", 2.2542,),
+                ("reversal", -1.0,),
+                ("alpha", 0.4,),
+                ("trend", -0.00701623862886396),
+            ]),
+            HashMap::from([
+                ("res", 2.2547332488309144,),
+                ("alpha", 0.6666666666666666),
+            ]),
+            HashMap::from([
+                ("res", 2.2550673525292657),
+                ("alpha", 0.5),
+            ]),
+            HashMap::from([
+                ("src", vec![
+                    0.0002729356185600072, 
+                    0.0011837613711360249
+                ])
+            ]),
+        )
+    );
+}

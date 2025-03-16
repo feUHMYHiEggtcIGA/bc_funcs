@@ -1,12 +1,11 @@
 use std::collections::HashMap;
 
 use num_traits::Float;
-
-use crate::no_abstract::indicators::no_oscillators::trend;
-use crate::no_abstract::indicators::no_oscillators::trend::g_ema_rm;
-use crate::no_abstract::rm;
 use bc_utils::create;
-use bc_utils::transf;
+
+use crate::indicators::no_oscillators::trend;
+use crate::indicators::no_oscillators::trend::g_ema_rm;
+use crate::rm;
 
 
 /// The Trend-Quality indicator is a trend detection and estimation 

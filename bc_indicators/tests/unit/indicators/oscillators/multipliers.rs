@@ -1,4 +1,4 @@
-use bc_indicators::no_abstract::indicators::oscillators::multipliers::*;
+use bc_indicators::indicators::oscillators::multipliers::*;
 
 
 #[test]

@@ -1,8 +1,8 @@
 use bc_utils::transf;
 
-use super::super::super::super::super::common;
-use bc_indicators::no_abstract::indicators::oscillators::other::*;
-use bc_indicators::no_abstract::rm;
+use super::super::super::super::common;
+use bc_indicators::indicators::oscillators::other::*;
+use bc_indicators::rm;
 
 #[test]
 fn t_rsi_rm_1() {

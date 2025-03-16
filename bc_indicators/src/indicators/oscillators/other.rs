@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use num_traits::Float;
 
-use crate::no_abstract::indicators::no_oscillators::trend;
+use crate::indicators::no_oscillators::trend;
 
 pub fn g_rsi<'a, T>(
     rma1: &T,

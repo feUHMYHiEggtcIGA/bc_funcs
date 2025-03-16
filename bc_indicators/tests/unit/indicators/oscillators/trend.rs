@@ -1,7 +1,7 @@
-use super::super::super::super::super::common;
+use super::super::super::super::common;
 
-use bc_indicators::no_abstract::indicators::oscillators::trend::*;
-use bc_indicators::no_abstract::rm;
+use bc_indicators::indicators::oscillators::trend::*;
+use bc_indicators::rm;
 
 #[test]
 fn t_tqo_float_1() {
@@ -91,7 +91,12 @@ fn t_tqo_rm_1() {
     let src = common::g_vec_prices();
     let iter_ = src.iter().skip(1);
     let count = iter_.clone().count();
-    let (mut rm_, mut rm_fast, mut rm_slow, mut rm_sma) = rm::g_rm_tqo(
+    let (
+        mut rm_, 
+        mut rm_fast, 
+        mut rm_slow, 
+        mut rm_sma
+    ) = rm::g_rm_tqo(
         iter_.clone(),
         &count, 
         &2, 
@@ -122,7 +127,12 @@ fn t_tqo_rm_2() {
     let src = common::g_vec_prices();
     let iter_ = src.iter().skip(1);
     let count = iter_.clone().count();
-    let (mut rm_, mut rm_fast, mut rm_slow, mut rm_sma) = rm::g_rm_tqo(
+    let (
+        mut rm_, 
+        mut rm_fast, 
+        mut rm_slow, 
+        mut rm_sma
+    ) = rm::g_rm_tqo(
         iter_.clone(),
         &count, 
         &2, 
