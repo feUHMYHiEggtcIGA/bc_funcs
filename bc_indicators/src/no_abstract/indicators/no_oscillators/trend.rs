@@ -48,7 +48,7 @@ where
         transf::g_vec1_roll_replace_el(
             buff_iter["src"].iter(),
             window,
-            1,
+            -1,
             &src,
         ).iter().map(|v| **v).collect()
     );

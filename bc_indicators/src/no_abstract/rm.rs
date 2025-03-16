@@ -2,8 +2,10 @@ use std::collections::HashMap;
 
 use num_traits::Float;
 use bc_utils::transf;
+use bc_utils::create;
 
-use super::indicators::no_oscillators::trend;
+use super::indicators::no_oscillators::trend as trend_no_osc;
+use super::indicators::oscillators::trend as trend_osc;
 
 
 /// functions that return rm values
@@ -56,8 +58,8 @@ where
     let len_ = src.clone().count() - 1;
 
     HashMap::from([
-        ("alpha", trend::g_alpha_ema(&T::from(*window).unwrap())),
-        ("res", trend::g_ema_float(
+        ("alpha", trend_no_osc::g_alpha_ema(&T::from(*window).unwrap())),
+        ("res", trend_no_osc::g_ema_float(
             src.take(len_.clone()),
             &len_,
             window
@@ -79,8 +81,8 @@ where
     T: std::ops::DivAssign,
 {
     HashMap::from([
-        ("alpha", trend::g_alpha_rma(&T::from(*window).unwrap())),
-        ("res", trend::g_rma_float(
+        ("alpha", trend_no_osc::g_alpha_rma(&T::from(*window).unwrap())),
+        ("res", trend_no_osc::g_rma_float(
             src.take(*len_src - 1),
             window,
         )),
@@ -132,5 +134,93 @@ where
         HashMap::from([("src", src_l)]),
         g_rm_rma(u.iter(), &u.len(), &window),
         g_rm_rma(d.iter(), &d.len(), &window)
+    )
+}
+
+pub fn g_rm_tqo<'a, I, T>(
+    src: I,
+    len_src: &usize,
+    window_ema_fast: &usize,
+    window_ema_slow: &usize,
+    window_trend: &usize,
+    window_noise: &usize,
+    add_iters: &usize,
+    noise_type: &str,
+) -> (
+    HashMap<&'static str, T>,
+    HashMap<&'static str, T>,
+    HashMap<&'static str, T>,
+    HashMap<&'static str, Vec<T>>,
+)
+where 
+    T: Float,
+    T: 'a,
+    I: Iterator<Item = &'a T>,
+    T: std::ops::AddAssign,
+    T: std::ops::DivAssign,
+    I: Clone,
+{
+    let len_src = *len_src - 1;
+    assert!(len_src != 0);
+
+    let src = src.take(len_src);
+    let alpha_trend = trend_no_osc::g_alpha_ema(&T::from(*window_trend).unwrap());
+    let num_need = *window_noise + *window_trend + *add_iters;
+    let src_take = src.clone().take(len_src - num_need + 1);
+    let mut rm_ema_fast = g_rm_ema(src_take.clone(), window_ema_fast);
+    let mut rm_ema_slow = g_rm_ema(src_take.clone(), window_ema_slow);
+    let mut ema_fast;
+    let mut ema_slow;
+    let mut reversal = T::zero();
+    let mut reversal_l = T::nan();
+    let mut cpc= T::zero();
+    let mut cpc_l = T::nan();
+    let mut trend = T::nan();
+    let mut trend_l = T::nan();
+    let mut diff = Vec::new();
+    let mut src_l = src_take
+        .take(len_src - num_need)
+        .last()
+        .unwrap();
+
+    for (i, el) in src
+        .skip(len_src - num_need)
+        .enumerate()
+    {
+        ema_fast = trend_no_osc::g_ema_rm(el, &mut rm_ema_fast);
+        ema_slow = trend_no_osc::g_ema_rm(el, &mut rm_ema_slow);
+        reversal = create::g_sign(&(ema_fast - ema_slow));
+        if reversal == reversal_l {
+            cpc = cpc_l + *el - *src_l;
+            trend = trend_l * (T::one() - alpha_trend) + cpc * alpha_trend;
+        } else {
+            cpc = T::zero();
+            trend = T::zero();
+        }
+        if i > num_need - *window_noise - 1 {
+            if noise_type == "linear" {
+                diff.push((cpc - trend).abs());
+            } else {
+                diff.push((cpc - trend).abs().powi(2));
+            }
+        }
+        reversal_l = reversal;
+        cpc_l = cpc;
+        trend_l = trend;
+        src_l = el;
+    }
+    (
+        HashMap::from([
+            ("alpha", alpha_trend),
+            ("cpc", cpc),
+            ("src", *src_l),
+            ("reversal", reversal),
+            ("trend", trend),
+        ]),
+        rm_ema_fast,
+        rm_ema_slow,
+        HashMap::from([
+            ("src", diff)
+        ])
     )
 }

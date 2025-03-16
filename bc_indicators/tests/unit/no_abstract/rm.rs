@@ -97,3 +97,6 @@ fn t_rm_rsi_1() {
         )
     );
 }
+
+// check rm condition
+// check skip

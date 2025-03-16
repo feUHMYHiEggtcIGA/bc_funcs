@@ -1,9 +1,10 @@
 use super::super::super::super::super::common;
 
 use bc_indicators::no_abstract::indicators::oscillators::trend::*;
+use bc_indicators::no_abstract::rm;
 
 #[test]
-fn t_tqo_rm_1() {
+fn t_tqo_float_1() {
     let src = common::g_vec_prices();
 
     assert_eq!(
@@ -23,7 +24,7 @@ fn t_tqo_rm_1() {
 }
 
 #[test]
-fn t_tqo_rm_2() {
+fn t_tqo_float_2() {
     let src = common::g_vec_prices();
     let iter_ = src.iter().skip(1);
 
@@ -44,7 +45,7 @@ fn t_tqo_rm_2() {
 }
 
 #[test]
-fn t_tqo_rm_3() {
+fn t_tqo_float_3() {
     let src = common::g_vec_prices();
     let iter_ = src.iter();
 
@@ -65,7 +66,7 @@ fn t_tqo_rm_3() {
 }
 
 #[test]
-fn t_tqo_rm_4() {
+fn t_tqo_float_4() {
     let src = common::g_vec_prices();
     let iter_ = src.iter().skip(1);
 
@@ -80,6 +81,68 @@ fn t_tqo_rm_4() {
             &2.0, 
             &10,
             "squared"
+        ),
+        0.8044721930064004
+    );
+}
+
+#[test]
+fn t_tqo_rm_1() {
+    let src = common::g_vec_prices();
+    let iter_ = src.iter().skip(1);
+    let count = iter_.clone().count();
+    let (mut rm_, mut rm_fast, mut rm_slow, mut rm_sma) = rm::g_rm_tqo(
+        iter_.clone(),
+        &count, 
+        &2, 
+        &3, 
+        &4, 
+        &2,
+        &10,
+        "linear"
+    );
+
+    assert_eq!(
+        g_tqo_b_rm(
+            iter_.last().unwrap(), 
+            &2, 
+            &2.0, 
+            "linear", 
+            &mut rm_, 
+            &mut rm_fast, 
+            &mut rm_slow, 
+            &mut rm_sma
+        ),
+        0.8205694494455186
+    );
+}
+
+#[test]
+fn t_tqo_rm_2() {
+    let src = common::g_vec_prices();
+    let iter_ = src.iter().skip(1);
+    let count = iter_.clone().count();
+    let (mut rm_, mut rm_fast, mut rm_slow, mut rm_sma) = rm::g_rm_tqo(
+        iter_.clone(),
+        &count, 
+        &2, 
+        &3, 
+        &4, 
+        &2,
+        &10,
+        "squared"
+    );
+
+    assert_eq!(
+        g_tqo_b_rm(
+            iter_.last().unwrap(), 
+            &2, 
+            &2.0, 
+            "squared", 
+            &mut rm_, 
+            &mut rm_fast, 
+            &mut rm_slow, 
+            &mut rm_sma
         ),
         0.8044721930064004
     );

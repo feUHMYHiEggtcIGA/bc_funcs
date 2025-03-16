@@ -129,6 +129,7 @@ where
     T: Float,
     T: 'a,
     T: std::iter::Sum,
+    T: std::fmt::Display + std::fmt::Debug,
 {
     let ema_fast = trend::g_ema_rm(src, rm_ema_fast);
     let ema_slow = trend::g_ema_rm(src, rm_ema_slow);
@@ -139,7 +140,7 @@ where
     let trend = if reversal == rm["reversal"] {
             rm["trend"] * (T::one() - rm["alpha"]) + cpc * rm["alpha"]
         } else {T::zero()};
-    let diff = transf::g_abs(&(cpc - trend));
+    let diff = (cpc - trend).abs();
     let diff_sma;
     if noise_type == "linear" {
         diff_sma = trend::g_sma_rm_nolink(
@@ -149,13 +150,16 @@ where
         );
     } else {
         diff_sma = trend::g_sma_rm_nolink(
-            diff.powf(T::from(2).unwrap()), 
+            diff.powi(2), 
             window_noise,
             rm_sma
-        ).powf(T::from(2).unwrap());
+        ).sqrt();
     }
-    let trend_abs = trend.abs();
-    g_tqo_b(&trend_abs, correlation_factor, &diff_sma)
+    rm.insert("reversal", reversal);
+    rm.insert("cpc", cpc);
+    rm.insert("src", *src);
+    rm.insert("trend", trend);
+    g_tqo_b(&trend.abs(), correlation_factor, &diff_sma)
 }
 
 // wto
