@@ -6,7 +6,7 @@ use bc_indicators::rm;
 
 #[test]
 fn t_rsi_rm_1() {
-    let vec = common::g_vec_prices();
+    let vec = common::PRICES;
     let (mut rm, mut rm_rma1, mut rm_rma2) = rm::g_rm_rsi(
         vec.iter(), 
         &vec.len(), 
@@ -28,7 +28,7 @@ fn t_rsi_rm_1() {
 
 #[test]
 fn g_rsi_float_1() {
-    let vec = common::g_vec_prices();
+    let vec = common::PRICES;
 
     assert_eq!(
         transf::g_round_float(

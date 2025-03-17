@@ -4,8 +4,8 @@ use bc_indicators::indicators::oscillators::trend::*;
 use bc_indicators::rm;
 
 #[test]
-fn t_tqo_float_1() {
-    let src = common::g_vec_prices();
+fn tqo_float_1() {
+    let src = common::PRICES;
 
     assert_eq!(
         g_tqo_b_float(
@@ -24,8 +24,8 @@ fn t_tqo_float_1() {
 }
 
 #[test]
-fn t_tqo_float_2() {
-    let src = common::g_vec_prices();
+fn tqo_float_2() {
+    let src = common::PRICES;
     let iter_ = src.iter().skip(1);
 
     assert_eq!(
@@ -45,8 +45,8 @@ fn t_tqo_float_2() {
 }
 
 #[test]
-fn t_tqo_float_3() {
-    let src = common::g_vec_prices();
+fn tqo_float_3() {
+    let src = common::PRICES;
     let iter_ = src.iter();
 
     assert_eq!(
@@ -66,8 +66,8 @@ fn t_tqo_float_3() {
 }
 
 #[test]
-fn t_tqo_float_4() {
-    let src = common::g_vec_prices();
+fn tqo_float_4() {
+    let src = common::PRICES;
     let iter_ = src.iter().skip(1);
 
     assert_eq!(
@@ -87,8 +87,8 @@ fn t_tqo_float_4() {
 }
 
 #[test]
-fn t_tqo_rm_1() {
-    let src = common::g_vec_prices();
+fn tqo_rm_1() {
+    let src = common::PRICES;
     let iter_ = src.iter().skip(1);
     let count = iter_.clone().count();
     let (
@@ -106,7 +106,6 @@ fn t_tqo_rm_1() {
         &10,
         "linear"
     );
-
     assert_eq!(
         g_tqo_b_rm(
             iter_.last().unwrap(), 
@@ -123,8 +122,8 @@ fn t_tqo_rm_1() {
 }
 
 #[test]
-fn t_tqo_rm_2() {
-    let src = common::g_vec_prices();
+fn tqo_rm_2() {
+    let src = common::PRICES;
     let iter_ = src.iter().skip(1);
     let count = iter_.clone().count();
     let (

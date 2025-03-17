@@ -142,13 +142,13 @@ where
     let diff = (cpc - trend).abs();
     let diff_sma;
     if noise_type == "linear" {
-        diff_sma = trend::g_sma_rm_nolink(
+        diff_sma = trend::sma_rm::<T, T>(
             diff,
             window_noise,
             rm_sma
         );
     } else {
-        diff_sma = trend::g_sma_rm_nolink(
+        diff_sma = trend::sma_rm::<T, T>(
             diff.powi(2), 
             window_noise,
             rm_sma

@@ -5,53 +5,36 @@
 
 use std::collections::HashMap;
 use std::ops;
+use std::borrow::Borrow;
 
 use num_traits::Float;
 use bc_utils::transf;
 
 
-pub fn g_sma_rm<'a, T>(
-    src: &'a T,
+pub fn sma_rm<T, V>(
+    src: V,
     window: &usize,
-    buff_iter: &mut HashMap<&'static str, Vec<&'a T>>,
-) -> T 
+    buff: &mut HashMap<&'static str, Vec<V>>,
+) -> T
 where
     T: Float,
     T: std::iter::Sum,
-    T: 'a,
-    {
-        buff_iter.insert(
-            "src", 
-            transf::g_vec1_roll_replace_el(
-            buff_iter["src"].iter().map(|v| *v),
+    V: Borrow<T>,
+    V: Copy,
+    V: std::fmt::Display + std::fmt::Debug,
+{
+    let buff_res = buff.remove("src").unwrap();
+    buff.insert(
+        "src", 
+        transf::g_vec1_roll_replace_el(
+            buff_res.into_iter(),
             window,
             -1,
             src,
         )
     );
-    buff_iter["src"].iter().map(|x| **x).sum::<T>() / T::from(*window).unwrap()
-}
-
-pub fn g_sma_rm_nolink<'a, T>(
-    src: T,
-    window: &usize,
-    buff_iter: &mut HashMap<&'static str, Vec<T>>,
-) -> T 
-where
-    T: Float,
-    T: std::iter::Sum,
-    T: 'a,
-{
-    buff_iter.insert(
-        "src", 
-        transf::g_vec1_roll_replace_el(
-            buff_iter["src"].iter(),
-            window,
-            -1,
-            &src,
-        ).iter().map(|v| **v).collect()
-    );
-    buff_iter["src"].iter().map(|x| *x).sum::<T>() / T::from(*window).unwrap()
+    buff["src"].iter().map(|x| *x.borrow()).sum::<T>() 
+    / T::from(*window).unwrap()
 }
 
 pub fn g_ema<T>(

@@ -1,15 +1,20 @@
+use std::borrow::Borrow;
+
 use num_traits::Float;
 
 
-pub fn g_sign<T>(
-    num: &T,
+pub fn g_sign<T, V>(
+    num: V,
 ) -> T
 where 
     T: Float,
+    V: Borrow<T>,
 {
-    if *num > T::zero() {
+    let num = *num.borrow();
+
+    if num > T::zero() {
         T::one()
-    } else if *num < T::zero() {
+    } else if num < T::zero() {
         -T::one()
     } else {
         T::zero()

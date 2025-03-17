@@ -31,7 +31,7 @@ fn t_rm_sma_1() {
 
 #[test]
 fn t_rm_ema_1() {
-    let vec = common::g_vec_prices();
+    let vec = common::PRICES;
     let mut rm = g_rm_ema(vec.iter(), &common::WINDOW);
     rm.insert(
         "res",
@@ -49,7 +49,7 @@ fn t_rm_ema_1() {
 
 #[test]
 fn t_rm_rma_1() {
-    let vec = common::g_vec_prices();
+    let vec = common::PRICES;
     let mut rm = g_rm_rma(
         vec.iter(),
         &vec.len(),
@@ -71,7 +71,7 @@ fn t_rm_rma_1() {
 
 #[test]
 fn t_rm_rsi_1() {
-    let vec = common::g_vec_prices();
+    let vec = common::PRICES;
     let mut rm = g_rm_rsi(
         vec.iter(), 
         &vec.len(),
@@ -100,7 +100,7 @@ fn t_rm_rsi_1() {
 
 #[test]
 fn t_rm_tqo_1() {
-    let src = common::g_vec_prices();
+    let src = common::PRICES;
     
     assert_eq!(
         g_rm_tqo(

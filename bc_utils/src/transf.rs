@@ -1,3 +1,5 @@
+use std::borrow::Borrow;
+
 use num_traits::Float;
 
 
@@ -62,11 +64,15 @@ pub fn g_rstrip(
     &s[cut_index..]
 }
 
-pub fn g_nz<T: Float>(
-    num: T, 
-    exc_value: T,
-) -> T {
-    if num.is_nan() {
+pub fn g_nz<T, V>(
+    num: V, 
+    exc_value: V,
+) -> V
+where 
+    T: Float,
+    V: Borrow<T>,
+{
+    if num.borrow().is_nan() {
         exc_value
     } else {
         num
@@ -165,16 +171,15 @@ where
     sum / T::from(count + 1).unwrap()
 }
 
-pub fn g_vec1_roll<'a, T, I>(
+pub fn g_vec1_roll<T, I>(
     iter_: I,
     shift: i8,
-) -> Vec<&'a T>
+) -> Vec<T>
 where 
-    I: Iterator<Item = &'a T>,
-    T: 'a,
+    I: Iterator<Item = T>,
 {    
     let shift_usize = shift.abs() as usize;
-    let mut res: Vec<&'a T> = iter_.collect();
+    let mut res: Vec<T> = iter_.collect();
     
     if shift > 0 {
         res.rotate_right(shift_usize);
@@ -184,58 +189,46 @@ where
     res
 }
 
-// pub fn g_iter_roll<'a, T, I>(
-//     iter_: I,
-//     shift: i8,
-// ) -> Iter<'a, &'a T>
-// where 
-//     I: Iterator<Item = &'a T>,
-//     T: 'a,
-// {    
-//     let shift_usize = shift.abs() as usize;
-//     let mut res: Vec<&'a T> = iter_.collect();
-    
-//     if shift > 0 {
-//         res.rotate_right(shift_usize);
-//     } else if shift < 0 {
-//         res.rotate_left(shift_usize);
-//     }
-//     res.iter().ro
-// }
-
 pub fn g_vec1_roll_replace_el<'a, T, I>(
     iter_: I,
-    iter_len: &usize,
+    len_iter: &usize,
     shift: i8,
-    to_replace: &'a T,
-) -> Vec<&'a T>
+    to_replace: T,
+) -> Vec<T>
 where 
     T: 'a,
-    I: Iterator<Item = &'a T>,
+    T: Copy,
+    I: Iterator<Item = T>,
 {
     let res = g_vec1_roll(iter_, shift);
     let shift_usize = shift.abs() as usize;
 
     if shift > 0 {
+        let num_need = shift_usize;
         res
-            .iter()
+            .into_iter()
             .enumerate()
-            .map(
-                |(i, v)| {
-                    if i < shift_usize {to_replace} else {*v}
+            .map(|(i, v)| {
+                if i <= num_need {
+                    to_replace
+                } else {
+                    v
                 }
-            )
+            })
             .collect()
     } else if shift < 0 {
+        let num_need = (*len_iter as i8 + shift) as usize;
         res
-            .iter()
+            .into_iter()
             .enumerate()
-            .map(
-                |(i, v)| {
-                    if i > *iter_len - shift_usize - 1 {to_replace} else {*v}
+            .map(|(i, v)| {
+                if i >= num_need {
+                    to_replace
+                } else {
+                    v
                 }
-            )
-                .collect()
+            })
+            .collect()
     } else {
         res
     }
@@ -251,18 +244,3 @@ where
     let mult = T::from(10.0.powi(precision as i32)).unwrap();
     (num * mult).round() / mult
 }
-
-// fn g_rolling<'a, I, T>(
-//     obj: T
-// ) -> I
-// where 
-//     // I: Iterator<Item = &'a T>,
-//     // T: 'a,
-//     T: Index<T>,
-//     T: IndexMut<T>,
-//     T: IntoIterator,
-//     T: Iterator,
-//     T: Sized,
-// {
-//     obj.map(|v|);
-// }

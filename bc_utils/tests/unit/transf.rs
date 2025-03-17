@@ -2,7 +2,7 @@ use bc_utils::transf::*;
 
 
 #[test]
-fn t_positive_1() {
+fn positive_1() {
     let vec = vec![1.0, -43.0, 2.0];
     assert_eq!(
         g_vec_positive(vec.iter()),
@@ -11,7 +11,7 @@ fn t_positive_1() {
 }
 
 #[test]
-fn t_negative_1() {
+fn negative_1() {
     let vec = vec![1.0, -43.0, 2.0];
     assert_eq!(
         g_vec_negative(vec.iter()),
@@ -20,13 +20,13 @@ fn t_negative_1() {
 }
 
 #[test]
-fn t_lstrip() {
+fn lstrip() {
     let s = "hello world";
     assert_eq!(g_lstrip(s, 'w'), "world");
 }
 
 #[test]
-fn t_dropnan_1() {
+fn dropnan_1() {
     assert_eq!(
         g_vec_drop_nan(vec![1.0, std::f64::NAN, 3.0, 5.0]),
         vec![1.0, 3.0, 5.0]
@@ -34,7 +34,7 @@ fn t_dropnan_1() {
 }
 
 #[test]
-fn t_vec1_roll_1() {
+fn vec1_roll_1() {
     let vec = vec![1, 2, 3];
     
     assert_eq!(
@@ -44,7 +44,17 @@ fn t_vec1_roll_1() {
 }
 
 #[test]
-fn t_vec1_roll_replace_el_1() {
+fn vec1_roll_2() {
+    let vec = vec![1, 2, 3];
+    
+    assert_eq!(
+        g_vec1_roll(vec.into_iter(), 1),
+        vec![3, 1, 2]
+    );
+}
+
+#[test]
+fn vec1_roll_replace_el_1() {
     let vec = vec![1, 2, 3];
     
     assert_eq!(
@@ -59,9 +69,31 @@ fn t_vec1_roll_replace_el_1() {
 }
 
 #[test]
-fn t_round_float_1() {
+fn vec1_roll_replace_el_2() {
+    let vec = vec![1, 2, 3];
+    
     assert_eq!(
-        1.123,
-        g_round_float(1.123456, 3),
-    )
+        g_vec1_roll_replace_el(
+            vec.clone().into_iter(), 
+            &vec.len(), 
+            -1, 
+            4,
+        ),
+        vec![2, 3, 4],
+    );
+}
+
+#[test]
+fn round_float_1() {
+    assert_eq!(1.123, g_round_float(1.123456, 3),)
+}
+
+#[test]
+fn nz_1() {
+    assert_eq!(1.0, g_nz(std::f64::NAN, 1.0));
+}
+
+#[test]
+fn nz_2() {
+    assert_eq!(&1.0, g_nz::<f64, &f64>(&std::f64::NAN, &1.0));
 }
