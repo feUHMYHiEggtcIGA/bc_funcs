@@ -3,7 +3,7 @@ use std::borrow::Borrow;
 use num_traits::Float;
 
 
-pub fn g_sign<T, V>(
+pub fn sign<T, V>(
     num: V,
 ) -> T
 where 

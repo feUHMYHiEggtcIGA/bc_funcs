@@ -9,12 +9,12 @@ use bc_indicators::rm;
 
 #[test]
 fn alpha_ema_1() {
-    assert_eq!(g_alpha_ema(&9.0), 0.2);
+    assert_eq!(alpha_ema::<f64, &f64>(&9.0), 0.2);
 }
 
 #[test]
 fn alpha_rma_1() {
-    assert_eq!(g_alpha_rma(&10.0),0.1,)
+    assert_eq!(alpha_rma(&10.0),0.1,)
 }
 
 #[test]
@@ -26,7 +26,7 @@ fn ema_rm_1() {
     );
 
     assert_eq!(
-        transf::g_round_float(g_ema_rm(&2.2547, &mut rm), 4),
+        transf::round_float(ema_rm(&2.2547, &mut rm), 4),
         2.2547,
     );
 }
@@ -41,13 +41,13 @@ fn rma_rm_1() {
     );
 
     assert_eq!(
-        transf::g_round_float(g_rma_rm(&2.2547, &mut rm), 4),
+        transf::round_float(rma_rm(&2.2547, &mut rm), 4),
         2.2549,
     );
 }
 
 #[test]
-fn sma_rm_nolink_1() {
+fn sma_rm_1() {
     let vec = common::PRICES;
     let mut rm = rm::g_rm_sma(
         vec.iter(),
@@ -61,7 +61,7 @@ fn sma_rm_nolink_1() {
 }
 
 #[test]
-fn sma_rm_nolink_2() {
+fn sma_rm_2() {
     let vec = common::PRICES;
     let mut rm = HashMap::from([
         ("src", rm::g_rm_sma(

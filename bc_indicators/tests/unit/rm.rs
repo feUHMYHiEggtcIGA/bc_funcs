@@ -7,7 +7,7 @@ use bc_indicators::rm::*;
 
 
 #[test]
-fn t_rm_trend_ma_1() {
+fn rm_trend_ma_1() {
     assert_eq!(
         g_rm_trend_ma(),
         HashMap::from([
@@ -18,7 +18,7 @@ fn t_rm_trend_ma_1() {
 }
 
 #[test]
-fn t_rm_sma_1() {
+fn rm_sma_1() {
     let vec = vec![1.0, 2.0, 3.0, 4.0, 5.0];
 
     assert_eq!(
@@ -30,12 +30,12 @@ fn t_rm_sma_1() {
 }
 
 #[test]
-fn t_rm_ema_1() {
+fn rm_ema_1() {
     let vec = common::PRICES;
     let mut rm = g_rm_ema(vec.iter(), &common::WINDOW);
     rm.insert(
         "res",
-            transf::g_round_float(rm["res"], 4)
+            transf::round_float(rm["res"], 4)
     );
 
     assert_eq!(
@@ -48,7 +48,7 @@ fn t_rm_ema_1() {
 }
 
 #[test]
-fn t_rm_rma_1() {
+fn rm_rma_1() {
     let vec = common::PRICES;
     let mut rm = g_rm_rma(
         vec.iter(),
@@ -57,7 +57,7 @@ fn t_rm_rma_1() {
     );
     rm.insert(
         "res",
-            transf::g_round_float(rm["res"], 4)
+            transf::round_float(rm["res"], 4)
     );
     
     assert_eq!(
@@ -70,15 +70,15 @@ fn t_rm_rma_1() {
 }
 
 #[test]
-fn t_rm_rsi_1() {
+fn rm_rsi_1() {
     let vec = common::PRICES;
     let mut rm = g_rm_rsi(
         vec.iter(), 
         &vec.len(),
         &common::WINDOW
     );
-    rm.1.insert("res", transf::g_round_float(rm.1["res"], 4));
-    rm.2.insert("res", transf::g_round_float(rm.2["res"], 4));
+    rm.1.insert("res", transf::round_float(rm.1["res"], 4));
+    rm.2.insert("res", transf::round_float(rm.2["res"], 4));
     
     assert_eq!(
         rm,
@@ -99,7 +99,7 @@ fn t_rm_rsi_1() {
 }
 
 #[test]
-fn t_rm_tqo_1() {
+fn rm_tqo_1() {
     let src = common::PRICES;
     
     assert_eq!(

@@ -32,7 +32,7 @@ where
     T: 'a,
 {
     HashMap::from([
-        ("src", transf::g_vec1_roll(
+        ("src", transf::vec1_roll(
             src, 1)
             .iter()
             .skip(*len_src - *window)
@@ -58,8 +58,8 @@ where
     let len_ = src.clone().count() - 1;
 
     HashMap::from([
-        ("alpha", trend_no_osc::g_alpha_ema(&T::from(*window).unwrap())),
-        ("res", trend_no_osc::g_ema_float(
+        ("alpha", trend_no_osc::alpha_ema(&T::from(*window).unwrap())),
+        ("res", trend_no_osc::ema_float(
             src.take(len_.clone()),
             &len_,
             window
@@ -81,8 +81,8 @@ where
     T: std::ops::DivAssign,
 {
     HashMap::from([
-        ("alpha", trend_no_osc::g_alpha_rma(&T::from(*window).unwrap())),
-        ("res", trend_no_osc::g_rma_float(
+        ("alpha", trend_no_osc::alpha_rma(&T::from(*window).unwrap())),
+        ("res", trend_no_osc::rma_float(
             src.take(*len_src - 1),
             window,
         )),
@@ -164,7 +164,7 @@ where
     assert!(len_src != 0);
 
     let src = src.take(len_src);
-    let alpha_trend = trend_no_osc::g_alpha_ema(&T::from(*window_trend).unwrap());
+    let alpha_trend = trend_no_osc::alpha_ema(&T::from(*window_trend).unwrap());
     let num_need = *window_noise + *window_trend + *add_iters;
     let src_take = src.clone().take(len_src - num_need + 1);
     let mut rm_ema_fast = g_rm_ema(src_take.clone(), window_ema_fast);
@@ -187,9 +187,9 @@ where
         .skip(len_src - num_need)
         .enumerate()
     {
-        ema_fast = trend_no_osc::g_ema_rm(el, &mut rm_ema_fast);
-        ema_slow = trend_no_osc::g_ema_rm(el, &mut rm_ema_slow);
-        reversal = create::g_sign(&(ema_fast - ema_slow));
+        ema_fast = trend_no_osc::ema_rm(el, &mut rm_ema_fast);
+        ema_slow = trend_no_osc::ema_rm(el, &mut rm_ema_slow);
+        reversal = create::sign(&(ema_fast - ema_slow));
         if reversal == reversal_l {
             cpc = cpc_l + *el - *src_l;
             trend = trend_l * (T::one() - alpha_trend) + cpc * alpha_trend;

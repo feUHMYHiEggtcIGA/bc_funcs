@@ -30,8 +30,8 @@ where
     let u = T::zero().max(change.clone());
     let d = T::zero().max(-change.clone());
     
-    let rma1 = trend::g_rma_rm(&u, rm_rma1);
-    let rma2 = trend::g_rma_rm(&d, rm_rma2);
+    let rma1 = trend::rma_rm(&u, rm_rma1);
+    let rma2 = trend::rma_rm(&d, rm_rma2);
     let res = g_rsi(&rma1, &rma2);
     rm.insert("src", *src);
     rm_rma1.insert("res", rma1);
@@ -68,7 +68,7 @@ where
         d.push((-change).max(T::zero()));
         src_l = *el;
     }
-    let rma1 = trend::g_rma_float(u.iter(), window);
-    let rma2 = trend::g_rma_float(d.iter(), window);
+    let rma1 = trend::rma_float(u.iter(), window);
+    let rma2 = trend::rma_float(d.iter(), window);
     g_rsi(&rma1, &rma2)
 }

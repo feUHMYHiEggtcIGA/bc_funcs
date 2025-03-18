@@ -5,7 +5,7 @@ use bc_indicators::indicators::oscillators::other::*;
 use bc_indicators::rm;
 
 #[test]
-fn t_rsi_rm_1() {
+fn rsi_rm_1() {
     let vec = common::PRICES;
     let (mut rm, mut rm_rma1, mut rm_rma2) = rm::g_rm_rsi(
         vec.iter(), 
@@ -14,7 +14,7 @@ fn t_rsi_rm_1() {
     );
 
     assert_eq!(
-        transf::g_round_float(
+        transf::round_float(
             g_rsi_rm(
                 &2.2547, 
                 &mut rm, 
@@ -31,7 +31,7 @@ fn g_rsi_float_1() {
     let vec = common::PRICES;
 
     assert_eq!(
-        transf::g_round_float(
+        transf::round_float(
             g_rsi_float(vec.iter(), &vec.len(), &2,),
         4),
         40.4107,

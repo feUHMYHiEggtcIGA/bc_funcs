@@ -4,7 +4,7 @@ use num_traits::Float;
 use bc_utils::create;
 
 use crate::indicators::no_oscillators::trend;
-use crate::indicators::no_oscillators::trend::g_ema_rm;
+use crate::indicators::no_oscillators::trend::ema_rm;
 use crate::rm;
 
 
@@ -25,7 +25,7 @@ use crate::rm;
 /// 
 /// # Returns
 /// * `T`: float number
-pub fn g_tqo_b<T>(
+pub fn tqo_b<T>(
     trend_abs: &T,
     correlation_factor: &T,
     diff_sma: &T,
@@ -36,7 +36,7 @@ where
     *trend_abs / (*trend_abs + *correlation_factor * *diff_sma)
 }
 
-pub fn g_tqo_b_float<'a, T, I>(
+pub fn tqo_b_float<'a, T, I>(
     src: I,
     len_src: &usize,
     window_ema_fast: &usize,
@@ -57,7 +57,7 @@ where
     I: Clone,
     T: std::fmt::Display + std::fmt::Debug,
 {
-    let alpha_trend = trend::g_alpha_ema(&T::from(*window_trend).unwrap());
+    let alpha_trend = trend::alpha_ema(&T::from(*window_trend).unwrap());
     let num_need = *window_noise + *window_trend + *add_iters;
     let src_take = src.clone().take(*len_src - num_need + 1);
     let mut rm_ema_fast = rm::g_rm_ema(src_take.clone(), window_ema_fast);
@@ -80,9 +80,9 @@ where
         .skip(*len_src - num_need)
         .enumerate()
     {
-        ema_fast = g_ema_rm(el, &mut rm_ema_fast);
-        ema_slow = g_ema_rm(el, &mut rm_ema_slow);
-        reversal = create::g_sign(&(ema_fast - ema_slow));
+        ema_fast = ema_rm(el, &mut rm_ema_fast);
+        ema_slow = ema_rm(el, &mut rm_ema_slow);
+        reversal = create::sign(&(ema_fast - ema_slow));
         if reversal == reversal_l {
             cpc = cpc_l + *el - *src_l;
             trend = trend_l * (T::one() - alpha_trend) + cpc * alpha_trend;
@@ -107,14 +107,14 @@ where
     } else {
         (diff / T::from(*window_noise).unwrap()).sqrt()
     };
-    g_tqo_b(
+    tqo_b(
         &trend.abs(), 
         &correlation_factor,
         &diff_sma,
     )
 }
 
-pub fn g_tqo_b_rm<'a, T>(
+pub fn tqo_b_rm<'a, T>(
     src: &T,
     window_noise: &usize,
     correlation_factor: &T,
@@ -130,10 +130,10 @@ where
     T: std::iter::Sum,
     T: std::fmt::Display + std::fmt::Debug,
 {
-    let ema_fast = trend::g_ema_rm(src, rm_ema_fast);
-    let ema_slow = trend::g_ema_rm(src, rm_ema_slow);
+    let ema_fast = trend::ema_rm(src, rm_ema_fast);
+    let ema_slow = trend::ema_rm(src, rm_ema_slow);
 
-    let reversal = create::g_sign(&(ema_fast - ema_slow));
+    let reversal = create::sign(&(ema_fast - ema_slow));
     let cpc = if reversal == rm["reversal"] {rm["cpc"] + *src - rm["src"]} 
         else {T::zero()};
     let trend = if reversal == rm["reversal"] {
@@ -158,7 +158,7 @@ where
     rm.insert("cpc", cpc);
     rm.insert("src", *src);
     rm.insert("trend", trend);
-    g_tqo_b(&trend.abs(), correlation_factor, &diff_sma)
+    tqo_b(&trend.abs(), correlation_factor, &diff_sma)
 }
 
 // wto

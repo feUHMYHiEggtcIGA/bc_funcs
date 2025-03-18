@@ -1,16 +1,21 @@
+use std::borrow::Borrow;
+
 use num_traits::Float;
 
 use bc_utils::transf;
 
 
-pub fn g_percent<T>(
-    past: &T, 
-    now: &T,
+pub fn g_percent<T, V>(
+    past: V, 
+    now: V,
 ) -> T 
 where
     T: Float,
+    V: Borrow<T>,
+    V: Copy,
 {
-    (*now - *past) / *past
+    let past = past.borrow();
+    (*now.borrow() - *past) / *past
 }
 
 pub fn g_profit_factor<'a, I, T>(
@@ -35,7 +40,7 @@ where
     }
     negative = negative.abs();
     if negative == zero_ {
-        positive / transf::g_dz(negative)
+        positive / transf::dz(negative)
     } else {
         positive / negative
     }

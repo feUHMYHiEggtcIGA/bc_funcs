@@ -8,7 +8,7 @@ fn tqo_float_1() {
     let src = common::PRICES;
 
     assert_eq!(
-        g_tqo_b_float(
+        tqo_b_float(
             src.iter(), 
             &src.len(), 
             &2, 
@@ -29,7 +29,7 @@ fn tqo_float_2() {
     let iter_ = src.iter().skip(1);
 
     assert_eq!(
-        g_tqo_b_float(
+        tqo_b_float(
             iter_.clone(),
             &iter_.count(),
             &2, 
@@ -50,7 +50,7 @@ fn tqo_float_3() {
     let iter_ = src.iter();
 
     assert_eq!(
-        g_tqo_b_float(
+        tqo_b_float(
             iter_.clone(),
             &iter_.count(),
             &2, 
@@ -71,7 +71,7 @@ fn tqo_float_4() {
     let iter_ = src.iter().skip(1);
 
     assert_eq!(
-        g_tqo_b_float(
+        tqo_b_float(
             iter_.clone(),
             &iter_.count(),
             &2, 
@@ -107,7 +107,7 @@ fn tqo_rm_1() {
         "linear"
     );
     assert_eq!(
-        g_tqo_b_rm(
+        tqo_b_rm(
             iter_.last().unwrap(), 
             &2, 
             &2.0, 
@@ -143,7 +143,7 @@ fn tqo_rm_2() {
     );
 
     assert_eq!(
-        g_tqo_b_rm(
+        tqo_b_rm(
             iter_.last().unwrap(), 
             &2, 
             &2.0, 
