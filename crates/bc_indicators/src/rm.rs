@@ -5,7 +5,6 @@ use bc_utils::transf;
 use bc_utils::create;
 
 use super::indicators::no_oscillators::trend as trend_no_osc;
-use super::indicators::oscillators::trend as trend_osc;
 
 
 /// functions that return rm values
