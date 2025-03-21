@@ -1,0 +1,13 @@
+[package]
+name = "bc_funcs"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]
+members = [
+    "crates/*", 
+]
+
+[dependencies]
+bc_utils ={ path = "crates/bc_utils"}
+bc_indicators ={ path = "crates/bc_indicators"}
