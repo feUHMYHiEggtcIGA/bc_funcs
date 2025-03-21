@@ -11,6 +11,8 @@ use rustc_hash::FxHashMap;
 
 use bc_utils::transf;
 
+use crate::rm;
+
 
 #[allow(clippy::missing_panics_doc)]
 #[allow(clippy::implicit_hasher)]
@@ -86,30 +88,8 @@ where
     T: ops::DivAssign,
     V: Borrow<T>,
 {
-    let len_src = src.len();
-    let mut res = T::zero();
-    let window_t = T::from(*window).unwrap();
-    
-    let alpha = alpha_ema(&window_t);
-    for (i, el) in src
-        .iter()
-        .skip(len_src - *window * 10)
-        .enumerate()
-    {
-        if i < *window {
-            res += *el.borrow();
-            continue;
-        }
-        if i == *window {
-            res /= window_t;
-        }
-        res = ema(
-            el.borrow(), 
-            &res, 
-            &alpha,
-        );
-    }
-    res
+    let mut rm = rm::rm_ema(src, window);
+    ema_rm(src.last().unwrap().borrow(), &mut rm)
 }
 
 pub fn rma<T>(
@@ -151,28 +131,8 @@ where
     T: ops::DivAssign,
     V: Borrow<T>,
 {
-    let mut res = T::zero();
-    let window_t = T::from(*window).unwrap();
-    
-    let alpha = alpha_rma(&window_t);
-    for (i, el) in src
-        .iter()
-        .enumerate() 
-    {
-        if i < *window {
-            res += *el.borrow();
-            continue;
-        }
-        if i == *window {
-            res /= window_t;
-        }
-        res = rma(
-            el.borrow(), 
-            &res, 
-            &alpha,
-        );
-    }
-    res
+    let mut rm = rm::rm_rma(src, window);
+    rma_rm(src.last().unwrap().borrow(), &mut rm)
 }
 
 #[allow(clippy::missing_panics_doc)]

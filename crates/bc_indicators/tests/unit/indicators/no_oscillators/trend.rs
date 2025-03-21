@@ -1,19 +1,13 @@
-use bc_utils::transf;
-
 use super::super::super::super::common;
 use bc_indicators::indicators::no_oscillators::trend::*;
 use bc_indicators::rm;
 
 
 #[test]
-fn alpha_ema_1() {
-    assert_eq!(alpha_ema::<f64>(&9.0), 0.2);
-}
+fn alpha_ema_1() { assert_eq!(alpha_ema::<f64>(&9.0), 0.2) }
 
 #[test]
-fn alpha_rma_1() {
-    assert_eq!(alpha_rma(&10.0),0.1,)
-}
+fn alpha_rma_1() { assert_eq!(alpha_rma(&10.0), 0.1,) }
 
 #[test]
 fn ema_rm_1() {
@@ -24,8 +18,16 @@ fn ema_rm_1() {
     );
 
     assert_eq!(
-        transf::round_float(ema_rm(&2.2547, &mut rm), &4),
-        2.2547,
+        ema_rm(2.2547, &mut rm),
+        2.2547110887999526
+    );
+}
+
+#[test]
+fn ema_float_1() {
+    assert_eq!(
+        ema_float(common::PRICES.as_slice(), &common::WINDOW),
+        2.2547110887999526,
     );
 }
 
@@ -38,8 +40,8 @@ fn rma_rm_1() {
     );
 
     assert_eq!(
-        transf::round_float(rma_rm(&2.2547, &mut rm), &4),
-        2.2549,
+        rma_rm(&2.2547, &mut rm),
+        2.2548923400878906,
     );
 }
 

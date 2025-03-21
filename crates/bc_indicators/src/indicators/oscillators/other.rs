@@ -16,7 +16,6 @@ where
     T: Float,
 {
     let one_h = T::from(100.0).unwrap();
-
     one_h - (one_h / (T::one() + *rma1 / *rma2))
 }
 

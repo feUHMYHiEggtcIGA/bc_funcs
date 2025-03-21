@@ -36,7 +36,7 @@ where
     let mut src_new = src
         .iter()
         .skip(len - *window - 1)
-        .map(|v| v.borrow())
+        .map(Borrow::borrow)
         .collect::<Vec<&T>>();
     transf::roll_slice1(&mut src_new, &1);
     src_new = src_new
@@ -46,6 +46,7 @@ where
     FxHashMap::from_iter([("src", src_new)])
 }
 
+#[allow(clippy::missing_panics_doc)]
 pub fn rm_ema<'a, T, V>(
     src: &[V],
     window: &usize,
@@ -57,17 +58,35 @@ where
     T: std::ops::DivAssign,
     V: Borrow<T>,
 {
-    let len_ = src.len();
-
+    let len = src.len();
+    let mut res = T::zero();
+    let window_t = T::from(*window).unwrap();
+    
+    let alpha = trend_no_osc::alpha_ema(&window_t);
+    for (i, el) in src[len - *window * 10..len - 1]
+        .iter()
+        .enumerate()
+    {
+        if i < *window {
+            res += *el.borrow();
+            continue;
+        }
+        if i == *window - 1 {
+            res /= window_t;
+        }
+        res = trend_no_osc::ema(
+            el.borrow(), 
+            &res, 
+            &alpha,
+        );
+    }
     FxHashMap::from_iter([
-        ("alpha", trend_no_osc::alpha_ema(&T::from(*window).unwrap())),
-        ("res", trend_no_osc::ema_float(
-            &src[0..len_ - 1],
-            window
-        ))
+        ("alpha", alpha),
+        ("res", res)
     ])
 }
 
+#[allow(clippy::missing_panics_doc)]
 pub fn rm_rma<'a, T, V>(
     src: &[V],
     window: &usize,
@@ -79,17 +98,36 @@ where
     T: std::ops::DivAssign,
     V: Borrow<T>,
 {
+    let mut res = T::zero();
+    let len = src.len();
+    let window_t = T::from(*window).unwrap();
+    
+    let alpha = trend_no_osc::alpha_rma(&window_t);
+    for (i, el) in src[len - *window * 10..len - 1]
+        .iter()
+        .enumerate() 
+    {
+        if i < *window {
+            res += *el.borrow();
+            continue;
+        }
+        if i == *window - 1{
+            res /= window_t;
+        }
+        res = trend_no_osc::rma(
+            el.borrow(), 
+            &res, 
+            &alpha,
+        );
+    }
     FxHashMap::from_iter([
-        ("alpha", trend_no_osc::alpha_rma(&T::from(*window).unwrap())),
-        (
-            "res", trend_no_osc::rma_float(
-                &src[..src.len() - 1],
-                window,
-            )
+        ("alpha", alpha),
+        ("res", res
         ),
     ])
 }
 
+#[allow(clippy::implicit_hasher)]
 pub fn rm_rsi<'a, T, V>(
     src: &[V],
     window: &usize,
@@ -111,9 +149,8 @@ where
     let window_need = *window * 10;
     let len_src = src.len();
 
-    for (i, el) in src
+    for (i, el) in src[len_src - window_need - 1..]
         .iter()
-        .skip(len_src - window_need.clone())
         .enumerate()
     {
         if i == 0 {
@@ -123,7 +160,7 @@ where
         let change = *el.borrow() - src_l;
         u.push(change.max(T::zero()));
         d.push((-change).max(T::zero()));
-        if i == window_need - 1 {
+        if i == window_need {
             continue;
         }
         src_l = *el.borrow();
@@ -160,7 +197,7 @@ where
     let alpha_trend = trend_no_osc::alpha_ema(&T::from(*window_trend).unwrap());
     let num_need = *window_noise + *window_trend + *add_iters;
     let src = &src[..len_src];
-    let src_take = &src[..len_src - num_need + 1];
+    let src_take = &src[..=(len_src - num_need + 1)];
     let mut rm_ema_fast = rm_ema(src_take, window_ema_fast);
     let mut rm_ema_slow = rm_ema(src_take, window_ema_slow);
     let mut ema_fast;

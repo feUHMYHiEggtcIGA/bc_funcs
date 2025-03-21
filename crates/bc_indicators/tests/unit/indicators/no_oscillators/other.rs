@@ -12,5 +12,5 @@ fn percent_2() {
 
 #[test]
 fn profit_factor_1() {
-    assert_eq!(g_profit_factor(vec![1.0, 2.0, -1.0].iter()),3.0,)
+    assert_eq!(g_profit_factor([1.0, 2.0, -1.0].iter()),3.0,)
 }

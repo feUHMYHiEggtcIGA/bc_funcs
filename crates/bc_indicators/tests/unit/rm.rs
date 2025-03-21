@@ -1,5 +1,3 @@
-use bc_utils::transf;
-
 use super::super::common;
 use bc_indicators::rm::*;
 
@@ -32,17 +30,12 @@ fn rm_sma_1() {
 #[test]
 fn rm_ema_1() {
     let vec = common::PRICES;
-    let mut rm = rm_ema(vec.as_slice(), &common::WINDOW);
-    rm.insert(
-        "res",
-            transf::round_float(rm["res"], &4)
-    );
 
     assert_eq!(
-        rm,
+        rm_ema(vec.as_slice(), &common::WINDOW),
         FxHashMap::from_iter([
             ("alpha", 0.6666666666666666),
-            ("res", 2.2547),
+            ("res", 2.254733266399857),
         ])
     )
 }
@@ -50,20 +43,15 @@ fn rm_ema_1() {
 #[test]
 fn rm_rma_1() {
     let vec = common::PRICES;
-    let mut rm = rm_rma(
-        vec.as_slice(),
-        &common::WINDOW
-    );
-    rm.insert(
-        "res",
-            transf::round_float(rm["res"], &4)
-    );
     
     assert_eq!(
-        rm,
+        rm_rma(
+            vec.as_slice(),
+            &common::WINDOW
+        ),
         FxHashMap::from_iter([
             ("alpha", 0.5),
-            ("res", 2.2551),
+            ("res", 2.255084680175781),
         ])
     );
 }
@@ -71,26 +59,23 @@ fn rm_rma_1() {
 #[test]
 fn rm_rsi_1() {
     let vec = common::PRICES;
-    let mut rm = rm_rsi(
-        vec.as_slice(), 
-        &common::WINDOW
-    );
-    rm.1.insert("res", transf::round_float(rm.1["res"], &4));
-    rm.2.insert("res", transf::round_float(rm.2["res"], &4));
     
     assert_eq!(
-        rm,
+        rm_rsi(
+            vec.as_slice(), 
+            &common::WINDOW
+        ),
         (
             FxHashMap::from_iter([
                 ("src", 2.2542),
                 ]),
             FxHashMap::from_iter([
                 ("alpha", 0.5),
-                ("res", 0.0003),
+                ("res", 0.0002740074157714685),
             ]),
             FxHashMap::from_iter([
                 ("alpha", 0.5),
-                ("res", 0.0011),
+                ("res",  0.0011413162231445394),
             ])
         )
     );
@@ -119,11 +104,11 @@ fn rm_tqo_1() {
                 ("trend", -0.00701623862886396),
             ]),
             FxHashMap::from_iter([
-                ("res", 2.2547332488309144,),
+                ("res", 2.254733248799198,),
                 ("alpha", 0.6666666666666666),
             ]),
             FxHashMap::from_iter([
-                ("res", 2.2550673525292657),
+                ("res", 2.255067349361359),
                 ("alpha", 0.5),
             ]),
             FxHashMap::from_iter([
