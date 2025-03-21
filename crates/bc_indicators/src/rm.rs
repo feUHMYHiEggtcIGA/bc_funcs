@@ -172,6 +172,7 @@ where
     )
 }
 
+#[allow(clippy::missing_panics_doc)]
 pub fn rm_tqo<'a, T, V>(
     src: &[V],
     window_ema_fast: &usize,
