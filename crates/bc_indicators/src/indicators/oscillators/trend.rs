@@ -18,7 +18,7 @@ use crate::rm;
 /// evaluating their strength in the process. 
 /// The indicator is presented banded oscillator format (B-Indicator).
 /// 
-/// https://ru.tradingview.com/v/k3mnaGcQ/
+/// <https://ru.tradingview.com/v/k3mnaGcQ/>
 /// 
 /// # Args:
 /// * `trend_abs`: ...
@@ -37,81 +37,8 @@ where
     *trend_abs / (*trend_abs + *correlation_factor * *diff_sma)
 }
 
-// pub fn tqo_b_float<'a, T>(
-//     src: &[&'a T],
-//     window_ema_fast: &usize,
-//     window_ema_slow: &usize,
-//     window_trend: &usize,
-//     window_noise: &usize,
-//     correlation_factor: &T,
-//     add_iters: &usize,
-//     noise_type: &str,
-// ) -> T
-// where 
-//     T: Float,
-//     T: 'a,
-//     T: std::ops::AddAssign,
-//     T: std::ops::DivAssign,
-//     T: std::ops::SubAssign,
-// {
-//     let len_src = src.len();
-//     let alpha_trend = trend::alpha_ema(&T::from(*window_trend).unwrap());
-//     let num_need = *window_noise + *window_trend + *add_iters;
-//     let src_take = src.clone().iter().take(len_src - num_need + 1);
-//     let mut rm_ema_fast = rm::rm_ema(src_take.clone(), window_ema_fast);
-//     let mut rm_ema_slow = rm::rm_ema(src_take.clone(), window_ema_slow);
-//     let mut ema_fast;
-//     let mut ema_slow;
-//     let mut reversal;
-//     let mut reversal_l = T::nan();
-//     let mut cpc;
-//     let mut cpc_l = T::nan();
-//     let mut trend = T::nan();
-//     let mut trend_l = T::nan();
-//     let mut diff = T::zero();
-//     let mut src_l = src_take
-//         .take(len_src - num_need)
-//         .last()
-//         .unwrap();
-
-//     for (i, el) in src
-//         .skip(len_src - num_need)
-//         .enumerate()
-//     {
-//         ema_fast = ema_rm(el, &mut rm_ema_fast);
-//         ema_slow = ema_rm(el, &mut rm_ema_slow);
-//         reversal = create::sign(&(ema_fast - ema_slow));
-//         if reversal == reversal_l {
-//             cpc = cpc_l + *el - *src_l;
-//             trend = trend_l * (T::one() - alpha_trend) + cpc * alpha_trend;
-//         } else {
-//             cpc = T::zero();
-//             trend = T::zero();
-//         }
-//         if i > num_need - *window_noise - 1 {
-//             if noise_type == "linear" {
-//                 diff += (cpc - trend).abs();
-//             } else {
-//                 diff += (cpc - trend).abs().powi(2);
-//             }
-//         }
-//         reversal_l = reversal;
-//         cpc_l = cpc;
-//         trend_l = trend;
-//         src_l = el;
-//     }
-//     let diff_sma = if noise_type == "linear" {
-//         diff / T::from(*window_noise).unwrap()
-//     } else {
-//         (diff / T::from(*window_noise).unwrap()).sqrt()
-//     };
-//     tqo_b(
-//         &trend.abs(), 
-//         &correlation_factor,
-//         &diff_sma,
-//     )
-// }
-
+#[allow(clippy::too_many_arguments)]
+#[allow(clippy::implicit_hasher)]
 pub fn tqo_b_rm<'a, T>(
     src: &T,
     window_noise: &usize,
@@ -157,6 +84,8 @@ where
     tqo_b(&trend.abs(), correlation_factor, &diff_sma)
 }
 
+#[allow(clippy::too_many_arguments)]
+#[allow(clippy::missing_panics_doc)]
 pub fn tqo_b_float<'a, T, V>(
     src: &[V],
     window_ema_fast: &usize,
