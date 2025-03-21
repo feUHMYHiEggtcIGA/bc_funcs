@@ -201,15 +201,10 @@ where
     let src_take = &src[..=(len_src - num_need + 1)];
     let mut rm_ema_fast = rm_ema(src_take, window_ema_fast);
     let mut rm_ema_slow = rm_ema(src_take, window_ema_slow);
-    let mut ema_fast;
-    let mut ema_slow;
-    let mut reversal = T::zero();
-    let mut reversal_l = T::nan();
-    let mut cpc= T::zero();
-    let mut cpc_l = T::nan();
-    let mut trend = T::nan();
-    let mut trend_l = T::nan();
-    let mut diff = Vec::new();
+    let (mut reversal, mut reversal_l) = (T::zero(), T::nan());
+    let (mut cpc, mut cpc_l) = (T::zero(), T::nan());
+    let (mut trend, mut trend_l) = (T::nan(), T::nan());
+    let mut diff = Vec::with_capacity(*window_noise);
     let mut src_l = src_take[..len_src - num_need]
         .last()
         .unwrap()
@@ -220,22 +215,24 @@ where
         .skip(len_src - num_need)
         .enumerate()
     {
-        ema_fast = trend_no_osc::ema_rm(el.borrow(), &mut rm_ema_fast);
-        ema_slow = trend_no_osc::ema_rm(el.borrow(), &mut rm_ema_slow);
+        let el_brwd = el.borrow();
+        let ema_fast = trend_no_osc::ema_rm(el_brwd, &mut rm_ema_fast);
+        let ema_slow = trend_no_osc::ema_rm(el_brwd, &mut rm_ema_slow);
         reversal = create::sign(ema_fast - ema_slow);
         if reversal == reversal_l {
-            cpc = cpc_l + *el.borrow() - *src_l;
+            cpc = cpc_l + *el_brwd - *src_l;
             trend = trend_l * (T::one() - alpha_trend) + cpc * alpha_trend;
         } else {
             cpc = T::zero();
             trend = T::zero();
         }
         if i > num_need - *window_noise - 1 {
-            if noise_type == "linear" {
-                diff.push((cpc - trend).abs());
-            } else {
-                diff.push((cpc - trend).abs().powi(2));
-            }
+            diff.push(
+                match noise_type {
+                    "linear" => (cpc - trend).abs(),
+                    _ => (cpc - trend).abs().powi(2)
+                }
+            );
         }
         reversal_l = reversal;
         cpc_l = cpc;
