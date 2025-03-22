@@ -205,7 +205,7 @@ where
     let (mut cpc, mut cpc_l) = (T::zero(), T::nan());
     let (mut trend, mut trend_l) = (T::nan(), T::nan());
     let mut diff = Vec::with_capacity(*window_noise);
-    let mut src_l = src_take[..len_src - num_need]
+    let mut src_l = src[..len_src - num_need]
         .last()
         .unwrap()
         .borrow();
@@ -253,4 +253,45 @@ where
             ("src", diff)
         ])
     )
+}
+
+#[allow(clippy::pedantic)]
+pub fn rm_nohesi<T, V>(
+    src: &[V],
+    hesi: &T,
+) -> FxHashMap<&'static str, T>
+where 
+    T: Float,
+    V: Borrow<T>,
+{
+    let mut peak_l = T::zero();
+    let mut btm_l= T::zero();
+    let len = src.len();
+    let mut res = T::nan();
+
+    for el in src[len - 2 - 1..len - 1].iter() {
+        let el_brwd = el.borrow();
+        let hesit = *el_brwd * *hesi;
+        let (peak, btm);
+        if *el_brwd > peak_l {
+            peak = *el_brwd;
+            btm = *el_brwd - hesit;
+        } else if *el_brwd < btm_l {
+            peak = *el_brwd + hesit;
+            btm = *el_brwd;
+        } else {
+            peak = peak_l;
+            btm = btm_l;
+        }
+        if btm < btm_l || peak > peak_l {
+            res = *el_brwd;
+        }
+        peak_l = peak;
+        btm_l = btm;
+    }
+    FxHashMap::from_iter([
+        ("peak", peak_l),
+        ("btm", btm_l),
+        ("res", res)
+    ])
 }

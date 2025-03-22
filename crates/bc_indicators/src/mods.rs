@@ -1,11 +1,12 @@
-use std::collections::HashMap;
-
 use num_traits::Float;
+use rustc_hash::FxHashMap;
 
+
+#[allow(clippy::implicit_hasher)]
 pub fn nohesi_rm<T>(
     v: &T,
     hesi: &T,
-    rm: &mut HashMap<&'static str, T>
+    rm: &mut FxHashMap<&'static str, T>
 ) -> T
 where 
     T: Float,
