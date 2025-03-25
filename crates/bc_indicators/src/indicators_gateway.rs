@@ -112,7 +112,7 @@ pub fn indications_gw_rm<'a, 'b>(
                 // 0.0
                 MAP_INDICATORS_RM
                     .get()
-                    .unwrap()[&v.key](
+                    .expect("indicators not found in map indicators")[&v.key](
                         src, 
                         &MAP_ARGS_RM.get().expect("map args rm not initializeted")[&v.key], 
                         &mut rm.get_mut(v.key.as_str()).expect("rm not found"),

@@ -21,3 +21,8 @@ harness = false
 name = "no_osc_trend"
 path = "benches/indicators/no_osc/trend.rs"
 harness = false
+
+[[bench]]
+name = "indicators_gw"
+path = "benches/indicators_gw.rs"
+harness = false
