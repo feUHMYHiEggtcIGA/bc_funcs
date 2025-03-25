@@ -6,8 +6,8 @@ use bc_utils_lg::structs::settings::SettingsInd;
 #[allow(clippy::wildcard_imports)]
 use bc_utils_lg::enums::indicators::*;
 
+#[allow(clippy::wildcard_imports)]
 use crate::indicators::no_oscillators::trend::*;
-use crate::indicators::no_oscillators::other::*;
 #[allow(clippy::wildcard_imports)]
 use crate::indicators::oscillators::trend::*;
 #[allow(clippy::wildcard_imports)]
