@@ -16,17 +16,18 @@ use crate::indicators::oscillators::other::*;
 // use crate::common::*;
 
 
-static MAP_ARGS_RM: OnceLock<FxHashMap<String, Vec<T_ARGS>>> = OnceLock::new();
+static MAP_ARGS_RM: OnceLock<FxHashMap<&'static str, Vec<T_ARGS>>> = OnceLock::new();
 #[allow(clippy::type_complexity)]
 static MAP_INDICATORS_RM: OnceLock<
-    FxHashMap<String, fn(&SrcEl, &Vec<T_ARGS>,  &mut Vec<T_HASHMAP>) -> f64>
+    FxHashMap<&'static str, fn(&SrcEl, &Vec<T_ARGS>,  &mut Vec<T_HASHMAP>) -> f64>
 > = OnceLock::new();
 
-#[allow(clippy::all)]
-pub fn map_args_rm_init(settings: &Vec<SettingsInd>) {
+#[allow(clippy::missing_panics_doc)]
+#[allow(clippy::ptr_arg)]
+pub fn map_args_rm_init(settings: &'static Vec<SettingsInd>) {
     MAP_ARGS_RM.set(
             settings.iter().map(|setting| (
-                setting.key.clone(),
+                setting.key.as_str(),
                 match setting.key.as_str() {
                     "rsi" => vec![T_ARGS::None(())],
                     "tqo_b" => vec![
@@ -42,15 +43,20 @@ pub fn map_args_rm_init(settings: &Vec<SettingsInd>) {
         .expect("args map not initialized. maybe it was initialized earlier");
 }
 
-pub fn map_indicators_rm_init(settings: &Vec<SettingsInd>) {
+
+#[allow(clippy::missing_panics_doc)]
+#[allow(clippy::ptr_arg)]
+pub fn map_indicators_rm_init(settings: &'static Vec<SettingsInd>) {
     MAP_INDICATORS_RM.set(settings.iter().map(|v| (
-            v.key.clone(),
+            v.key.as_str(),
             match v.key.as_str() {
                 "rsi" => |src: &SrcEl, _: &Vec<T_ARGS>, rm:  &mut Vec<T_HASHMAP>| {
                     let mut v1: Option<&mut FxHashMap<&'static str, f64>> = None;
                     let mut v2: Option<&mut FxHashMap<&'static str, f64>> = None;
                     let mut v3: Option<&mut FxHashMap<&'static str, f64>> = None;
-                    for (i, map) in rm.iter_mut().enumerate() {
+                    for (i, map) in rm
+                        .iter_mut()
+                        .enumerate() {
                         match (i, map) {
                             (0, T_HASHMAP::Float64(map)) => v1 = Some(map),
                             (1, T_HASHMAP::Float64(map)) => v2 = Some(map),
@@ -58,8 +64,17 @@ pub fn map_indicators_rm_init(settings: &Vec<SettingsInd>) {
                             _ => panic!("map not initialized. maybe it was initialized earlier"),
                         }
                     }
-                    if let (Some(v1), Some(v2), Some(v3)) = (v1, v2, v3) {
-                        rsi_rm(&src.open,  v1, v2, v3)
+                    if let (
+                        Some(v1), 
+                        Some(v2), 
+                        Some(v3)
+                    ) = (v1, v2, v3) {
+                        rsi_rm(
+                            &src.open,  
+                            v1, 
+                            v2,
+                            v3
+                        )
                     } else {
                         panic!("map not initialized. maybe it was initialized earlier")
                     }
@@ -74,7 +89,9 @@ pub fn map_indicators_rm_init(settings: &Vec<SettingsInd>) {
                     let mut v5: Option<&mut FxHashMap<&'static str, f64>> = None;
                     let mut v6: Option<&mut FxHashMap<&'static str, f64>> = None;
                     let mut v7: Option<&mut FxHashMap<&'static str, Vec<f64>>> = None;
-                    for (i, map) in rm.iter_mut().enumerate() {
+                    for (i, map) in rm
+                        .iter_mut()
+                        .enumerate() {
                         match (i, map) {
                             (0, T_HASHMAP::Float64(map)) => v4 = Some(map),
                             (1, T_HASHMAP::Float64(map)) => v5 = Some(map),
@@ -84,7 +101,16 @@ pub fn map_indicators_rm_init(settings: &Vec<SettingsInd>) {
                         }
                     }
                     if let (Some(v4), Some(v5), Some(v6), Some(v7)) = (v4, v5, v6, v7) {
-                        tqo_b_rm(&src.open, v1, v2, v3, v4, v5, v6, v7,)
+                        tqo_b_rm(
+                            &src.open,
+                            v1,
+                            v2,
+                            v3,
+                            v4,
+                            v5,
+                            v6,
+                            v7,
+                        )
                     } else {
                         panic!("map not initialized. maybe it was initialized earlier")
                     }
@@ -92,15 +118,18 @@ pub fn map_indicators_rm_init(settings: &Vec<SettingsInd>) {
                 _ => panic!("key indication unknown"),
             })
         ).collect()
-    );
+    )
+        .expect("args map not initialized. maybe it was initialized earlier");
 }
 
 
-
-pub fn indications_gw_rm<'a, 'b>(
-    src: &'a SrcEl,
+#[allow(clippy::missing_panics_doc)]
+#[allow(clippy::implicit_hasher)]
+#[allow(clippy::ptr_arg)]
+pub fn indications_gw_rm(
+    src: &SrcEl,
     settings: &'static Vec<SettingsInd>,
-    rm: &'b mut FxHashMap<&'static str, Vec<T_HASHMAP>> 
+    rm: &mut FxHashMap<&'static str, Vec<T_HASHMAP>> 
 ) -> FxHashMap<&'static str, f64>
 { 
     settings
@@ -112,10 +141,10 @@ pub fn indications_gw_rm<'a, 'b>(
                 // 0.0
                 MAP_INDICATORS_RM
                     .get()
-                    .expect("indicators not found in map indicators")[&v.key](
+                    .expect("indicators not found in map indicators")[&v.key.as_str()](
                         src, 
-                        &MAP_ARGS_RM.get().expect("map args rm not initializeted")[&v.key], 
-                        &mut rm.get_mut(v.key.as_str()).expect("rm not found"),
+                        &MAP_ARGS_RM.get().expect("map args rm not initializeted")[&v.key.as_str()], 
+                        rm.get_mut(v.key.as_str()).expect("rm not found"),
                 )
             )
         )
