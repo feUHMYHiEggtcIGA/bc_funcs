@@ -1,4 +1,4 @@
-use crate::common;
+use bc_indicators::common;
 use bc_indicators::indicators::no_oscillators::trend::*;
 use bc_indicators::rm;
 
@@ -12,7 +12,7 @@ fn alpha_rma_1() { assert_eq!(alpha_rma(&10.0), 0.1,) }
 #[test]
 fn ema_rm_1() {
     let mut rm = rm::rm_ema(
-        common::PRICES.as_slice(),
+        common::OPEN.as_slice(),
         &common::WINDOW,
     );
 
@@ -25,7 +25,7 @@ fn ema_rm_1() {
 #[test]
 fn ema_rm_skip_1() {
     let mut rm = rm::rm_ema(
-        &common::PRICES[2..],
+        &common::OPEN[2..],
         &common::WINDOW,
     );
 
@@ -38,7 +38,7 @@ fn ema_rm_skip_1() {
 #[test]
 fn ema_float_1() {
     assert_eq!(
-        ema_float(common::PRICES.as_slice(), &common::WINDOW),
+        ema_float(common::OPEN.as_slice(), &common::WINDOW),
         2.2547110887999526,
     );
 }
@@ -46,7 +46,7 @@ fn ema_float_1() {
 #[test]
 fn ema_float_skip_1() {
     assert_eq!(
-        ema_float(&common::PRICES[2..], &common::WINDOW),
+        ema_float(&common::OPEN[2..], &common::WINDOW),
         2.2547110887999526,
     );
 }
@@ -54,7 +54,7 @@ fn ema_float_skip_1() {
 #[test]
 fn rma_rm_1() {
     let mut rm = rm::rm_rma(
-        common::PRICES.as_slice(),
+        common::OPEN.as_slice(),
         &common::WINDOW,
     );
 
@@ -67,7 +67,7 @@ fn rma_rm_1() {
 #[test]
 fn rma_rm_skip_() {
     let mut rm = rm::rm_rma(
-        &common::PRICES[2..],
+        &common::OPEN[2..],
         &common::WINDOW,
     );
 
@@ -80,7 +80,7 @@ fn rma_rm_skip_() {
 #[test]
 fn sma_rm_1() {
     let mut rm = rm::rm_sma(
-        common::PRICES.as_slice(),
+        common::OPEN.as_slice(),
         &common::WINDOW,
     );
     assert_eq!(
@@ -92,7 +92,7 @@ fn sma_rm_1() {
 #[test]
 fn sma_rm_skip_1() {
     let mut rm = rm::rm_sma(
-        &common::PRICES[2..],
+        &common::OPEN[2..],
         &common::WINDOW,
     );
     assert_eq!(

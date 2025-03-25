@@ -11,3 +11,5 @@ members = [
 [dependencies]
 bc_utils ={ path = "crates/bc_utils"}
 bc_indicators ={ path = "crates/bc_indicators"}
+bc_utils_lg ={ path = "crates/bc_utils_lg" }
+bc_settings ={ path = "crates/bc_settings"}

@@ -1,5 +1,3 @@
-#[cfg(test)]
 pub mod indicators;
-
-#[cfg(test)]
 pub mod rm;
+pub mod indicators_gateway;

@@ -1,7 +1,7 @@
 use num_traits::Float;
 
 
-pub fn g_mult_rsi<T>(
+pub fn mult_rsi<T>(
     v: &T,
     diff_short: &T,
     diff_long: &T,
@@ -23,7 +23,7 @@ where
     (diff - v2) / diff
 }
 
-pub fn g_mult_diff_v<T>(
+pub fn mult_diff_v<T>(
     v1: &T,
     v2: &T,
     multiplier: &T,

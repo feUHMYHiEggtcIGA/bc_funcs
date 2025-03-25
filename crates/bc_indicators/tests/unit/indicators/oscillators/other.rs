@@ -1,4 +1,4 @@
-use crate::common;
+use bc_indicators::common;
 use bc_indicators::indicators::oscillators::other::*;
 use bc_indicators::rm;
 
@@ -9,7 +9,7 @@ fn rsi_rm_1() {
         mut rm_rma1, 
         mut rm_rma2
     ) = rm::rm_rsi(
-        common::PRICES.as_slice(),
+        common::OPEN.as_slice(),
         &common::WINDOW,
     );
 
@@ -31,7 +31,7 @@ fn rsi_rm_skip_1() {
         mut rm_rma1, 
         mut rm_rma2
     ) = rm::rm_rsi(
-        &common::PRICES[2..],
+        &common::OPEN[2..],
         &common::WINDOW,
     );
 
@@ -49,7 +49,7 @@ fn rsi_rm_skip_1() {
 #[test]
 fn rsi_float_1() {
     assert_eq!(
-        rsi_float(common::PRICES.as_slice(),  &2,),
+        rsi_float(common::OPEN.as_slice(),  &2,),
         40.41131222134466,
     )
 }
@@ -57,7 +57,7 @@ fn rsi_float_1() {
 #[test]
 fn rsi_float_skip_1() {
     assert_eq!(
-        rsi_float(&common::PRICES[2..],  &2,),
+        rsi_float(&common::OPEN[2..],  &2,),
         40.41131222134466,
     )
 }
