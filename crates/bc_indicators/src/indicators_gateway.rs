@@ -6,9 +6,8 @@ use bc_utils_lg::structs::settings::SettingsInd;
 #[allow(clippy::wildcard_imports)]
 use bc_utils_lg::enums::indicators::*;
 
-// use crate::indicators::no_oscillators::trend::*;
-// use crate::indicators::no_oscillators::other::*;
-// use crate::indicators::oscillators::multipliers::*;
+use crate::indicators::no_oscillators::trend::*;
+use crate::indicators::no_oscillators::other::*;
 #[allow(clippy::wildcard_imports)]
 use crate::indicators::oscillators::trend::*;
 #[allow(clippy::wildcard_imports)]
@@ -29,7 +28,8 @@ pub fn map_args_rm_init(settings: &'static Vec<SettingsInd>) {
             settings.iter().map(|setting| (
                 setting.key.as_str(),
                 match setting.key.as_str() {
-                    "rsi" => vec![T_ARGS::None(())],
+                    "sma" => vec![T_ARGS::Usize(setting.kwargs_usize["window"])],
+                    "rma" | "ema" | "rsi" => vec![T_ARGS::None(())],
                     "tqo_b" => vec![
                         T_ARGS::Usize(setting.kwargs_usize["window_noise"]),
                         T_ARGS::Float64(setting.kwargs_f64["correlation_factor"]),
@@ -50,7 +50,20 @@ pub fn map_indicators_rm_init(settings: &'static Vec<SettingsInd>) {
     MAP_INDICATORS_RM.set(settings.iter().map(|v| (
             v.key.as_str(),
             match v.key.as_str() {
-                "rsi" => |src: &SrcEl, _: &Vec<T_ARGS>, rm:  &mut Vec<T_HASHMAP>| {
+                "sma" => |src: &SrcEl, args: &Vec<T_ARGS>, rm: &mut Vec<T_HASHMAP>| {
+                    let arg1 = args.first().expect("sma arg not found");
+                    let rm = rm.first_mut().expect("sma_rm not found");
+                    if let (T_ARGS::Usize(arg1), T_HASHMAP::VecF64(rm)) = (arg1, rm) {
+                        sma_rm(src.open, arg1, rm)
+                    }  else { 0.0 }
+                },
+                "ema" => |src: &SrcEl, _: &Vec<T_ARGS>, rm: &mut Vec<T_HASHMAP>| {
+                    let rm = rm.get_mut(0).expect("rm ema not found");
+                    if let T_HASHMAP::Float64(rm) = rm {
+                        ema_rm(src.open,rm)
+                    } else { 0.0 }
+                },
+                "rsi" => |src: &SrcEl, _: &Vec<T_ARGS>, rm: &mut Vec<T_HASHMAP>| {
                     let mut v1: Option<&mut FxHashMap<&'static str, f64>> = None;
                     let mut v2: Option<&mut FxHashMap<&'static str, f64>> = None;
                     let mut v3: Option<&mut FxHashMap<&'static str, f64>> = None;
@@ -138,7 +151,6 @@ pub fn indications_gw_rm(
             |v| 
             (
                 v.key_uniq.as_str(),
-                // 0.0
                 MAP_INDICATORS_RM
                     .get()
                     .expect("indicators not found in map indicators")[&v.key.as_str()](

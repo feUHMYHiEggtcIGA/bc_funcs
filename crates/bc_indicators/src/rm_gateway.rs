@@ -3,13 +3,16 @@ use bc_utils_lg::enums::indicators::T_HASHMAP;
 use bc_utils_lg::structs::src::Src;
 use bc_utils_lg::structs::settings::SettingsInd;
 
+#[allow(clippy::wildcard_imports)]
 use crate::rm::*;
 
 
-pub fn rm_gw(
+#[allow(clippy::missing_panics_doc)]
+#[must_use]
+pub fn rm_gw<'a>(
     src: &Src, 
     settings: &'static Vec<SettingsInd>
-) -> FxHashMap<&'static str, Vec<T_HASHMAP>> {
+) -> FxHashMap<&'static str, Vec<T_HASHMAP<'a>>> {
     let mut map = FxHashMap::default();
     
     for setting in settings {

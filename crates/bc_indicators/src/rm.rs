@@ -128,6 +128,7 @@ where
 }
 
 #[allow(clippy::implicit_hasher)]
+#[allow(clippy::type_complexity)]
 pub fn rm_rsi<'a, T, V>(
     src: &[V],
     window: &usize,

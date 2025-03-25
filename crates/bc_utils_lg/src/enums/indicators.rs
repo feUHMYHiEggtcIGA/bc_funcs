@@ -3,11 +3,11 @@ use rustc_hash::FxHashMap;
 
 #[allow(non_camel_case_types)]
 #[derive(Debug)]
-pub enum T_HASHMAP {
+pub enum T_HASHMAP<'a> {
     Float64(FxHashMap<&'static str, f64>),
     Float64_r(FxHashMap<&'static str, &'static f64>),
     VecF64(FxHashMap<&'static str, Vec<f64>>),
-    VecF64_r(FxHashMap<&'static str, Vec<&'static f64>>),
+    VecF64_r(FxHashMap<&'static str, Vec<&'a f64>>),
 }
 
 #[allow(non_camel_case_types)]
