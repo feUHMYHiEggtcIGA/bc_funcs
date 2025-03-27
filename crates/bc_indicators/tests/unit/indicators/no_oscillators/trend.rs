@@ -1,4 +1,5 @@
-use bc_indicators::common;
+use bc_utils_lg::statics::prices::OPEN;
+use bc_utils_lg::statics::settings::WINDOW;
 use bc_indicators::indicators::no_oscillators::trend::*;
 use bc_indicators::rm;
 
@@ -12,8 +13,8 @@ fn alpha_rma_1() { assert_eq!(alpha_rma(&10.0), 0.1,) }
 #[test]
 fn ema_rm_1() {
     let mut rm = rm::rm_ema(
-        common::OPEN.as_slice(),
-        &common::WINDOW,
+        OPEN.as_slice(),
+        &WINDOW,
     );
 
     assert_eq!(
@@ -25,8 +26,8 @@ fn ema_rm_1() {
 #[test]
 fn ema_rm_skip_1() {
     let mut rm = rm::rm_ema(
-        &common::OPEN[2..],
-        &common::WINDOW,
+        &OPEN[2..],
+        &WINDOW,
     );
 
     assert_eq!(
@@ -38,7 +39,7 @@ fn ema_rm_skip_1() {
 #[test]
 fn ema_float_1() {
     assert_eq!(
-        ema_float(common::OPEN.as_slice(), &common::WINDOW),
+        ema_float(OPEN.as_slice(), &WINDOW),
         2.2547110887999526,
     );
 }
@@ -46,7 +47,7 @@ fn ema_float_1() {
 #[test]
 fn ema_float_skip_1() {
     assert_eq!(
-        ema_float(&common::OPEN[2..], &common::WINDOW),
+        ema_float(&OPEN[2..], &WINDOW),
         2.2547110887999526,
     );
 }
@@ -54,8 +55,8 @@ fn ema_float_skip_1() {
 #[test]
 fn rma_rm_1() {
     let mut rm = rm::rm_rma(
-        common::OPEN.as_slice(),
-        &common::WINDOW,
+        OPEN.as_slice(),
+        &WINDOW,
     );
 
     assert_eq!(
@@ -67,8 +68,8 @@ fn rma_rm_1() {
 #[test]
 fn rma_rm_skip_() {
     let mut rm = rm::rm_rma(
-        &common::OPEN[2..],
-        &common::WINDOW,
+        &OPEN[2..],
+        &WINDOW,
     );
 
     assert_eq!(
@@ -80,11 +81,11 @@ fn rma_rm_skip_() {
 #[test]
 fn sma_rm_1() {
     let mut rm = rm::rm_sma(
-        common::OPEN.as_slice(),
-        &common::WINDOW,
+        OPEN.as_slice(),
+        &WINDOW,
     );
     assert_eq!(
-        sma_rm::<f64, &f64>(&2.2547, &common::WINDOW, &mut rm),
+        sma_rm::<f64, &f64>(&2.2547, &WINDOW, &mut rm),
         2.2544500000000003,
     );
 }
@@ -92,11 +93,11 @@ fn sma_rm_1() {
 #[test]
 fn sma_rm_skip_1() {
     let mut rm = rm::rm_sma(
-        &common::OPEN[2..],
-        &common::WINDOW,
+        &OPEN[2..],
+        &WINDOW,
     );
     assert_eq!(
-        sma_rm::<f64, &f64>(&2.2547, &common::WINDOW, &mut rm),
+        sma_rm::<f64, &f64>(&2.2547, &WINDOW, &mut rm),
         2.2544500000000003,
     );
 }

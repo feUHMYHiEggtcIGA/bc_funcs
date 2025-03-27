@@ -2,7 +2,8 @@ use criterion::{black_box, criterion_group, criterion_main, Criterion};
 
 use bc_indicators::indicators::no_oscillators::trend::*;
 use bc_indicators::rm::*;
-use bc_indicators::common::{OPEN, WINDOW, OPEN_LAST};
+use bc_utils_lg::statics::prices::{OPEN, OPEN_LAST};
+use bc_utils_lg::statics::settings::WINDOW;
 
 fn ema_rm_1(m: &mut Criterion) {
     let mut rm = rm_ema(OPEN.as_slice(), &WINDOW);

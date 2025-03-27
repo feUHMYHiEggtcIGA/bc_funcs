@@ -1,12 +1,12 @@
-use bc_indicators::common;
+use bc_utils_lg::statics::prices::OPEN;
 use bc_indicators::mods::*;
 use bc_indicators::rm::*;
 
 #[test]
 fn nohesi_rm_1() {
-    let mut rm = rm_nohesi(common::OPEN.as_slice(), &0.0001);
+    let mut rm = rm_nohesi(OPEN.as_slice(), &0.0001);
     assert_eq!(
-        nohesi_rm(common::OPEN.last().unwrap(), &0.0001, &mut rm),
-        *common::OPEN.last().unwrap()
+        nohesi_rm(OPEN.last().unwrap(), &0.0001, &mut rm),
+        *OPEN.last().unwrap()
     );
 }

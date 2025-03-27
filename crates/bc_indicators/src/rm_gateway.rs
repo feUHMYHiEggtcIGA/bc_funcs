@@ -24,7 +24,7 @@ pub fn rm_gw<'a>(
                     rm_rma2,
                 ) = rm_rsi(src.open, &setting.kwargs_usize["window"]);
                 map.insert(
-                    setting.key.as_str(),
+                    setting.key_uniq.as_str(),
                     vec![
                         T_HASHMAP::Float64(rm),
                         T_HASHMAP::Float64(rm_rma1),

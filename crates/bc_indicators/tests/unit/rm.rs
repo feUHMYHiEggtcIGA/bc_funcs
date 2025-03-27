@@ -1,7 +1,8 @@
-use bc_indicators::common;
-use bc_indicators::rm::*;
-
 use rustc_hash::FxHashMap;
+use bc_utils_lg::statics::prices::OPEN;
+use bc_utils_lg::statics::settings::WINDOW;
+
+use bc_indicators::rm::*;
 
 
 #[test]
@@ -18,7 +19,7 @@ fn rm_trend_ma_1() {
 #[test]
 fn rm_sma_1() {
     assert_eq!(
-        rm_sma(common::OPEN.as_slice(), &common::WINDOW),
+        rm_sma(OPEN.as_slice(), &WINDOW),
         FxHashMap::from_iter([
             ("src", vec![&2.2559, &2.2542,]),
         ]),
@@ -28,7 +29,7 @@ fn rm_sma_1() {
 #[test]
 fn rm_sma_skip_1() {
     assert_eq!(
-        rm_sma(&common::OPEN[3..], &common::WINDOW),
+        rm_sma(&OPEN[3..], &WINDOW),
         FxHashMap::from_iter([
             ("src", vec![&2.2559, &2.2542,]),
         ]),
@@ -38,7 +39,7 @@ fn rm_sma_skip_1() {
 #[test]
 fn rm_ema_1() {
     assert_eq!(
-        rm_ema(common::OPEN.as_slice(), &common::WINDOW),
+        rm_ema(OPEN.as_slice(), &WINDOW),
         FxHashMap::from_iter([
             ("alpha", 0.6666666666666666),
             ("res", 2.254733266399857),
@@ -49,7 +50,7 @@ fn rm_ema_1() {
 #[test]
 fn rm_ema_skip_1() {
     assert_eq!(
-        rm_ema(&common::OPEN[2..], &common::WINDOW),
+        rm_ema(&OPEN[2..], &WINDOW),
         FxHashMap::from_iter([
             ("alpha", 0.6666666666666666),
             ("res", 2.254733266399857),
@@ -61,8 +62,8 @@ fn rm_ema_skip_1() {
 fn rm_rma_1() {
     assert_eq!(
         rm_rma(
-            common::OPEN.as_slice(),
-            &common::WINDOW
+            OPEN.as_slice(),
+            &WINDOW
         ),
         FxHashMap::from_iter([
             ("alpha", 0.5),
@@ -75,8 +76,8 @@ fn rm_rma_1() {
 fn rm_rma_skip_1() {
     assert_eq!(
         rm_rma(
-            &common::OPEN[2..],
-            &common::WINDOW
+            &OPEN[2..],
+            &WINDOW
         ),
         FxHashMap::from_iter([
             ("alpha", 0.5),
@@ -88,7 +89,7 @@ fn rm_rma_skip_1() {
 #[test]
 fn rm_rsi_1() {
     assert_eq!(
-        rm_rsi(common::OPEN.as_slice(), &common::WINDOW),
+        rm_rsi(OPEN.as_slice(), &WINDOW),
         (
             FxHashMap::from_iter([
                 ("src", 2.2542),
@@ -108,7 +109,7 @@ fn rm_rsi_1() {
 #[test]
 fn rm_rsi_skip_1() {
     assert_eq!(
-        rm_rsi(&common::OPEN[2..], &common::WINDOW),
+        rm_rsi(&OPEN[2..], &WINDOW),
         (
             FxHashMap::from_iter([
                 ("src", 2.2542),
@@ -129,7 +130,7 @@ fn rm_rsi_skip_1() {
 fn rm_tqo_1() {    
     assert_eq!(
         rm_tqo(
-            common::OPEN.as_slice(),
+            OPEN.as_slice(),
             &2,
             &3,
             &4,
@@ -167,7 +168,7 @@ fn rm_tqo_1() {
 fn rm_tqo_skip_1() {
     assert_eq!(
         rm_tqo(
-            &common::OPEN[2..],
+            &OPEN[2..],
             &2,
             &3,
             &4,
@@ -204,7 +205,7 @@ fn rm_tqo_skip_1() {
 #[test]
 fn rm_nohesi_1() {
     assert_eq!(
-        rm_nohesi(common::OPEN.as_slice(), &0.0001),
+        rm_nohesi(OPEN.as_slice(), &0.0001),
         FxHashMap::from_iter([
             ("res", 2.2542),
             ("peak", 2.25442542),
@@ -216,7 +217,7 @@ fn rm_nohesi_1() {
 #[test]
 fn rm_nohesi_skip_1() {
     assert_eq!(
-        rm_nohesi(&common::OPEN[2..], &0.0001),
+        rm_nohesi(&OPEN[2..], &0.0001),
         FxHashMap::from_iter([
             ("res", 2.2542),
             ("peak", 2.25442542),

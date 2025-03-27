@@ -5,4 +5,3 @@ pub mod rm;
 pub mod mods;
 pub mod indicators_gateway;
 pub mod rm_gateway;
-pub mod common;

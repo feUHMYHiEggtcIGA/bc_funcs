@@ -1,4 +1,4 @@
-use bc_indicators::common;
+use bc_utils_lg::statics::prices::OPEN;
 
 use bc_indicators::indicators::oscillators::trend::*;
 use bc_indicators::rm;
@@ -7,7 +7,7 @@ use bc_indicators::rm;
 fn tqo_float_1() {
     assert_eq!(
         tqo_b_float(
-            common::OPEN.as_slice(),
+            OPEN.as_slice(),
             &2, 
             &3, 
             &4, 
@@ -24,7 +24,7 @@ fn tqo_float_1() {
 fn tqo_float_2() {
     assert_eq!(
         tqo_b_float(
-            common::OPEN.as_slice(),
+            OPEN.as_slice(),
             &2, 
             &3, 
             &4, 
@@ -41,7 +41,7 @@ fn tqo_float_2() {
 fn tqo_float_skip_1() {
     assert_eq!(
         tqo_b_float(
-            &common::OPEN[2..],
+            &OPEN[2..],
             &2, 
             &3, 
             &4, 
@@ -58,7 +58,7 @@ fn tqo_float_skip_1() {
 fn tqo_float_skip_2() {
     assert_eq!(
         tqo_b_float(
-            &common::OPEN[2..],
+            &OPEN[2..],
             &2, 
             &3, 
             &4, 
@@ -79,7 +79,7 @@ fn tqo_rm_1() {
         mut rm_slow, 
         mut rm_sma
     ) = rm::rm_tqo(
-        common::OPEN.as_slice(),
+        OPEN.as_slice(),
         &2, 
         &3, 
         &4, 
@@ -89,7 +89,7 @@ fn tqo_rm_1() {
     );
     assert_eq!(
         tqo_b_rm(
-            common::OPEN.last().unwrap(),
+            OPEN.last().unwrap(),
             &2, 
             &2.0, 
             "linear", 
@@ -110,7 +110,7 @@ fn tqo_rm_2() {
         mut rm_slow, 
         mut rm_sma
     ) = rm::rm_tqo(
-        common::OPEN.as_slice(),
+        OPEN.as_slice(),
         &2, 
         &3, 
         &4, 
@@ -120,7 +120,7 @@ fn tqo_rm_2() {
     );
     assert_eq!(
         tqo_b_rm(
-            common::OPEN.last().unwrap(),
+            OPEN.last().unwrap(),
             &2, 
             &2.0, 
             "squared", 
@@ -141,7 +141,7 @@ fn tqo_rm_skip_1() {
         mut rm_slow, 
         mut rm_sma
     ) = rm::rm_tqo(
-        &common::OPEN[2..],
+        &OPEN[2..],
         &2, 
         &3, 
         &4, 
@@ -151,7 +151,7 @@ fn tqo_rm_skip_1() {
     );
     assert_eq!(
         tqo_b_rm(
-            common::OPEN.last().unwrap(),
+            OPEN.last().unwrap(),
             &2, 
             &2.0, 
             "linear", 
@@ -172,7 +172,7 @@ fn tqo_rm_skip_2() {
         mut rm_slow, 
         mut rm_sma
     ) = rm::rm_tqo(
-        &common::OPEN[2..],
+        &OPEN[2..],
         &2, 
         &3, 
         &4, 
@@ -182,7 +182,7 @@ fn tqo_rm_skip_2() {
     );
     assert_eq!(
         tqo_b_rm(
-            common::OPEN.last().unwrap(),
+            OPEN.last().unwrap(),
             &2, 
             &2.0, 
             "squared", 

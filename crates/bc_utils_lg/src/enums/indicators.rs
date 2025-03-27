@@ -21,28 +21,28 @@ pub enum T_ARGS {
 }
 
 impl T_ARGS {
-    pub fn unwrap_f32<'a>(&'a self) -> &'a f32 {
-        match &self {
+    pub fn unwrap_f32(&self) -> &f32 {
+        match self {
             T_ARGS::Float32(v) => v,
             _ => panic!("unwrap failed"),
         }
     } 
     
-    pub fn unwrap_f64<'a>(&'a self) -> &'a f64 {
+    pub fn unwrap_f64(&self) -> & f64 {
         match self {
             T_ARGS::Float64(v) => v,
             _ => panic!("unwrap failed"),
         }
     }
 
-    pub fn unwrap_usize<'a>(&'a self) -> &'a usize {
+    pub fn unwrap_usize(&self) -> & usize {
         match self {
             T_ARGS::Usize(v) => v,
             _ => panic!("unwrap failed"),
         }
     }
     
-    pub fn unwrap_string<'a>(&'a self) -> &'a String {
+    pub fn unwrap_string(&self) -> & String {
         match self {
             T_ARGS::String(v) => v,
             _ => panic!("unwrap failed"),

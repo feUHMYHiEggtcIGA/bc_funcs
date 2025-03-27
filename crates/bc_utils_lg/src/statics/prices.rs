@@ -1,8 +1,6 @@
 #[allow(clippy::wildcard_imports)]
-use bc_utils_lg::structs::src::*;
+use crate::structs::src::*;
 
-
-pub const WINDOW: usize = 2;
 
 pub const OPEN: [f64; 50] = [
     2.2469, 2.2433, 2.2424, 2.2473, 2.2480,
