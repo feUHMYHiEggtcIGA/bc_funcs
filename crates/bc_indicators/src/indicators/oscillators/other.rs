@@ -20,11 +20,11 @@ where
 }
 
 #[allow(clippy::implicit_hasher)]
-pub fn rsi_rm<T>(
+pub fn rsi_rm<'a, T>(
     src: &T,
-    rm: &mut FxHashMap<&'static str, T>,
-    rm_rma1: &mut FxHashMap<&'static str, T>,
-    rm_rma2: &mut FxHashMap<&'static str, T>,
+    rm: &mut FxHashMap<&'a str, T>,
+    rm_rma1: &mut FxHashMap<&'a str, T>,
+    rm_rma2: &mut FxHashMap<&'a str, T>,
 ) -> T
 where 
     T: Float,

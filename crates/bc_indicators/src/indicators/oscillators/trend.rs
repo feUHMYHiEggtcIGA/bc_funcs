@@ -44,10 +44,10 @@ pub fn tqo_b_rm<'a, T>(
     window_noise: &usize,
     correlation_factor: &T,
     noise_type: &str,
-    rm: &mut FxHashMap<&'static str, T>,
-    rm_ema_fast: &mut FxHashMap<&'static str, T>,
-    rm_ema_slow: &mut FxHashMap<&'static str, T>,
-    rm_sma: &mut FxHashMap<&'static str, Vec<T>>,
+    rm: & mut FxHashMap<&str, T>,
+    rm_ema_fast: & mut FxHashMap<&str, T>,
+    rm_ema_slow: & mut FxHashMap<&str, T>,
+    rm_sma: & mut FxHashMap<&str, Vec<T>>,
 ) -> T 
 where 
     T: Float,

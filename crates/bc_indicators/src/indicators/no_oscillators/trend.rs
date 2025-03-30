@@ -16,10 +16,10 @@ use crate::rm;
 
 #[allow(clippy::missing_panics_doc)]
 #[allow(clippy::implicit_hasher)]
-pub fn sma_rm<T, V>(
+pub fn sma_rm<'a, T, V>(
     src: V,
     window: &usize,
-    buff: &mut FxHashMap<&'static str, Vec<V>>,
+    buff: &mut FxHashMap<&'a str, Vec<V>>,
 ) -> T
 where
     T: Float,
@@ -62,9 +62,9 @@ where
 }
 
 #[allow(clippy::implicit_hasher)]
-pub fn ema_rm<T, V>(
+pub fn ema_rm<'a, T, V>(
     src: V,
-    buff: &mut FxHashMap<&'static str, T>
+    buff: &mut FxHashMap<&'a str, T>
 ) -> T 
 where 
     T: Float,
@@ -110,9 +110,9 @@ pub fn alpha_rma<T: Float>(
 }
 
 #[allow(clippy::implicit_hasher)]
-pub fn rma_rm<T: Float>(
+pub fn rma_rm<'a, T: Float>(
     src: &T,
-    buff: &mut FxHashMap<&'static str, T>
+    buff: &mut FxHashMap<&'a str, T>
 ) -> T {
     let res = rma(src, &buff["res"], &buff["alpha"]);
     buff.insert("res", res);

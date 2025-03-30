@@ -1,36 +1,71 @@
+use num_traits::Float;
 use rustc_hash::FxHashMap;
 
 
 #[allow(non_camel_case_types)]
 #[derive(Debug)]
-pub enum T_HASHMAP<'a> {
-    Float64(FxHashMap<&'static str, f64>),
-    Float64_r(FxHashMap<&'static str, &'static f64>),
-    VecF64(FxHashMap<&'static str, Vec<f64>>),
-    VecF64_r(FxHashMap<&'static str, Vec<&'a f64>>),
+pub enum T_HASHMAP<'a, T> 
+where  
+    T: Float
+{
+    Float(FxHashMap<&'static str, T>),
+    Float_r(FxHashMap<&'static str, &'a T>),
+    VecF(FxHashMap<&'static str, Vec<T>>),
+    VecF_r(FxHashMap<&'static str, Vec<&'a T>>),
+}
+
+impl<'a, T> T_HASHMAP<'a, T>
+where  
+    T: Float
+{
+    pub fn unwrap_f(&'a mut self) -> &'a mut FxHashMap<&'static str, T> {
+        match self {
+            T_HASHMAP::Float(v) => v,
+            _ => panic!("unwrap failed"),
+        }
+    }
+
+    pub fn unwrap_f_r(&'a mut self) -> &'a mut FxHashMap<&'static str, &'a T> {
+        match self {
+            T_HASHMAP::Float_r(v) => v,
+            _ => panic!("unwrap failed"),
+        }
+    }
+    
+    pub fn unwrap_vec_f(&'a mut self) -> &'a mut FxHashMap<&'static str, Vec<T>> {
+        match self {
+            T_HASHMAP::VecF(v) => v,
+            _ => panic!("unwrap failed"),
+        }
+    }
+    
+    pub fn unwrap_vec_f_r(&'a mut self) -> &'a mut FxHashMap<&'static str, Vec<&'a T>> {
+        match self {
+            T_HASHMAP::VecF_r(v) => v,
+            _ => panic!("unwrap failed"),
+        }
+    }
 }
 
 #[allow(non_camel_case_types)]
 #[derive(Debug)]
-pub enum T_ARGS {
-    Float32(f32),
-    Float64(f64),
+pub enum T_ARGS<T>
+where  
+    T: Float
+{
+    Float(T),
     Usize(usize),
     String(String),
     None(())
 }
 
-impl T_ARGS {
-    pub fn unwrap_f32(&self) -> &f32 {
+impl<T> T_ARGS<T>
+where  
+    T: Float
+{
+    pub fn unwrap_f(&self) -> & T {
         match self {
-            T_ARGS::Float32(v) => v,
-            _ => panic!("unwrap failed"),
-        }
-    } 
-    
-    pub fn unwrap_f64(&self) -> & f64 {
-        match self {
-            T_ARGS::Float64(v) => v,
+            T_ARGS::Float(v) => v,
             _ => panic!("unwrap failed"),
         }
     }

@@ -1,5 +1,8 @@
 #[allow(clippy::wildcard_imports)]
-use crate::structs::src::*;
+use crate::structs::src::{
+    SRC as SRC_STRCT,
+    SRC_EL as SRC_EL_STRCT,
+};
 
 
 pub const OPEN: [f64; 50] = [
@@ -62,14 +65,14 @@ pub const CLOSE: [f64; 50] = [
 
 pub const CLOSE_LAST: f64 = 2.2540;
 
-pub const SRC: Src = Src{
+pub const SRC: SRC_STRCT<f64> = SRC_STRCT{
     open: OPEN.as_slice(),
     low: LOW.as_slice(),
     high: HIGH.as_slice(),
     close: CLOSE.as_slice(),
 };
 
-pub const SRC_EL: SrcEl = SrcEl{
+pub const SRC_EL: SRC_EL_STRCT<f64> = SRC_EL_STRCT{
     open: 2.2547,
     high: 2.2660,
     low: 2.2490,

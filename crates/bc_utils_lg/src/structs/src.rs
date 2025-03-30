@@ -1,40 +1,63 @@
-pub struct SrcEl {
-    pub open: f64,
-    pub high: f64,
-    pub low: f64,
-    pub close: f64,
+use num_traits::Float;
+
+
+#[allow(non_camel_case_types)]
+pub struct SRC_EL<T>
+where
+    T: Float,
+{
+    pub open: T,
+    pub high: T,
+    pub low: T,
+    pub close: T,
 }
 
-pub struct SrcElT {
-    pub open: f64,
-    pub high: f64,
-    pub low: f64,
-    pub close: f64,
-    pub time: f64,
+#[allow(non_camel_case_types)]
+pub struct SRC_EL_T<T>
+where
+    T: Float,
+{
+    pub open: T,
+    pub high: T,
+    pub low: T,
+    pub close: T,
+    pub time: T,
 }
 
-pub struct SrcElTV {
-    pub open: f64,
-    pub high: f64,
-    pub low: f64,
-    pub close: f64,
-    pub time: f64,
-    pub volume: f64,
+#[allow(non_camel_case_types)]
+pub struct SRC_EL_TT<T> 
+where
+    T: Float,
+{
+    pub open: T,
+    pub high: T,
+    pub low: T,
+    pub close: T,
+    pub time: T,
+    pub volume: T,
 }
 
-pub struct SrcElTVT {
-    pub open: f64,
-    pub high: f64,
-    pub low: f64,
-    pub close: f64,
-    pub time: f64,
-    pub volume: f64,
-    pub turnover: f64,
+#[allow(non_camel_case_types)]
+pub struct SRC_EL_TVT<T>
+where
+    T: Float,
+{
+    pub open: T,
+    pub high: T,
+    pub low: T,
+    pub close: T,
+    pub time: T,
+    pub volume: T,
+    pub turnover: T,
 }
 
-pub struct Src<'a> {
-    pub open: &'a [f64],
-    pub high: &'a [f64],
-    pub low: &'a [f64],
-    pub close: &'a [f64],
+#[allow(non_camel_case_types)]
+pub struct SRC<'a, T>
+where
+    T: Float,
+{
+    pub open: &'a [T],
+    pub high: &'a [T],
+    pub low: &'a [T],
+    pub close: &'a [T],
 }

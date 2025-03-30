@@ -10,7 +10,7 @@ use bc_indicators::rm_gateway::*;
 use bc_indicators::indicators_gateway::*;
 use bc_utils_lg::statics::prices::{SRC, SRC_EL};
 
-fn indicators_gw_rm_1(m: &mut Criterion) {
+fn indicators_gw_rm_rsi_1(m: &mut Criterion) {
     let map_args = map_args_rm(&SETTINGS_IND_TEST);
     let map_indicators = map_indicators_rm(&SETTINGS_IND_TEST);
     let mut rm = rm_gw(
@@ -18,9 +18,9 @@ fn indicators_gw_rm_1(m: &mut Criterion) {
         &SETTINGS_IND_TEST
     );
     m.bench_function(
-        "indicators_gw_rm_1", 
+        "indicators_gw_rm_rsi_1", 
         |f| f.iter(||
-            indications_gw_rm(
+            indicators_gw_rm(
                 &SRC_EL, 
                 &SETTINGS_IND_TEST, 
                 black_box(&mut rm),
@@ -30,5 +30,5 @@ fn indicators_gw_rm_1(m: &mut Criterion) {
     ));
 }
 
-criterion_group!(benches, indicators_gw_rm_1);
+criterion_group!(benches, indicators_gw_rm_rsi_1);
 criterion_main!(benches);
