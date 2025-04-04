@@ -63,4 +63,25 @@ pub static SETTINGS_IND_TEST: LazyLock<Vec<SETTINGS_IND>> = LazyLock::new(|| {
     ]
 });
 
+pub static SETTINGS_RSI_EMPTY: LazyLock<Vec<SETTINGS_IND>> = LazyLock::new(|| {
+    vec![
+        SETTINGS_IND{
+            key: String::from("rsi"),
+            key_uniq: String::from("rsi_1"),
+            kwargs_usize: FxHashMap::from_iter([("window".to_string(), 2)]),
+            kwargs_f64: FxHashMap::default(),
+            kwargs_string: FxHashMap::default(),
+            used_src: vec![
+                SETTINGS_USED_SRC{
+                    key: "open".to_string(), 
+                    key_uniq: "open_1".to_string(), 
+                    is_past: false, 
+                    used_mods: vec![],
+                }
+            ],
+            used_mods: vec![],
+        },
+    ]
+});
+
 pub const WINDOW: usize = 2;

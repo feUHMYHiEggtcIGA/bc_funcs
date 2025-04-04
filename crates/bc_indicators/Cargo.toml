@@ -23,6 +23,6 @@ path = "benches/indicators/no_osc/trend.rs"
 harness = false
 
 [[bench]]
-name = "indicators_gw"
-path = "benches/indicators_gw.rs"
+name = "ind_gw.rs"
+path = "benches/ind_gw.rs.rs"
 harness = false
