@@ -15,11 +15,12 @@ fn ema_rm_1() {
     let mut rm = rm::rm_ema(
         OPEN.as_slice(),
         &WINDOW,
+        &true,
     );
 
     assert_eq!(
-        ema_rm(2.2547, &mut rm),
-        2.2547110887999526
+        ema_rm(&2.2547, &mut rm),
+        2.254711084891796
     );
 }
 
@@ -28,11 +29,12 @@ fn ema_rm_skip_1() {
     let mut rm = rm::rm_ema(
         &OPEN[2..],
         &WINDOW,
+        &true,
     );
 
     assert_eq!(
-        ema_rm(2.2547, &mut rm),
-        2.2547110887999526
+        ema_rm(&2.2547, &mut rm),
+        2.254711084891796
     );
 }
 
@@ -40,7 +42,7 @@ fn ema_rm_skip_1() {
 fn ema_float_1() {
     assert_eq!(
         ema_float(OPEN.as_slice(), &WINDOW),
-        2.2547110887999526,
+        2.254711084891796,
     );
 }
 
@@ -48,7 +50,7 @@ fn ema_float_1() {
 fn ema_float_skip_1() {
     assert_eq!(
         ema_float(&OPEN[2..], &WINDOW),
-        2.2547110887999526,
+        2.254711084891796,
     );
 }
 
@@ -57,11 +59,12 @@ fn rma_rm_1() {
     let mut rm = rm::rm_rma(
         OPEN.as_slice(),
         &WINDOW,
+        &true,
     );
 
     assert_eq!(
         rma_rm(&2.2547, &mut rm),
-        2.2548923400878906,
+        2.2548879972457887,
     );
 }
 
@@ -70,11 +73,12 @@ fn rma_rm_skip_() {
     let mut rm = rm::rm_rma(
         &OPEN[2..],
         &WINDOW,
+        &true,
     );
 
     assert_eq!(
         rma_rm(&2.2547, &mut rm),
-        2.2548923400878906,
+        2.2548879972457887,
     );
 }
 
@@ -83,9 +87,10 @@ fn sma_rm_1() {
     let mut rm = rm::rm_sma(
         OPEN.as_slice(),
         &WINDOW,
+        &true,
     );
     assert_eq!(
-        sma_rm::<f64, &f64>(&2.2547, &WINDOW, &mut rm),
+        sma_rm::<f64>(2.2547, &WINDOW, &mut rm),
         2.2544500000000003,
     );
 }
@@ -95,9 +100,10 @@ fn sma_rm_skip_1() {
     let mut rm = rm::rm_sma(
         &OPEN[2..],
         &WINDOW,
+        &true,
     );
     assert_eq!(
-        sma_rm::<f64, &f64>(&2.2547, &WINDOW, &mut rm),
+        sma_rm::<f64>(2.2547, &WINDOW, &mut rm),
         2.2544500000000003,
     );
 }

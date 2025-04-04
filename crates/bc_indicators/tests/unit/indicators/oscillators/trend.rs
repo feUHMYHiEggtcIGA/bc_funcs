@@ -6,14 +6,14 @@ use bc_indicators::rm;
 #[test]
 fn tqo_float_1() {
     assert_eq!(
-        tqo_b_float(
+        tqo_b_f(
             OPEN.as_slice(),
             &2, 
             &3, 
             &4, 
             &2, 
-            &2.0, 
             &10,
+            &2.0, 
             "linear"
         ),
         0.8205694494455186
@@ -23,14 +23,14 @@ fn tqo_float_1() {
 #[test]
 fn tqo_float_2() {
     assert_eq!(
-        tqo_b_float(
+        tqo_b_f(
             OPEN.as_slice(),
             &2, 
             &3, 
             &4, 
             &2, 
-            &2.0, 
             &10,
+            &2.0, 
             "squared"
         ),
         0.8044721930064004
@@ -40,14 +40,14 @@ fn tqo_float_2() {
 #[test]
 fn tqo_float_skip_1() {
     assert_eq!(
-        tqo_b_float(
+        tqo_b_f(
             &OPEN[2..],
             &2, 
             &3, 
             &4, 
             &2, 
-            &2.0, 
             &10,
+            &2.0, 
             "linear"
         ),
         0.8205694494455186
@@ -57,14 +57,14 @@ fn tqo_float_skip_1() {
 #[test]
 fn tqo_float_skip_2() {
     assert_eq!(
-        tqo_b_float(
+        tqo_b_f(
             &OPEN[2..],
             &2, 
             &3, 
             &4, 
             &2, 
-            &2.0, 
             &10,
+            &2.0, 
             "squared"
         ),
         0.8044721930064004
@@ -78,14 +78,15 @@ fn tqo_rm_1() {
         mut rm_fast, 
         mut rm_slow, 
         mut rm_sma
-    ) = rm::rm_tqo(
+    ) = rm::rm_tqo_b(
         OPEN.as_slice(),
         &2, 
         &3, 
         &4, 
         &2,
         &10,
-        "linear"
+        "linear",
+        &true,
     );
     assert_eq!(
         tqo_b_rm(
@@ -109,14 +110,15 @@ fn tqo_rm_2() {
         mut rm_fast, 
         mut rm_slow, 
         mut rm_sma
-    ) = rm::rm_tqo(
+    ) = rm::rm_tqo_b(
         OPEN.as_slice(),
         &2, 
         &3, 
         &4, 
         &2,
         &10,
-        "squared"
+        "squared",
+        &true,
     );
     assert_eq!(
         tqo_b_rm(
@@ -140,14 +142,15 @@ fn tqo_rm_skip_1() {
         mut rm_fast, 
         mut rm_slow, 
         mut rm_sma
-    ) = rm::rm_tqo(
+    ) = rm::rm_tqo_b(
         &OPEN[2..],
         &2, 
         &3, 
         &4, 
         &2,
         &10,
-        "linear"
+        "linear",
+        &true,
     );
     assert_eq!(
         tqo_b_rm(
@@ -171,14 +174,15 @@ fn tqo_rm_skip_2() {
         mut rm_fast, 
         mut rm_slow, 
         mut rm_sma
-    ) = rm::rm_tqo(
+    ) = rm::rm_tqo_b(
         &OPEN[2..],
         &2, 
         &3, 
         &4, 
         &2,
         &10,
-        "squared"
+        "squared",
+        &true,
     );
     assert_eq!(
         tqo_b_rm(

@@ -6,7 +6,7 @@ use bc_utils_lg::statics::prices::{OPEN, OPEN_LAST};
 use bc_utils_lg::statics::settings::WINDOW;
 
 fn ema_rm_1(m: &mut Criterion) {
-    let mut rm = rm_ema(OPEN.as_slice(), &WINDOW);
+    let mut rm = rm_ema(OPEN.as_slice(), &WINDOW, &true,);
     m.bench_function("ema_rm_1", |f| f.iter(
         || ema_rm(
             black_box(&OPEN_LAST),

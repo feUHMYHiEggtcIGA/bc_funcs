@@ -102,7 +102,7 @@ fn abs_1() { assert_eq!(abs(-1), 1); }
 fn abs_2() { assert_eq!(abs::<i8, _>(&-1), 1); }
 
 #[test]
-fn avg_1() { assert_eq!(avg(vec![1.0, 2.0, 3.0].into_iter()), 2.0); }
+fn avg_1() { assert_eq!(avg([1.0, 2.0, 3.0].as_slice()), 2.0); }
 
 #[test]
 fn roll_slice_1() {

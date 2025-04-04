@@ -10,7 +10,7 @@ fn rsi_rm_1(c: &mut Criterion) {
         mut rm,
         mut rm_rma1,
         mut rm_rma2,
-    ) = rm_rsi(OPEN.as_slice(), &WINDOW);
+    ) = rm_rsi(OPEN.as_slice(), &WINDOW, &true,);
     let price_last = OPEN.last().unwrap();
     c.bench_function("rsi_rm_1", |v| {
         v.iter(|| rsi_rm(
@@ -25,7 +25,7 @@ fn rsi_rm_1(c: &mut Criterion) {
 fn rsi_float_1(c: &mut Criterion) {
     c.bench_function("rsi_float_1", |v| {
         v.iter(|| 
-            rsi_float(
+            rsi_f(
                 black_box(OPEN.as_slice()),
                 black_box(&WINDOW),
             )

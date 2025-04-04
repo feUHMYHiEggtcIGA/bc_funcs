@@ -1,7 +1,9 @@
+#![allow(non_camel_case_types)]
+
 use num_traits::Float;
 
 
-#[allow(non_camel_case_types)]
+#[derive(Debug, Copy, Clone)]
 pub struct SRC_EL<T>
 where
     T: Float,
@@ -12,7 +14,7 @@ where
     pub close: T,
 }
 
-#[allow(non_camel_case_types)]
+#[derive(Debug, Copy, Clone)]
 pub struct SRC_EL_T<T>
 where
     T: Float,
@@ -24,7 +26,7 @@ where
     pub time: T,
 }
 
-#[allow(non_camel_case_types)]
+#[derive(Debug, Copy, Clone)]
 pub struct SRC_EL_TT<T> 
 where
     T: Float,
@@ -37,7 +39,7 @@ where
     pub volume: T,
 }
 
-#[allow(non_camel_case_types)]
+#[derive(Debug, Copy, Clone)]
 pub struct SRC_EL_TVT<T>
 where
     T: Float,
@@ -51,7 +53,7 @@ where
     pub turnover: T,
 }
 
-#[allow(non_camel_case_types)]
+#[derive(Debug, Copy, Clone)]
 pub struct SRC<'a, T>
 where
     T: Float,

@@ -1,17 +1,11 @@
+#![allow(non_camel_case_types)]
+
 use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 
 
 #[derive(Serialize, Deserialize)]
-#[allow(non_camel_case_types)]
-pub struct SETTINGS_USED_SRC {
-    pub key: String,
-    pub slice_or_i: Vec<i64>
-}
-
-#[derive(Serialize, Deserialize)]
-#[allow(non_camel_case_types)]
-pub struct SETTINGS_USED_IND_MODS {
+pub struct SETTINGS_USED_MODS {
     pub key: String,
     pub kwargs_usize: FxHashMap<String, usize>,
     pub kwargs_f64: FxHashMap<String, f64>,
@@ -20,7 +14,14 @@ pub struct SETTINGS_USED_IND_MODS {
 }
 
 #[derive(Serialize, Deserialize)]
-#[allow(non_camel_case_types)]
+pub struct SETTINGS_USED_SRC {
+    pub key: String,
+    pub key_uniq: String,
+    pub is_past: bool, 
+    pub used_mods: Vec<SETTINGS_USED_MODS>
+}
+
+#[derive(Serialize, Deserialize)]
 pub struct SETTINGS_IND {
     pub key: String,
     pub key_uniq: String,
@@ -28,14 +29,11 @@ pub struct SETTINGS_IND {
     pub kwargs_f64: FxHashMap<String, f64>,
     pub kwargs_string: FxHashMap<String, String>,
     pub used_src: Vec<SETTINGS_USED_SRC>,
-    pub used_indications: Vec<SETTINGS_USED_IND_MODS>,
-    pub used_mods: Vec<SETTINGS_USED_IND_MODS>,
-    pub execution_on_count: usize,
+    pub used_mods: Vec<SETTINGS_USED_MODS>,
 }
 
 #[derive(Serialize, Deserialize)]
-#[allow(non_camel_case_types)]
-pub struct Settings {
+pub struct SETTINGS {
     pub exch_api_key: String,
     pub exch_api_secret: String,
     pub msg_key: String,

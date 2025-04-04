@@ -18,28 +18,28 @@ impl<'a, T> T_HASHMAP<'a, T>
 where  
     T: Float
 {
-    pub fn unwrap_f(&'a mut self) -> &'a mut FxHashMap<&'static str, T> {
+    pub fn unwrap_f(&mut self) -> &mut FxHashMap<&'static str, T> {
         match self {
             T_HASHMAP::Float(v) => v,
             _ => panic!("unwrap failed"),
         }
     }
 
-    pub fn unwrap_f_r(&'a mut self) -> &'a mut FxHashMap<&'static str, &'a T> {
+    pub fn unwrap_f_r(&mut self) -> &mut FxHashMap<&'static str, &'a T> {
         match self {
             T_HASHMAP::Float_r(v) => v,
             _ => panic!("unwrap failed"),
         }
     }
     
-    pub fn unwrap_vec_f(&'a mut self) -> &'a mut FxHashMap<&'static str, Vec<T>> {
+    pub fn unwrap_vec_f(&mut self) -> &mut FxHashMap<&'static str, Vec<T>> {
         match self {
             T_HASHMAP::VecF(v) => v,
             _ => panic!("unwrap failed"),
         }
     }
     
-    pub fn unwrap_vec_f_r(&'a mut self) -> &'a mut FxHashMap<&'static str, Vec<&'a T>> {
+    pub fn unwrap_vec_f_r(&mut self) -> &mut FxHashMap<&'static str, Vec<&'a T>> {
         match self {
             T_HASHMAP::VecF_r(v) => v,
             _ => panic!("unwrap failed"),

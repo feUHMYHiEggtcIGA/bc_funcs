@@ -163,22 +163,41 @@ where
     if num.borrow() < &T::zero() { -*num.borrow() } else { *num.borrow() }
 }
 
-pub fn avg<T, I>(
-    iter_: I,
-) -> T 
+pub fn avg<T, V>(
+    slice_: &[V],
+) -> T
 where 
     T: Float,
-    I: Iterator<Item = T>,
     T: std::ops::AddAssign<T>,
+    V: Borrow<T>,
 {
     let mut count = 0;
     let mut sum = T::zero();
 
-    for (i, el) in iter_.enumerate() {
+    for (i, el) in slice_.iter().enumerate() {
         count = i;
-        sum += el;
+        sum += *el.borrow();
     }
     sum / T::from(count + 1).unwrap()
+}
+
+pub fn avg_with<T, V>(
+    v: V,
+    slice_: &[V],
+) -> T 
+where 
+    T: Float,
+    T: std::ops::AddAssign<T>,
+    V: Borrow<T>,
+{
+    let mut count = 0;
+    let mut sum = T::zero();
+
+    for (i, el) in slice_.iter().enumerate() {
+        count = i;
+        sum += *el.borrow();
+    }
+    (sum + *v.borrow()) / T::from(count + 2).unwrap()
 }
 
 pub fn roll_slice1<'a, T>(

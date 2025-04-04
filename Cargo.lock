@@ -40,7 +40,7 @@ dependencies = [
 
 [[package]]
 name = "bc_indicators"
-version = "0.1.101"
+version = "0.1.102"
 dependencies = [
  "bc_settings",
  "bc_utils",
@@ -52,7 +52,7 @@ dependencies = [
 
 [[package]]
 name = "bc_settings"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bc_utils_lg",
  "serde",
@@ -61,14 +61,14 @@ dependencies = [
 
 [[package]]
 name = "bc_utils"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "num-traits",
 ]
 
 [[package]]
 name = "bc_utils_lg"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "num-traits",
  "rustc-hash",

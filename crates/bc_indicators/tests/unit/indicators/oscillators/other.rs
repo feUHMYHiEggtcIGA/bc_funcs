@@ -12,6 +12,7 @@ fn rsi_rm_1() {
     ) = rm::rm_rsi(
         OPEN.as_slice(),
         &WINDOW,
+        &true,
     );
 
     assert_eq!(
@@ -21,7 +22,7 @@ fn rsi_rm_1() {
             &mut rm_rma1, 
             &mut rm_rma2,
         ), 
-        40.41131222134466,
+        40.410730678054115,
     )
 }
 
@@ -34,6 +35,7 @@ fn rsi_rm_skip_1() {
     ) = rm::rm_rsi(
         &OPEN[2..],
         &WINDOW,
+        &true,
     );
 
     assert_eq!(
@@ -43,22 +45,22 @@ fn rsi_rm_skip_1() {
             &mut rm_rma1, 
             &mut rm_rma2,
         ), 
-        40.41131222134466,
+        40.410730678054115,
     )
 }
 
 #[test]
 fn rsi_float_1() {
     assert_eq!(
-        rsi_float(OPEN.as_slice(),  &2,),
-        40.41131222134466,
+        rsi_f(OPEN.as_slice(),  &2,),
+        40.410730678054115,
     )
 }
 
 #[test]
 fn rsi_float_skip_1() {
     assert_eq!(
-        rsi_float(&OPEN[2..],  &2,),
-        40.41131222134466,
+        rsi_f(&OPEN[2..],  &2,),
+        40.410730678054115,
     )
 }
