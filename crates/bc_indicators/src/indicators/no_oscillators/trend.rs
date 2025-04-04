@@ -58,6 +58,17 @@ where
     )
 }
 
+pub fn sma_f<T>(
+    src: &[T],
+    window: &usize,
+) -> T 
+where 
+    T: Float,
+    T: std::iter::Sum,
+{
+    sma_rm(*src.last().unwrap(), window, &mut rm_sma(src, window, &true))
+}
+
 pub fn sma_f_abstr<T>(
     src: &SRC<T>,
     args: &Vec<T_ARGS<T>>,
@@ -66,12 +77,7 @@ where
     T: Float,
     T: std::iter::Sum,
 {
-    let window = args.first().expect("arg not found").unwrap_usize();
-    sma_rm(
-        *src.open.last().expect("open last price not found"), 
-        window,
-        &mut rm::rm_sma(src.open, window, &true,)
-    )
+    sma_f(src.open, args.first().unwrap().unwrap_usize())
 }
 
 pub fn sma_coll<C, T>(
@@ -148,7 +154,7 @@ where
 }
 
 #[allow(clippy::missing_panics_doc)]
-pub fn ema_float<'a, T, V>(
+pub fn ema_f<'a, T, V>(
     src: &[V],
     window: &usize,
 ) -> T
@@ -266,7 +272,7 @@ pub fn rma_rm<T: Float>(
 }
 
 #[allow(clippy::missing_panics_doc)]
-pub fn rma_float<'a, T, V>(
+pub fn rma_f<'a, T, V>(
     src: &[V],
     window: &usize,
 ) -> T
@@ -353,7 +359,7 @@ where
 }
 
 #[allow(clippy::missing_panics_doc)]
-pub fn rational_quadratic_float<'a,T>(
+pub fn rational_quadratic_f<'a,T>(
     src: &[&'a T],
     window: &usize,
     relative_weight: &T,

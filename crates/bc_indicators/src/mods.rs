@@ -3,6 +3,8 @@ use rustc_hash::FxHashMap;
 use bc_utils_lg::enums::indicators::*;
 use bc_utils::transf::{avg, avg_with};
 
+use crate::rm::rm_nohesi;
+
 
 #[allow(clippy::implicit_hasher)]
 pub fn nohesi_rm<T>(
@@ -62,6 +64,16 @@ where
             .unwrap()
             .unwrap_f()
     )
+}
+
+pub fn nohesi_f<T>(
+    v: &[T],
+    hesi: &T,
+) -> T
+where 
+    T: Float,
+{
+    nohesi_rm(v.last().unwrap(), hesi, &mut rm_nohesi(v, hesi, &true))
 }
 
 pub fn avg_abstr<T>(

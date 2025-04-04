@@ -39,17 +39,17 @@ fn ema_rm_skip_1() {
 }
 
 #[test]
-fn ema_float_1() {
+fn ema_f_1() {
     assert_eq!(
-        ema_float(OPEN.as_slice(), &WINDOW),
+        ema_f(OPEN.as_slice(), &WINDOW),
         2.254711084891796,
     );
 }
 
 #[test]
-fn ema_float_skip_1() {
+fn ema_f_skip_1() {
     assert_eq!(
-        ema_float(&OPEN[2..], &WINDOW),
+        ema_f(&OPEN[2..], &WINDOW),
         2.254711084891796,
     );
 }
