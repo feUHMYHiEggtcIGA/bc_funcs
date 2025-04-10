@@ -17,7 +17,8 @@ pub struct SETTINGS_USED_MODS {
 pub struct SETTINGS_USED_SRC {
     pub key: String,
     pub key_uniq: String,
-    pub is_past: bool, 
+    pub sub_from_last_i: usize, 
+    pub add_in_coll: bool,
     pub used_mods: Vec<SETTINGS_USED_MODS>
 }
 
@@ -33,11 +34,17 @@ pub struct SETTINGS_IND {
 }
 
 #[derive(Serialize, Deserialize)]
+pub struct SETTINGS_SRC {
+    buffer_size: usize,
+}
+
+#[derive(Serialize, Deserialize)]
 pub struct SETTINGS {
     pub exch_api_key: String,
     pub exch_api_secret: String,
     pub msg_key: String,
     pub msg_chat: String,
     pub is_demo: bool,
+    pub src: Vec<SETTINGS_SRC>,
     pub indications: Vec<SETTINGS_IND>,
 }

@@ -1,16 +1,15 @@
-use crate::types::indicators::*;
 use num_traits::Float;
 
-use crate::types::indicators::RM_VEC;
+use crate::types::structures_abstr::*;
 
-pub fn func_rm_mod_abstr_df<'a, T>(
-    _: &[T],
-    _: &Vec<&[T]>, 
+pub fn fn_bf_mod_abstr_default<'a, T>(
+    _: &SRC_EL_ABSTR<T>,
+    _: &Vec<&Vec<T>>, 
     _: &ARGS<T>,
     _: &bool,
-) -> RM_VEC<'a, T>
+) -> BF_VEC<'a, T>
 where 
     T: Float
 {
-    RM_VEC::default()
+    BF_VEC::default()
 }

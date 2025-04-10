@@ -1,10 +1,14 @@
 use std::sync::LazyLock;
+use std::fs::File;
+use std::io::BufReader;
 
 use rustc_hash::FxHashMap;
 
 use crate::structs::settings::{
     SETTINGS_IND, 
-    SETTINGS_USED_MODS, SETTINGS_USED_SRC,
+    SETTINGS_USED_MODS, 
+    SETTINGS_USED_SRC,
+    SETTINGS as SETTINGS_STRUCT,
 };
 
 
@@ -20,7 +24,8 @@ pub static SETTINGS_IND_TEST: LazyLock<Vec<SETTINGS_IND>> = LazyLock::new(|| {
                 SETTINGS_USED_SRC{
                     key: "open".to_string(), 
                     key_uniq: "open_1".to_string(), 
-                    is_past: false, 
+                    sub_from_last_i: 0, 
+                    add_in_coll: true,
                     used_mods: vec![],
                 }
             ],
@@ -32,7 +37,15 @@ pub static SETTINGS_IND_TEST: LazyLock<Vec<SETTINGS_IND>> = LazyLock::new(|| {
             kwargs_usize: FxHashMap::from_iter([("window".to_string(), 3)]),
             kwargs_f64: FxHashMap::default(),
             kwargs_string: FxHashMap::default(),
-            used_src: vec![],
+            used_src: vec![
+                SETTINGS_USED_SRC{
+                    key: "open".to_string(), 
+                    key_uniq: "open_1".to_string(), 
+                    sub_from_last_i: 0, 
+                    add_in_coll: true,
+                    used_mods: vec![],
+                }
+            ],
             used_mods: vec![
                 SETTINGS_USED_MODS{
                     key: String::from("avg"),
@@ -49,7 +62,15 @@ pub static SETTINGS_IND_TEST: LazyLock<Vec<SETTINGS_IND>> = LazyLock::new(|| {
             kwargs_usize: FxHashMap::from_iter([("window".to_string(), 2)]),
             kwargs_f64: FxHashMap::default(),
             kwargs_string: FxHashMap::default(),
-            used_src: vec![],
+            used_src: vec![
+                SETTINGS_USED_SRC{
+                    key: "open".to_string(), 
+                    key_uniq: "open_1".to_string(), 
+                    sub_from_last_i: 0, 
+                    add_in_coll: true,
+                    used_mods: vec![],
+                }
+            ],
             used_mods: vec![
                 SETTINGS_USED_MODS{
                     key: String::from("nohesi"),
@@ -75,13 +96,20 @@ pub static SETTINGS_RSI_EMPTY: LazyLock<Vec<SETTINGS_IND>> = LazyLock::new(|| {
                 SETTINGS_USED_SRC{
                     key: "open".to_string(), 
                     key_uniq: "open_1".to_string(), 
-                    is_past: false, 
+                    sub_from_last_i: 0, 
+                    add_in_coll: true,
                     used_mods: vec![],
                 }
             ],
             used_mods: vec![],
         },
     ]
+});
+
+pub static SETTINGS: LazyLock<SETTINGS_STRUCT> = LazyLock::new(|| {
+    // change_this: path
+    let reader = BufReader::new(File::open("../../settings.json").expect("file not found"));
+    serde_json::from_reader(reader).expect("settings.json is not decerialized")
 });
 
 pub const WINDOW: usize = 2;

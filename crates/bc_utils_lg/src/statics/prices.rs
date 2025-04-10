@@ -1,7 +1,11 @@
 #[allow(clippy::wildcard_imports)]
-use crate::structs::src::{
-    SRC as SRC_STRCT,
-    SRC_EL as SRC_EL_STRCT,
+
+
+use std::sync::LazyLock;
+
+use crate::types::structures_abstr::{
+    SRC_EL as SRC_EL_T,
+    SRC as SRC_T,
 };
 
 
@@ -17,9 +21,6 @@ pub const OPEN: [f64; 50] = [
     2.2649, 2.2591, 2.2577, 2.2546, 2.2584,
     2.2555, 2.2553, 2.2559, 2.2542, 2.2547,
 ];
-
-pub const OPEN_LAST: f64 = 2.2547;
-
 pub const HIGH: [f64; 50] = [
     2.2550, 2.2500, 2.2500, 2.2530, 2.2540,
     2.2560, 2.2540, 2.2570, 2.2530, 2.2580,
@@ -32,9 +33,6 @@ pub const HIGH: [f64; 50] = [
     2.2720, 2.2670, 2.2650, 2.2630, 2.2670,
     2.2660, 2.2650, 2.2660, 2.2650, 2.2660,
 ];
-
-pub const HIGH_LAST: f64 = 2.2660;
-
 pub const LOW: [f64; 50] = [
     2.2400, 2.2380, 2.2355, 2.2420, 2.2410,
     2.2430, 2.2410, 2.2440, 2.2410, 2.2450,
@@ -47,9 +45,6 @@ pub const LOW: [f64; 50] = [
     2.2580, 2.2520, 2.2500, 2.2470, 2.2500,
     2.2490, 2.2480, 2.2490, 2.2480, 2.2490,
 ];
-
-pub const LOW_LAST: f64 = 2.2490;
-
 pub const CLOSE: [f64; 50] = [
     2.2460, 2.2425, 2.2430, 2.2450, 2.2470,
     2.2490, 2.2480, 2.2490, 2.2450, 2.2500,
@@ -63,18 +58,20 @@ pub const CLOSE: [f64; 50] = [
     2.2550, 2.2545, 2.2550, 2.2530, 2.2540,
 ];
 
+pub const OPEN_LAST: f64 = 2.2547;
+pub const HIGH_LAST: f64 = 2.2660;
+pub const LOW_LAST: f64 = 2.2490;
 pub const CLOSE_LAST: f64 = 2.2540;
 
-pub const SRC: SRC_STRCT<f64> = SRC_STRCT{
-    open: OPEN.as_slice(),
-    low: LOW.as_slice(),
-    high: HIGH.as_slice(),
-    close: CLOSE.as_slice(),
-};
-
-pub const SRC_EL: SRC_EL_STRCT<f64> = SRC_EL_STRCT{
-    open: 2.2547,
-    high: 2.2660,
-    low: 2.2490,
-    close: 2.2540,
-};
+pub static SRC: LazyLock<SRC_T<f64>> = LazyLock::new(|| SRC_T::from_iter([
+    ("open".to_string(), OPEN.to_vec()),
+    ("high".to_string(), HIGH.to_vec()),
+    ("low".to_string(), LOW.to_vec()),
+    ("close".to_string(), CLOSE.to_vec()),
+]));
+pub static SRC_EL: LazyLock<SRC_EL_T<f64>> = LazyLock::new(||SRC_EL_T::from_iter([
+    ("open".to_string(), 2.2547),
+    ("high".to_string(), 2.2660),
+    ("low".to_string(), 2.2490),
+    ("close".to_string(), 2.2540),
+]));
