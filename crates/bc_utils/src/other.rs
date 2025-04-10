@@ -57,6 +57,24 @@ pub fn roll_slice1<T>(
     }
 }
 
+pub fn g_roll_slice1<'a, T>(
+    v: &'a mut [T],
+    shift: &i8,
+) -> &'a [T]
+{    
+    let shift_usize = (*shift)
+        .abs()
+        .to_usize()
+        .unwrap();
+    
+    match shift.cmp(&0) {
+        std::cmp::Ordering::Greater => v.rotate_right(shift_usize),
+        std::cmp::Ordering::Less => v.rotate_left(shift_usize),
+        std::cmp::Ordering::Equal => {}
+    }
+    v
+}
+
 pub fn coll1_roll_replace_el<'a, T, V, C>(
     slice: &mut [V],
     shift: &i8,
