@@ -75,7 +75,7 @@ pub fn g_roll_slice1<'a, T>(
     v
 }
 
-pub fn coll1_roll_replace_el<'a, T, V, C>(
+pub fn coll1_roll_replace_el<'a, C, T, V,>(
     slice: &mut [V],
     shift: &i8,
     to_replace: V,
@@ -96,7 +96,7 @@ where
 
     match shift.cmp(&0){
         std::cmp::Ordering::Greater => {
-            let num_need = shift_usize;
+            let num_need = shift_usize - 1;
             iter_
                 .enumerate()
                 .map(|(i, v)| {

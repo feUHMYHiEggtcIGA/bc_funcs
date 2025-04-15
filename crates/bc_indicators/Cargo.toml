@@ -6,23 +6,22 @@ edition = "2024"
 [dependencies]
 bc_utils = {path = "../bc_utils"}
 bc_utils_lg = {path = "../bc_utils_lg"}
-bc_settings ={ path = "../bc_settings"}
 
 num-traits = "^0.2.19"
 rustc-hash = "1.1"
 criterion = {version = "0.3.5", features = ["html_reports"]}
 
 [[bench]]
-name = "osc_other"
-path = "benches/indicators/osc/other.rs"
+name = "rsi"
+path = "benches/ind/osc/other/rsi.rs"
 harness = false
 
 [[bench]]
-name = "no_osc_trend"
-path = "benches/indicators/no_osc/trend.rs"
+name = "ema"
+path = "benches/ind/no_osc/trend/ema.rs"
 harness = false
 
 [[bench]]
-name = "ind_gw.rs"
-path = "benches/ind_gw.rs.rs"
+name = "ind_gw"
+path = "benches/gw/ind.rs"
 harness = false

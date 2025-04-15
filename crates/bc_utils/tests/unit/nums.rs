@@ -21,7 +21,7 @@ fn avg_link_1() {
 #[test]
 fn avg_with_res_1() {
     assert_eq!(
-        avg_with(1.0, &[2.0, 3.0]),
+        avg_with(&1.0, &[2.0, 3.0]),
         2.0,
     )
 }
@@ -29,7 +29,7 @@ fn avg_with_res_1() {
 #[test]
 fn avg_with_link_1() {
     assert_eq!(
-        avg_with::<f64, &f64>(&1.0, &[&2.0, &3.0]),
+        avg_with::<f64>(&1.0, &[2.0, 3.0]),
         2.0
     )
 }

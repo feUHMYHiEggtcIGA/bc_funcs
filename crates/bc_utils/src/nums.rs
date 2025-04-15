@@ -24,21 +24,20 @@ where
     sum / T::from(count + 1).unwrap()
 }
 
-pub fn avg_with<T, V>(
-    v: V,
-    slice_: &[V],
+pub fn avg_with<T>(
+    v: &T,
+    slice_: &[T],
 ) -> T 
 where 
     T: Float,
     T: std::ops::AddAssign<T>,
-    V: Borrow<T>,
 {
     let mut count = 0;
     let mut sum = T::zero();
 
     for (i, el) in slice_.iter().enumerate() {
         count = i;
-        sum += *el.borrow();
+        sum += *el;
     }
     (sum + *v.borrow()) / T::from(count + 2).unwrap()
 }

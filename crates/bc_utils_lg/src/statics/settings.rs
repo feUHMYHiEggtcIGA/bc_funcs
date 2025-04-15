@@ -23,10 +23,23 @@ pub static SETTINGS_IND_TEST: LazyLock<Vec<SETTINGS_IND>> = LazyLock::new(|| {
             used_src: vec![
                 SETTINGS_USED_SRC{
                     key: "open".to_string(), 
-                    key_uniq: "open_1".to_string(), 
+                    key_uniq: "open_1".to_string(),
                     sub_from_last_i: 0, 
-                    add_in_coll: true,
+                    add_in_coll: false,
                     used_mods: vec![],
+                },
+                SETTINGS_USED_SRC{
+                    key: "close".to_string(), 
+                    key_uniq: "close_1".to_string(),
+                    sub_from_last_i: 1, 
+                    add_in_coll: true,
+                    used_mods: vec![SETTINGS_USED_MODS{
+                        key: "avg".to_string(),
+                        kwargs_usize: FxHashMap::default(),
+                        kwargs_f64: FxHashMap::default(),
+                        kwargs_string: FxHashMap::default(),
+                        used_indications: vec!["open_1".to_string()],
+                    }],
                 }
             ],
             used_mods: vec![],
@@ -67,8 +80,30 @@ pub static SETTINGS_IND_TEST: LazyLock<Vec<SETTINGS_IND>> = LazyLock::new(|| {
                     key: "open".to_string(), 
                     key_uniq: "open_1".to_string(), 
                     sub_from_last_i: 0, 
-                    add_in_coll: true,
+                    add_in_coll: false,
                     used_mods: vec![],
+                },
+                SETTINGS_USED_SRC{
+                    key: "high".to_string(), 
+                    key_uniq: "high_1".to_string(), 
+                    sub_from_last_i: 0, 
+                    add_in_coll: false,
+                    used_mods: vec![],
+                },
+                SETTINGS_USED_SRC{
+                    key: "low".to_string(), 
+                    key_uniq: "low_1".to_string(), 
+                    sub_from_last_i: 0, 
+                    add_in_coll: true,
+                    used_mods: vec![
+                        SETTINGS_USED_MODS{
+                            key: "avg".to_string(),
+                            kwargs_string: FxHashMap::default(),
+                            kwargs_usize: FxHashMap::default(),
+                            kwargs_f64: FxHashMap::default(),
+                            used_indications: vec!["open_1".to_string(), "high_1".to_string()]
+                        }
+                    ],
                 }
             ],
             used_mods: vec![

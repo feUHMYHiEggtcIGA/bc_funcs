@@ -49,9 +49,9 @@ fn g_roll_slice_link_2() {
 }
 
 #[test]
-fn coll1_roll_replace_el_res_1() {
+fn coll1_roll_replace_el_res_neg_1() {
     assert_eq!(
-        coll1_roll_replace_el::<_, _, Vec<i8>>(
+        coll1_roll_replace_el::<Vec<i8>, _, _,>(
             &mut [1, 2, 3],
             &-1, 
             4,
@@ -61,14 +61,38 @@ fn coll1_roll_replace_el_res_1() {
 }
 
 #[test]
+fn coll1_roll_replace_el_res_pos_2() {
+    assert_eq!(
+        coll1_roll_replace_el::<Vec<i8>, _, _,>(
+            &mut [1, 2, 3],
+            &1, 
+            4,
+        ), 
+        vec![4, 1, 2],
+    );
+}
+
+#[test]
 fn coll1_roll_replace_el_link_1() {
     assert_eq!(
-        coll1_roll_replace_el::<i8, &i8, Vec<&i8>>(
+        coll1_roll_replace_el::<Vec<&i8>, i8, &i8>(
             &mut [&1, &2, &3],
             &-1, 
             &4,
         ),
         vec![&2, &3, &4],
+    );
+}
+
+#[test]
+fn coll1_roll_replace_el_link_2() {
+    assert_eq!(
+        coll1_roll_replace_el::<Vec<&i8>, i8, _,>(
+            &mut [&1, &2, &3],
+            &1, 
+            &4,
+        ),
+        vec![&4, &1, &2],
     );
 }
 

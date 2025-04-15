@@ -4,17 +4,15 @@ use rustc_hash::FxHashMap;
 
 #[allow(non_camel_case_types)]
 #[derive(Debug)]
-pub enum T_HASHMAP<'a, T> 
+pub enum T_HASHMAP<T> 
 where  
     T: Float
-{
+{ 
     Float(FxHashMap<&'static str, T>),
-    Float_r(FxHashMap<&'static str, &'a T>),
     VecF(FxHashMap<&'static str, Vec<T>>),
-    VecF_r(FxHashMap<&'static str, Vec<&'a T>>),
 }
 
-impl<'a, T> T_HASHMAP<'a, T>
+impl<T> T_HASHMAP<T>
 where  
     T: Float
 {
@@ -25,12 +23,12 @@ where
         }
     }
 
-    pub fn unwrap_f_r(&mut self) -> &mut FxHashMap<&'static str, &'a T> {
-        match self {
-            T_HASHMAP::Float_r(v) => v,
-            _ => panic!("unwrap failed"),
-        }
-    }
+    // pub fn unwrap_f_r(&mut self) -> &mut FxHashMap<&'static str, &'a T> {
+    //     match self {
+    //         T_HASHMAP::Float_r(v) => v,
+    //         _ => panic!("unwrap failed"),
+    //     }
+    // }
     
     pub fn unwrap_vec_f(&mut self) -> &mut FxHashMap<&'static str, Vec<T>> {
         match self {
@@ -39,12 +37,12 @@ where
         }
     }
     
-    pub fn unwrap_vec_f_r(&mut self) -> &mut FxHashMap<&'static str, Vec<&'a T>> {
-        match self {
-            T_HASHMAP::VecF_r(v) => v,
-            _ => panic!("unwrap failed"),
-        }
-    }
+    // pub fn unwrap_vec_f_r(&mut self) -> &mut FxHashMap<&'static str, Vec<&'a T>> {
+    //     match self {
+    //         T_HASHMAP::VecF_r(v) => v,
+    //         _ => panic!("unwrap failed"),
+    //     }
+    // }
 }
 
 #[allow(non_camel_case_types)]

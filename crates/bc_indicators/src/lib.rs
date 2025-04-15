@@ -1,8 +1,7 @@
 #![warn(clippy::all, clippy::pedantic)]
 
-pub mod indicators;
-pub mod rm;
+pub mod bf;
+pub mod ind;
 pub mod mods;
-pub mod indicators_gateway;
-pub mod rm_gateway;
-pub mod mods_gateway;
+pub mod map_abstr;
+pub mod gw_abstr;
