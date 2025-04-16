@@ -4,18 +4,18 @@ use bc_utils_lg::statics::settings::{
 };
 use bc_utils_lg::statics::prices::SRCS;
 use bc_utils_lg::types::maps_abstr::MAP_COLL;
-use bc_utils_lg::implement::structures::VEC_F64;
+use bc_utils_lg::implement::structures::VEC;
 
-use bc_indicators::gw_abstr::bf::gw_func_bf_ind;
-use bc_indicators::gw_abstr::bf::gw_func_bf_mods;
-use bc_indicators::map_abstr::bf::map_func_bf_ind;
-use bc_indicators::map_abstr::bf::map_func_bf_mod;
-use bc_indicators::map_abstr::mods::map_mod_all;
-use bc_indicators::map_abstr::mods::map_mod_coll;
-use bc_indicators::map_abstr::mods::map_mod_f;
-use bc_indicators::gw_abstr::ind::*;
-use bc_indicators::map_abstr::ind::*;
-use bc_indicators::map_abstr::args::*;
+use bc_indicators::gw::bf::gw_func_bf_ind;
+use bc_indicators::gw::bf::gw_func_bf_mods;
+use bc_indicators::map::bf::map_func_bf_ind;
+use bc_indicators::map::bf::map_func_bf_mod;
+use bc_indicators::map::mods::map_mod_all;
+use bc_indicators::map::mods::map_mod_coll;
+use bc_indicators::map::mods::map_mod_f;
+use bc_indicators::gw::ind::*;
+use bc_indicators::map::ind::*;
+use bc_indicators::map::args::*;
 
 
 #[test]
@@ -26,7 +26,7 @@ fn gw_ind_bf_res_rsi_1() {
     let map_mod_all_ = map_mod_all();
     let map_func_bf_ind_ = map_func_bf_ind();
     let map_func_bf_mod_ = map_func_bf_mod();
-    let map_ind_coll_ = map_ind_coll::<VEC_F64, _>();
+    let map_ind_coll_ = map_ind_coll::<VEC<f64>, _>();
     let map_mod_coll = map_mod_coll();
     let map_mod_f = map_mod_f();
     let map2_args_mods_src_ = map2_args_mods_src(
@@ -78,7 +78,7 @@ fn gw_ind_bf_res_rsi_avg_1() {
     let map_mod_all_ = map_mod_all();
     let map_func_bf_ind_ = map_func_bf_ind();
     let map_func_bf_mod_ = map_func_bf_mod();
-    let map_ind_coll_ = map_ind_coll::<VEC_F64, _>();
+    let map_ind_coll_ = map_ind_coll::<VEC<f64>, _>();
     let map_mod_coll = map_mod_coll();
     let map_mod_f = map_mod_f();
     let map2_args_mods_src_ = map2_args_mods_src(

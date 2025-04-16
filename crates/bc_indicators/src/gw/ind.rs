@@ -12,7 +12,7 @@ use bc_utils_lg::types::structures_abstr::*;
 use bc_utils_lg::structs::settings::SETTINGS_IND;
 use bc_utils_lg::traits::coll::{AS_ITER, AS_SLICE};
 
-use crate::gw_abstr::{
+use crate::gw::{
     mods::*,
     src::*,
 };

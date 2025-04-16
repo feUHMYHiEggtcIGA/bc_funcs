@@ -1,7 +1,6 @@
 use std::borrow::Borrow;
 
 use num_traits::Float;
-use bc_utils::other::g_roll_slice1;
 use bc_utils_lg::types::structures_abstr::*;
 
 

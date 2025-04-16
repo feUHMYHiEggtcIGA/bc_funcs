@@ -3,36 +3,39 @@
 use crate::traits::coll::*;
 
 
-pub struct VEC_F64(pub Vec<f64>);
+pub struct VEC<T>(pub Vec<T>);
 
-impl IntoIterator for VEC_F64 {
-    type Item = f64;
-    type IntoIter = std::vec::IntoIter<f64>;
+impl<T> IntoIterator for VEC<T> {
+    type Item = T;
+    type IntoIter = std::vec::IntoIter<T>;
     fn into_iter(self) -> Self::IntoIter {
         self.0.into_iter()
     }
 }
 
-impl Clone for VEC_F64 {
+impl<T> Clone for VEC<T> 
+where
+    T: Clone
+{
     fn clone(&self) -> Self {
-        VEC_F64(self.0.clone())
+        VEC(self.0.clone())
     }
 }
 
-impl FromIterator<f64> for VEC_F64 {
-    fn from_iter<I: IntoIterator<Item = f64>>(iter: I) -> Self {
-        VEC_F64(iter.into_iter().collect())
+impl<T> FromIterator<T> for VEC<T> {
+    fn from_iter<I: IntoIterator<Item = T>>(iter: I) -> Self {
+        VEC(iter.into_iter().collect())
     }
 }
 
-impl AS_SLICE<f64> for VEC_F64 {
-    fn as_slice(&self) -> &[f64] {
+impl<T> AS_SLICE<T> for VEC<T> {
+    fn as_slice(&self) -> &[T] {
         self.0.as_slice()
     }
 }
 
-impl AS_ITER<f64> for VEC_F64 {
-    fn iter(&self) -> std::slice::Iter<f64> {
+impl<T> AS_ITER<T> for VEC<T> {
+    fn iter(&self) -> std::slice::Iter<T> {
         self.0.iter()
     }
 }

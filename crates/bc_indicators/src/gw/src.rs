@@ -8,7 +8,7 @@ use bc_utils_lg::structs::settings::SETTINGS_USED_SRC;
 use bc_utils_lg::types::structures_abstr::*;
 use bc_utils_lg::types::maps_abstr::*;
 
-use crate::gw_abstr::mods::*;
+use crate::gw::mods::*;
 
 
 pub fn gw_src_f<T>(

@@ -3,5 +3,5 @@
 pub mod bf;
 pub mod ind;
 pub mod mods;
-pub mod map_abstr;
-pub mod gw_abstr;
+pub mod map;
+pub mod gw;
