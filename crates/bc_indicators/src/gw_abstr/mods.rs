@@ -1,10 +1,8 @@
-use std::iter::Sum;
-
 use num_traits::Float;
 use rustc_hash::FxHashMap;
 use bc_utils_lg::structs::settings::SETTINGS_USED_MODS;
-use bc_utils_lg::types::structures_abstr::*;
 use bc_utils_lg::types::maps_abstr::*;
+use bc_utils_lg::traits::coll::AS_SLICE;
 
 pub fn gw_mod_bf<T>(
     src: &T,
@@ -66,20 +64,23 @@ where
         )
 }
 
-pub fn gw_mod_coll<T>(
-    ind: &SRC_ARG<T>,
-    map_ind: &FxHashMap<&'static str, Vec<T>>,
+pub fn gw_mod_coll<C, T>(
+    init_ind: C,
+    map_ind: &FxHashMap<&'static str, C>,
     settings: &Vec<SETTINGS_USED_MODS>,
     map_args_: &MAP_ARGS<T>,
-    map_mod_coll_: &MAP_MOD_COLL<Vec<T>, T>,
-) -> Vec<T>
+    map_mod_coll_: &MAP_MOD_COLL<C, T>,
+) -> C
 where 
     T: Float,
+    C: FromIterator<T>,
+    C: IntoIterator<Item = T>,
+    C: AS_SLICE<T>
 {
     settings
         .iter()
         .fold(
-            ind.to_vec(),
+            init_ind,
             |ind_iter, setting| {
                 let key = setting.key.as_str();
                 map_mod_coll_[key](

@@ -23,4 +23,4 @@ pub type MAP_MOD_T_FROM_COLL<T> = FxHashMap<&'static str, MOD_T_FROM_COLL<T>>;
 pub type MAP_MOD_COLL<C, T> = FxHashMap<&'static str, MOD_COLL<C, T>>;
 pub type MAP_FUNC_USIZE<T> = FxHashMap<&'static str, FUNC_USIZE<T>>;
 pub type MAP_USIZE = FxHashMap<&'static str, usize>;
-pub type MAP_VEC<'a, T> = FxHashMap<&'static str, Vec<T>>;
+pub type MAP_COLL<'a, C> = FxHashMap<&'static str, C>;

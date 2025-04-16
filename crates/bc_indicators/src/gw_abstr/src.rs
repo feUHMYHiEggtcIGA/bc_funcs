@@ -1,13 +1,12 @@
-use std::borrow::Borrow;
 use std::iter::Sum;
 
 use bc_utils::other::coll1_roll_replace_el;
+use bc_utils_lg::traits::coll::AS_SLICE;
 use num_traits::Float;
 use rustc_hash::FxHashMap;
 use bc_utils_lg::structs::settings::SETTINGS_USED_SRC;
 use bc_utils_lg::types::structures_abstr::*;
 use bc_utils_lg::types::maps_abstr::*;
-use rustc_hash::FxHasher;
 
 use crate::gw_abstr::mods::*;
 
@@ -52,31 +51,34 @@ where
         .1
 }
 
-pub fn gw_src_coll<T>(
+pub fn gw_src_coll<C, M, T>(
     src: &SRCS<T>,
     settings: &'static Vec<SETTINGS_USED_SRC>,
-    map_mod_coll_abstr_: &MAP_MOD_COLL<Vec<T>, T>,
+    map_mod_coll_abstr_: &MAP_MOD_COLL<C, T>,
     map_map_args_mods: &MAP1_ARGS<T>,
-    init_coll: Vec<Vec<T>>,
-    func_add: fn(&mut Vec<Vec<T>>, Vec<T>)
-) -> Vec<Vec<T>>
+    init_coll: M,
+    func_add: fn(&mut M, C)
+) -> M
 where 
     T: Float,
     T: Sum,
+    C: FromIterator<T>,
+    C: IntoIterator<Item = T>,
+    C: Clone,
+    C: AS_SLICE<T>,
 {
     settings
         .iter()
         .fold(
             (FxHashMap::default(), init_coll),
             |(mut map_src, mut res), setting,| {
-                let src_new: Vec<T> = {
+                let src_new = {
                     gw_mod_coll(
-                        coll1_roll_replace_el::<Vec<T>, _, _>(
+                        coll1_roll_replace_el::<C, _, _>(
                             src[&setting.key].clone().as_mut_slice(), 
                             &(setting.sub_from_last_i as i8),
                             T::nan()
-                        )
-                            .as_slice(),
+                        ),
                         &map_src,
                         &setting.used_mods,
                         &map_map_args_mods[setting.key_uniq.as_str()],

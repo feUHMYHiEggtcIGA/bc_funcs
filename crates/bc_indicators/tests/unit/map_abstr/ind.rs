@@ -1,7 +1,7 @@
-use bc_utils_lg::structs::settings::SETTINGS_IND;
 use bc_utils_lg::enums::indicators::T_ARGS;
 use bc_utils_lg::statics::settings::SETTINGS_RSI_EMPTY;
-use bc_utils_lg::statics::prices::{SRC, SRCS, OPEN_LAST};
+use bc_utils_lg::statics::prices::{SRCS, OPEN_LAST};
+use bc_utils_lg::implement::structures::VEC_F64;
 
 use bc_indicators::map_abstr::{
     ind::map_ind_t_bf,
@@ -16,7 +16,7 @@ use bc_indicators::gw_abstr::bf::gw_func_bf_ind;
 fn map_ind_bf_res_rsi_1(){
     let map_func_bf_ind_ = map_func_bf_ind();
     let map_args_ind_bf_ = map_args_ind(&SETTINGS_RSI_EMPTY);
-    let map_mod_coll_ = map_mod_coll();
+    let map_mod_coll_ = map_mod_coll::<VEC_F64, f64>();
     let map2_args_mods_src_ = map2_args_mods_src(&SETTINGS_RSI_EMPTY);
     let map_ind_bf_ = map_ind_t_bf();
     

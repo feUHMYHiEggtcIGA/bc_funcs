@@ -3,12 +3,14 @@ use std::ops::{
     AddAssign,
     DivAssign
 };
+use std::vec;
 
 use num_traits::Float;
 use rustc_hash::FxHashMap;
 use bc_utils_lg::types::maps_abstr::*;
 use bc_utils_lg::types::structures_abstr::*;
 use bc_utils_lg::structs::settings::SETTINGS_IND;
+use bc_utils_lg::traits::coll::{AS_ITER, AS_SLICE};
 
 use crate::gw_abstr::{
     mods::*,
@@ -71,23 +73,27 @@ where
         )
 }
 
-pub fn gw_ind_coll<C, T>(
+pub fn gw_ind_coll<C, M, T>(
     src: &SRCS<T>,
     settings: &'static Vec<SETTINGS_IND>,
     map_ind_coll_abstr_: &MAP_IND_COLL<C, T>,
     map_args_: &MAP_ARGS<T>,
-    map_mod_coll_: &MAP_MOD_COLL<Vec<T>, T>,
+    map_mod_coll_: &MAP_MOD_COLL<C, T>,
     map_map_map_args_mods_src_: &MAP2_ARGS<T>,
-    // change
-    init_coll: Vec<Vec<T>>,
-    func_add: fn(&mut Vec<Vec<T>>, Vec<T>),
+    init_coll: M,
+    func_add: fn(&mut M, C),
 ) -> FxHashMap<&'static str, C>
 where 
     T: Float,
     T: Sum,
     T: std::ops::AddAssign,
     T: std::ops::DivAssign,
-    C: FromIterator<T>
+    C: FromIterator<T>,
+    C: IntoIterator<Item = T>,
+    C: Clone,
+    C: AS_SLICE<T>,
+    M: Clone,
+    M: AS_ITER<C>,
 {
     settings
         .iter()
@@ -106,7 +112,7 @@ where
                             func_add,
                         )
                             .iter()
-                            .map(Vec::as_slice)
+                            .map(C::as_slice)
                             .collect::<Vec<&[T]>>()
                             .as_slice(),
                         &map_args_[key_uniq],
