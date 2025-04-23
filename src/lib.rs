@@ -7,3 +7,6 @@ pub mod utils {
 pub mod indicators {
     pub use bc_indicators::*;
 }
+pub mod exch_api_funcs{
+    pub use bc_exch_api_funcs::*;
+}

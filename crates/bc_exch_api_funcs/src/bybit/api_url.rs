@@ -1,0 +1,1 @@
+pub const KLINE: &str = "/v5/market/kline";

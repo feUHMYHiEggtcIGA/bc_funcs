@@ -6,6 +6,7 @@ use crate::types::funcs_abstr::*;
 use crate::types::structures_abstr::*;
 
 
+pub type MAP<K, V> = FxHashMap<K, V>;
 pub type MAP_BF_VEC<'a, T> = FxHashMap<&'static str, BF_VEC<T>>;
 pub type MAP1_BF_VEC<'a, T> = FxHashMap<&'static str, MAP_BF_VEC<'a, T>>;
 pub type MAP_IND_T<T> = FxHashMap<&'static str, IND_T<T>>;

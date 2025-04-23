@@ -1,6 +1,6 @@
 [package]
 name = "bc_funcs"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 
 [workspace]
@@ -12,3 +12,5 @@ members = [
 bc_utils ={ path = "crates/bc_utils"}
 bc_indicators ={ path = "crates/bc_indicators"}
 bc_utils_lg ={ path = "crates/bc_utils_lg" }
+bc_exch_api_funcs={path = "crates/bc_exch_api_funcs"}
+bc_core_funcs={path = "crates/bc_core_funcs"}
