@@ -5,9 +5,8 @@ use rustc_hash::FxHashMap;
 use crate::enums::indicators::*;
 
 
-// pub type COLL<T> = Vec<T>;
 pub type BF_VEC<T> = Vec<T_HASHMAP<T>>;
-pub type ARGS<T> = Vec<T_ARGS<T>>;
+pub type ARGS<'a, T> = Vec<T_ARGS<'a, T>>;
 pub type SRC<T> = FxHashMap<String, T>;
 pub type SRCS<'a, T> = FxHashMap<String, Vec<T>>;
 pub type SRC_ARG<T> = [T];

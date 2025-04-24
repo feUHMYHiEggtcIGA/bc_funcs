@@ -16,8 +16,26 @@ async fn klines_lch_1() -> Result<(), reqwest::Error>{
 }
 
 #[tokio::test]
+async fn klines_aon_lch_1(){
+    klines_aon(
+        "https://api.bybit.com", 
+        "linear",
+        "SUIUSDT",
+        "1",
+        &10,
+        &0,
+        &0,
+    )
+        .await;
+}
+
+#[tokio::test]
 async fn klines_symbols_lch_1() -> Result<(), reqwest::Error>{
-    let symbols = vec!["SUIUSDT".to_string(), "ETHUSDT".to_string(), "ATOMUSDT".to_string()];
+    let symbols = vec![
+        "SUIUSDT".to_string(), 
+        "ETHUSDT".to_string(), 
+        "ATOMUSDT".to_string(),
+    ];
     klines_symbols(
         "https://api.bybit.com", 
         "linear",

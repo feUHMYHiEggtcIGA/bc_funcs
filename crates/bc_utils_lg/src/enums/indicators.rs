@@ -23,41 +23,28 @@ where
         }
     }
 
-    // pub fn unwrap_f_r(&mut self) -> &mut FxHashMap<&'static str, &'a T> {
-    //     match self {
-    //         T_HASHMAP::Float_r(v) => v,
-    //         _ => panic!("unwrap failed"),
-    //     }
-    // }
-    
     pub fn unwrap_vec_f(&mut self) -> &mut FxHashMap<&'static str, Vec<T>> {
         match self {
             T_HASHMAP::VecF(v) => v,
             _ => panic!("unwrap failed"),
         }
     }
-    
-    // pub fn unwrap_vec_f_r(&mut self) -> &mut FxHashMap<&'static str, Vec<&'a T>> {
-    //     match self {
-    //         T_HASHMAP::VecF_r(v) => v,
-    //         _ => panic!("unwrap failed"),
-    //     }
-    // }
 }
 
 #[allow(non_camel_case_types)]
 #[derive(Debug)]
-pub enum T_ARGS<T>
+pub enum T_ARGS<'a, T>
 where  
     T: Float
 {
     Float(T),
     Usize(usize),
     String(String),
-    None(())
+    Str(&'a str),
+    None(()),
 }
 
-impl<T> T_ARGS<T>
+impl<'a, T> T_ARGS<'a, T>
 where  
     T: Float
 {
@@ -80,5 +67,12 @@ where
             T_ARGS::String(v) => v,
             _ => panic!("unwrap failed"),
         }
-    } 
+    }
+
+    pub fn unwrap_str(&self) -> &'a str {
+        match self {
+            T_ARGS::Str(v) => v,
+            _ => panic!("unwrap failed"),
+        }
+    }
 }

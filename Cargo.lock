@@ -68,8 +68,10 @@ checksum = "9d297deb1925b89f2ccc13d7635fa0714f12c87adce1c75356b39ca9b7178567"
 name = "bc_core_funcs"
 version = "0.1.0"
 dependencies = [
+ "bc_utils_lg",
  "hex",
  "hmac",
+ "reqwest",
  "sha2",
 ]
 

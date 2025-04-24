@@ -22,6 +22,21 @@ fn klines_lch_1(c: &mut Criterion) {
     });
 }
 
+fn klines_aon_lch_1(c: &mut Criterion) {
+    let rtm = Runtime::new().unwrap();
+    c.bench_function("klines_aon_lch_1", |b| {
+        b.to_async(&rtm).iter(|| klines_aon(
+            "https://api.bybit.com", 
+            "linear",
+            "SUIUSDT",
+            "1",
+            &10,
+            &0,
+            &0,
+        ));
+    });
+}
+
 fn klines_symbols_lch_1(c: &mut Criterion) {
     let rtm = Runtime::new().unwrap();
     let symbols = vec!["SUIUSDT".to_string(), "ETHUSDT".to_string(), "ATOMUSDT".to_string()];
@@ -38,5 +53,10 @@ fn klines_symbols_lch_1(c: &mut Criterion) {
     });
 }
 
-criterion_group!(benches, klines_lch_1, klines_symbols_lch_1);
+criterion_group!(
+    benches, 
+    klines_lch_1, 
+    klines_aon_lch_1,
+    klines_symbols_lch_1, 
+);
 criterion_main!(benches);
