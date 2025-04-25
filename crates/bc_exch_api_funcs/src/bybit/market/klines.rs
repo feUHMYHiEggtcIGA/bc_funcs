@@ -14,7 +14,7 @@ use bc_utils_lg::structs_and_types::maps_abstr::MAP;
 use bc_core_funcs::mechanisms::{
     all_or_nothing, 
     one_time_hm,
-    one_time_hm_kline,
+    one_time_hm_abstr,
 };
 
 use crate::bybit::api_url::KLINE;
@@ -143,9 +143,14 @@ pub async fn kline_symbols_ao<'a>(
     interval: &'a str,
 ) -> MAP<&'a str, Vec<String>>
 {   
-    one_time_hm_kline(
-        kline_symbols_a,
-        (api_url, category, symbols, interval),
+    one_time_hm(
+        |(api_url, category, symbols, interval)| kline_symbols_a(
+            api_url, 
+            category, 
+            symbols, 
+            interval,
+        ),
+        &(api_url, category, symbols, interval),
     ).await
 }
 
@@ -153,7 +158,7 @@ pub async fn kline_symbols_ao_abstr<'a>(
     args: &'a ARGS<'a, f64, String>,
 ) -> MAP<&'a str, Vec<String>>
 {   
-    one_time_hm(
+    one_time_hm_abstr(
         |v| kline_symbols_a(
             v[0].unwrap_str(),
             v[1].unwrap_str(),

@@ -42,17 +42,18 @@ where
     res
 }
 
-pub async fn one_time_hm<'a, H, T, O, F, FUT>(
+pub async fn one_time_hm<'a, H, T, O, F, FUT, AR>(
     func: F,
-    args: &'a ARGS<'a, f64, String>,
+    args: &AR,
 ) -> H
 where
+    AR: std::marker::Sized,
+    F: Fn(&AR) -> FUT,
+    FUT: Future<Output = H>,
     for<'b> &'b H: IntoIterator<Item = (&'b &'a str, &'b T)>,
     for<'b> &'b T: IntoIterator<Item = &'b O>,
     T: Index<usize, Output = O>,
     O: PartialEq,
-    F: Fn(&'a ARGS<'a, f64, String>) -> FUT,
-    FUT: Future<Output = H>,
 {
     let mut res = func(args).await;
     let mut first = &res
@@ -76,19 +77,19 @@ where
     res
 }
 
-pub async fn one_time_hm_kline<'a, H, T, O, F, FUT>(
+pub async fn one_time_hm_abstr<'a, H, T, O, F, FUT>(
     func: F,
-    args: (&'a str, &'a str, &'a [String], &'a str),
+    args: &'a ARGS<'a, f64, String>,
 ) -> H
 where
+    F: Fn(&'a ARGS<'a, f64, String>) -> FUT,
+    FUT: Future<Output = H>,
     for<'b> &'b H: IntoIterator<Item = (&'b &'a str, &'b T)>,
     for<'b> &'b T: IntoIterator<Item = &'b O>,
     T: Index<usize, Output = O>,
     O: PartialEq,
-    F: Fn(&'a str, &'a str, &'a [String], &'a str) -> FUT,
-    FUT: Future<Output = H>,
 {
-    let mut res = func(args.0, args.1, args.2, args.3).await;
+    let mut res = func(args).await;
     let mut first = &res
         .into_iter()
         .next()
@@ -99,7 +100,7 @@ where
         .into_iter()
         .any(|v| &v.1[0] != first)
     {
-        res = func(args.0, args.1, args.2, args.3).await;
+        res = func(args).await;
         first = &res
             .into_iter()
             .next()
