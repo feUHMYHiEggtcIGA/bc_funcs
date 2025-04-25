@@ -1,7 +1,7 @@
 use std::borrow::Borrow;
 
 use num_traits::Float;
-use bc_utils_lg::types::structures_abstr::*;
+use bc_utils_lg::structs_and_types::structures_abstr::*;
 
 
 pub fn percent<T, V>(
@@ -19,7 +19,7 @@ where
 
 pub fn percent_abstr<T, V>(
     src: &SRC_ARG<T>,
-    _: &ARGS<T>,
+    _: &ARGS<T, T>,
 ) -> T 
 where
     T: Float,
@@ -48,7 +48,7 @@ where
 
 pub fn percent_coll_abstr<C, T, V>(
     src: &SRCS_ARG<T>,
-    _: ARGS<T>,
+    _: ARGS<T, T>,
 ) -> C
 where 
     T: Float,

@@ -5,9 +5,9 @@ use std::ops::{
 use std::iter::Sum;
 
 use num_traits::Float;
-use bc_utils_lg::types::structures_abstr::*;
-use bc_utils_lg::types::maps_abstr::*;
-use bc_utils_lg::structs::settings::SETTINGS_IND;
+use bc_utils_lg::structs_and_types::structures_abstr::*;
+use bc_utils_lg::structs_and_types::maps_abstr::*;
+use bc_utils_lg::structs_and_types::settings::SETTINGS_IND;
 use bc_utils_lg::traits::coll::AS_SLICE;
 use bc_utils::other::roll_slice1;
 
@@ -20,11 +20,11 @@ use crate::gw::src::*;
 pub fn gw_func_bf_ind<'a, C, T>(
     src: &SRCS<T>,
     settings: &'static Vec<SETTINGS_IND>,
-    map_bf_ind_abstr_: &'a MAP_FUNC_BF_IND<T>,
-    map_args_ind_bf_: &MAP_ARGS<T>,
+    map_bf_ind_abstr_: &'a MAP_FUNC_BF_IND<T, T>,
+    map_args_ind_bf_: &MAP_ARGS<T, T>,
     exc_last: &bool,
-    map_mod_coll: &MAP_MOD_COLL<C, T>,
-    map2_args_mods_src: &MAP2_ARGS<T>,
+    map_mod_coll: &MAP_MOD_COLL<C, T, T>,
+    map2_args_mods_src: &MAP2_ARGS<T, T>,
 ) -> MAP_BF_VEC<'a, T>
 where 
     T: Float,
@@ -73,13 +73,13 @@ where
 pub fn gw_func_bf_mods<'a, C, T>(
     src: &SRCS<T>,
     settings: &'static Vec<SETTINGS_IND>,
-    map_ind_coll_abstr_: &MAP_IND_COLL<C, T>,
-    map_funcs_bf_mods_abstr: &'a MAP_FUNC_BF_MOD<T>,
-    map_args_ind: &MAP_ARGS<T>,
-    map1_args_mods: &MAP1_ARGS<T>,
-    map2_args_mods_src: &MAP2_ARGS<T>,
+    map_ind_coll_abstr_: &MAP_IND_COLL<C, T, T>,
+    map_funcs_bf_mods_abstr: &'a MAP_FUNC_BF_MOD<T, T>,
+    map_args_ind: &MAP_ARGS<T, T>,
+    map1_args_mods: &MAP1_ARGS<T, T>,
+    map2_args_mods_src: &MAP2_ARGS<T, T>,
     exc_last: &bool,
-    map_mod_coll: &MAP_MOD_COLL<C, T>,
+    map_mod_coll: &MAP_MOD_COLL<C, T, T>,
     init_map_coll: MAP_COLL<C>,
 ) -> MAP1_BF_VEC<'a, T>
 where 

@@ -2,7 +2,7 @@ use std::borrow::Borrow;
 
 use num_traits::Float;
 use rustc_hash::FxHashMap;
-use bc_utils_lg::types::structures_abstr::*;
+use bc_utils_lg::structs_and_types::structures_abstr::*;
 use bc_utils_lg::enums::indicators::*;
 
 
@@ -54,7 +54,7 @@ where
 pub fn bf_nohesi_abstr<'a, T>(
     src: &SRC_ARG<T>,
     _: &SRCS_ARG<T>,
-    args: &ARGS<T>,
+    args: &ARGS<T, T>,
     exc_last: &bool
 ) -> BF_VEC<T>
 where  

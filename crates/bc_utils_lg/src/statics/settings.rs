@@ -4,7 +4,7 @@ use std::io::BufReader;
 
 use rustc_hash::FxHashMap;
 
-use crate::structs::settings::{
+use crate::structs_and_types::settings::{
     SETTINGS_IND, 
     SETTINGS_USED_MODS, 
     SETTINGS_USED_SRC,

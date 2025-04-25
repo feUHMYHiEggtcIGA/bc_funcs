@@ -2,7 +2,7 @@ use std::borrow::Borrow;
 
 use num_traits::Float;
 use rustc_hash::FxHashMap;
-use bc_utils_lg::types::structures_abstr::{ARGS, BF_VEC, SRCS_ARG, SRC_ARG};
+use bc_utils_lg::structs_and_types::structures_abstr::{ARGS, BF_VEC, SRCS_ARG, SRC_ARG};
 
 use crate::bf::nohesi::bf_nohesi;
 
@@ -47,7 +47,7 @@ where
 pub fn nohesi_bf_abstr<T>(
     v: &T,
     _: &SRC_ARG<T>,
-    args: &ARGS<T>, 
+    args: &ARGS<T, T>, 
     bf: &mut BF_VEC<T>,
 ) -> T 
 where 
@@ -79,7 +79,7 @@ where
 pub fn nohesi_f_abstr<T>(
     src: &SRC_ARG<T>,
     _: &SRCS_ARG<T>,
-    args: &ARGS<T>,
+    args: &ARGS<T, T>,
 ) -> T
 where 
     T: Float,
@@ -106,7 +106,7 @@ where
 pub fn nohesi_coll_abstr<C, T>(
     src: &SRC_ARG<T>,
     _: &SRCS_ARG<T>,
-    args: &ARGS<T>,
+    args: &ARGS<T, T>,
 ) -> C
 where
     T: Float,

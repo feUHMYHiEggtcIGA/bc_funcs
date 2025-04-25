@@ -4,9 +4,9 @@ use bc_utils::other::coll1_roll_replace_el;
 use bc_utils_lg::traits::coll::AS_SLICE;
 use num_traits::Float;
 use rustc_hash::FxHashMap;
-use bc_utils_lg::structs::settings::SETTINGS_USED_SRC;
-use bc_utils_lg::types::structures_abstr::*;
-use bc_utils_lg::types::maps_abstr::*;
+use bc_utils_lg::structs_and_types::settings::SETTINGS_USED_SRC;
+use bc_utils_lg::structs_and_types::structures_abstr::*;
+use bc_utils_lg::structs_and_types::maps_abstr::*;
 
 use crate::gw::mods::*;
 
@@ -14,8 +14,8 @@ use crate::gw::mods::*;
 pub fn gw_src_f<T>(
     buff_src: &SRCS<T>,
     settings: &'static Vec<SETTINGS_USED_SRC>,
-    map_mod_abstr_: &MAP_MOD_T<T>,
-    map_map_args_mods: &MAP1_ARGS<T>,
+    map_mod_abstr_: &MAP_MOD_T<T, T>,
+    map_map_args_mods: &MAP1_ARGS<T, T>,
     init_coll: Vec<T>,
     func_add: fn(&mut Vec<T>, T),
 ) -> Vec<T>
@@ -54,8 +54,8 @@ where
 pub fn gw_src_coll<C, M, T>(
     src: &SRCS<T>,
     settings: &'static Vec<SETTINGS_USED_SRC>,
-    map_mod_coll_abstr_: &MAP_MOD_COLL<C, T>,
-    map_map_args_mods: &MAP1_ARGS<T>,
+    map_mod_coll_abstr_: &MAP_MOD_COLL<C, T, T>,
+    map_map_args_mods: &MAP1_ARGS<T, T>,
     init_coll: M,
     func_add: fn(&mut M, C)
 ) -> M

@@ -2,7 +2,7 @@ use std::borrow::Borrow;
 
 use num_traits::Float;
 use rustc_hash::FxHashMap;
-use bc_utils_lg::types::structures_abstr::*;
+use bc_utils_lg::structs_and_types::structures_abstr::*;
 use bc_utils_lg::enums::indicators::*;
 
 use crate::bf::rma::bf_rma;
@@ -57,7 +57,7 @@ where
 
 pub fn bf_rsi_abstr<T, V>(
     src: &SRCS_ARG<V>,
-    args: &ARGS<T>,
+    args: &ARGS<T, T>,
     exc_last: &bool,
 ) -> BF_VEC<T>
 where 

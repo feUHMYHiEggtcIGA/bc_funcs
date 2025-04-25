@@ -1,7 +1,7 @@
 use std::borrow::Borrow;
 
 use num_traits::Float;
-use bc_utils_lg::types::structures_abstr::{ARGS, SRCS_ARG, SRC_ARG};
+use bc_utils_lg::structs_and_types::structures_abstr::{ARGS, SRCS_ARG, SRC_ARG};
 
 
 pub fn mult_osc<T, V>(
@@ -30,7 +30,7 @@ where
 
 pub fn mult_osc_abstr<T, V>(
     src: &SRC_ARG<V>,
-    args: &ARGS<T>,
+    args: &ARGS<T, T>,
 ) -> T
 where
     T: Float,
@@ -58,7 +58,7 @@ where
 
 pub fn mult_osc_coll_abstr<C, T, V>(
     src: &SRCS_ARG<V>,
-    args: &ARGS<T>
+    args: &ARGS<T, T>
 ) -> C
 where
     T: Float,

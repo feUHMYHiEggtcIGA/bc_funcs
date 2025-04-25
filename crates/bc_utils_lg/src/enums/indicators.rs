@@ -33,45 +33,54 @@ where
 
 #[allow(non_camel_case_types)]
 #[derive(Debug)]
-pub enum T_ARGS<'a, T>
+pub enum T_ARGS<'a, F, T>
 where  
-    T: Float
+    F: Float
 {
-    Float(T),
+    Float(F),
     Usize(usize),
     String(String),
     Str(&'a str),
+    Slice(&'a [T]),
     None(()),
 }
 
-impl<'a, T> T_ARGS<'a, T>
+impl<F, T> T_ARGS<'_, F, T>
 where  
-    T: Float
+    F: Float
 {
-    pub fn unwrap_f(&self) -> & T {
+    pub fn unwrap_f(&self) -> &F {
         match self {
             T_ARGS::Float(v) => v,
             _ => panic!("unwrap failed"),
         }
     }
 
-    pub fn unwrap_usize(&self) -> & usize {
+    pub fn unwrap_usize(&self) -> &usize {
         match self {
             T_ARGS::Usize(v) => v,
             _ => panic!("unwrap failed"),
         }
     }
     
-    pub fn unwrap_string(&self) -> & String {
+    pub fn unwrap_string(&self) -> &String {
         match self {
             T_ARGS::String(v) => v,
             _ => panic!("unwrap failed"),
         }
     }
 
-    pub fn unwrap_str(&self) -> &'a str {
+    pub fn unwrap_str(&self) -> &str {
         match self {
             T_ARGS::Str(v) => v,
+            _ => panic!("unwrap failed"),
+        }
+    }
+
+    pub fn unwrap_slice(&self) -> &[T]
+    {
+        match self {
+            T_ARGS::Slice(v) => v,
             _ => panic!("unwrap failed"),
         }
     }

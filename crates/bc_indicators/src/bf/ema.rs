@@ -2,7 +2,7 @@ use std::borrow::Borrow;
 
 use num_traits::Float;
 use rustc_hash::FxHashMap;
-use bc_utils_lg::types::structures_abstr::*;
+use bc_utils_lg::structs_and_types::structures_abstr::*;
 use bc_utils_lg::enums::indicators::*;
 
 use crate::ind::no_osc::trend::ema::*;
@@ -54,7 +54,7 @@ where
 // todo: check links of returned values
 pub fn bf_ema_abstr<'a, T>(
     src: &SRCS_ARG<T>,
-    args: &ARGS<T>,
+    args: &ARGS<T, T>,
     exc_last: &bool,
 ) -> BF_VEC<T>
 where 

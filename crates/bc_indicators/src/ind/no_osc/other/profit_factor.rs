@@ -2,7 +2,7 @@ use std::borrow::Borrow;
 
 use num_traits::Float;
 use bc_utils::nums;
-use bc_utils_lg::types::structures_abstr::*;
+use bc_utils_lg::structs_and_types::structures_abstr::*;
 
 
 pub fn profit_factor<'a, T, V>(

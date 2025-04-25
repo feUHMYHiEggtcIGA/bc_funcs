@@ -6,7 +6,7 @@ use std::borrow::Borrow;
 
 use num_traits::Float;
 use rustc_hash::FxHashMap;
-use bc_utils_lg::types::structures_abstr::*;
+use bc_utils_lg::structs_and_types::structures_abstr::*;
 
 use crate::bf::rma::bf_rma;
 
@@ -56,7 +56,7 @@ where
 #[allow(clippy::needless_borrows_for_generic_args)]
 pub fn rma_bf_abstr<T>(
     src: &SRC_ARG<T>,
-    _: &ARGS<T>, 
+    _: &ARGS<T, T>, 
     rm: & mut BF_VEC<T>
 ) -> T 
 where 
@@ -70,7 +70,7 @@ where
 
 pub fn rma_f_abstr<T>(
     src: &SRCS_ARG<T>,
-    args: &ARGS<T>,
+    args: &ARGS<T, T>,
 ) -> T
 where 
     T: Float,
@@ -111,7 +111,7 @@ where
 
 pub fn rma_coll_abstr<C, T>(
     src: &SRCS_ARG<T>,
-    args: &ARGS<T>,
+    args: &ARGS<T, T>,
 ) -> C 
 where
     T: Float,

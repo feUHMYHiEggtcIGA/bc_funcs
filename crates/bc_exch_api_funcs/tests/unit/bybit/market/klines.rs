@@ -1,3 +1,5 @@
+use bc_utils_lg::enums::indicators::T_ARGS;
+
 use bc_exch_api_funcs::bybit::market::klines::*;
 
 #[tokio::test]
@@ -16,8 +18,8 @@ async fn klines_lch_1() -> Result<(), reqwest::Error>{
 }
 
 #[tokio::test]
-async fn klines_aon_lch_1(){
-    klines_aon(
+async fn klines_a_lch_1(){
+    klines_a(
         "https://api.bybit.com", 
         "linear",
         "SUIUSDT",
@@ -25,6 +27,72 @@ async fn klines_aon_lch_1(){
         &10,
         &0,
         &0,
+    )
+        .await;
+}
+
+#[tokio::test]
+async fn kline_symbols_lch_1(){
+    let symbols = vec![
+        "SUIUSDT".to_string(), 
+        "ETHUSDT".to_string(), 
+        "ATOMUSDT".to_string(),
+    ];
+    kline_symbols(
+        "https://api.bybit.com", 
+        "linear",
+        symbols.as_slice(),
+        "1",
+    )
+        .await;
+}
+
+#[tokio::test]
+async fn kline_symbols_a_lch_1(){
+    let symbols = vec![
+        "SUIUSDT".to_string(), 
+        "ETHUSDT".to_string(), 
+        "ATOMUSDT".to_string(),
+    ];
+    kline_symbols_a(
+        "https://api.bybit.com", 
+        "linear",
+        symbols.as_slice(),
+        "1",
+    )
+        .await;
+}
+
+#[tokio::test]
+async fn kline_symbols_ao_lch_1(){
+    let symbols = vec![
+        "SUIUSDT".to_string(), 
+        "ETHUSDT".to_string(), 
+        "ATOMUSDT".to_string(),
+    ];
+    kline_symbols_ao(
+        "https://api.bybit.com", 
+        "linear",
+        symbols.as_slice(),
+        "1",
+    )
+        .await;
+}
+
+#[tokio::test]
+async fn kline_symbols_ao_abstr_lch_1(){
+    let symbols = vec![
+        "SUIUSDT".to_string(), 
+        "ETHUSDT".to_string(), 
+        "ATOMUSDT".to_string(),
+    ];
+    kline_symbols_ao_abstr(
+        &vec![
+            T_ARGS::Str("https://api.bybit.com"),
+            T_ARGS::Str("linear"),
+            T_ARGS::Slice(symbols.as_slice()),
+            T_ARGS::Str("1"),
+        ],
     )
         .await;
 }
@@ -47,4 +115,23 @@ async fn klines_symbols_lch_1() -> Result<(), reqwest::Error>{
     )
         .await;
     Ok(())
+}
+
+#[tokio::test]
+async fn klines_symbols_a_lch_1(){
+    let symbols = vec![
+        "SUIUSDT".to_string(), 
+        "ETHUSDT".to_string(), 
+        "ATOMUSDT".to_string(),
+    ];
+    klines_symbols_a(
+        "https://api.bybit.com", 
+        "linear",
+        symbols.as_slice(),
+        "1",
+        &10,
+        &0,
+        &0,
+    )
+        .await;
 }

@@ -3,7 +3,7 @@
 
 use std::sync::LazyLock;
 
-use crate::types::structures_abstr::{
+use crate::structs_and_types::structures_abstr::{
     SRC as SRC_T,
     SRCS as SRCS_T,
 };

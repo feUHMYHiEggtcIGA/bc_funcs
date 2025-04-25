@@ -1,15 +1,15 @@
 use num_traits::Float;
 use rustc_hash::FxHashMap;
-use bc_utils_lg::structs::settings::SETTINGS_USED_MODS;
-use bc_utils_lg::types::maps_abstr::*;
+use bc_utils_lg::structs_and_types::settings::SETTINGS_USED_MODS;
+use bc_utils_lg::structs_and_types::maps_abstr::*;
 use bc_utils_lg::traits::coll::AS_SLICE;
 
 pub fn gw_mod_bf<T>(
     src: &T,
     map_ind: &FxHashMap<&'static str, T>,
     settings: &'static Vec<SETTINGS_USED_MODS>,
-    map_args_: &MAP_ARGS<T>,
-    map_mod_t_bf_: &MAP_MOD_T_BF<T>,
+    map_args_: &MAP_ARGS<T, T>,
+    map_mod_t_bf_: &MAP_MOD_T_BF<T, T>,
     bf: &mut MAP_BF_VEC<T>,
 ) -> T
 where 
@@ -39,8 +39,8 @@ pub fn gw_mod_f<T>(
     ind: &T,
     map_t: &FxHashMap<&'static str, T>,
     settings: &Vec<SETTINGS_USED_MODS>,
-    map_args_: &MAP_ARGS<T>,
-    map_mod_t_: &MAP_MOD_T<T>,
+    map_args_: &MAP_ARGS<T, T>,
+    map_mod_t_: &MAP_MOD_T<T, T>,
 ) -> T
 where 
     T: Float,
@@ -68,8 +68,8 @@ pub fn gw_mod_coll<C, T>(
     init_ind: C,
     map_ind: &FxHashMap<&'static str, C>,
     settings: &Vec<SETTINGS_USED_MODS>,
-    map_args_: &MAP_ARGS<T>,
-    map_mod_coll_: &MAP_MOD_COLL<C, T>,
+    map_args_: &MAP_ARGS<T, T>,
+    map_mod_coll_: &MAP_MOD_COLL<C, T, T>,
 ) -> C
 where 
     T: Float,
