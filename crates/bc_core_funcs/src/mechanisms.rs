@@ -76,37 +76,3 @@ where
     }
     res
 }
-
-pub async fn one_time_hm_abstr<'a, H, T, O, F, FUT>(
-    func: F,
-    args: &'a ARGS<'a, f64, String>,
-) -> H
-where
-    F: Fn(&'a ARGS<'a, f64, String>) -> FUT,
-    FUT: Future<Output = H>,
-    for<'b> &'b H: IntoIterator<Item = (&'b &'a str, &'b T)>,
-    for<'b> &'b T: IntoIterator<Item = &'b O>,
-    T: Index<usize, Output = O>,
-    O: PartialEq,
-{
-    let mut res = func(args).await;
-    let mut first = &res
-        .into_iter()
-        .next()
-        .unwrap()
-        .1
-        [0];
-    while res
-        .into_iter()
-        .any(|v| &v.1[0] != first)
-    {
-        res = func(args).await;
-        first = &res
-            .into_iter()
-            .next()
-            .unwrap()
-            .1
-            [0];
-    }
-    res
-}

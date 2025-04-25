@@ -80,24 +80,6 @@ async fn kline_symbols_ao_lch_1(){
 }
 
 #[tokio::test]
-async fn kline_symbols_ao_abstr_lch_1(){
-    let symbols = vec![
-        "SUIUSDT".to_string(), 
-        "ETHUSDT".to_string(), 
-        "ATOMUSDT".to_string(),
-    ];
-    kline_symbols_ao_abstr(
-        &vec![
-            T_ARGS::Str("https://api.bybit.com"),
-            T_ARGS::Str("linear"),
-            T_ARGS::Slice(symbols.as_slice()),
-            T_ARGS::Str("1"),
-        ],
-    )
-        .await;
-}
-
-#[tokio::test]
 async fn klines_symbols_lch_1() -> Result<(), reqwest::Error>{
     let symbols = vec![
         "SUIUSDT".to_string(), 
