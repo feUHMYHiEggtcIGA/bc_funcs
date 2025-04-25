@@ -1,16 +1,16 @@
 use std::ops::Index;
 
-use bc_utils_lg::structs_and_types::structures_abstr::ARGS;
 use reqwest::Error as Error_req;
 
 
-pub async fn all_or_nothing<'a, T, F, FUT,>(
+pub async fn all_or_nothing<T, F, FUT, AR>(
     func: F,
-    args: &'a ARGS<'_, f64, String>,
+    args: &AR,
 ) -> T
 where 
+    AR: Sized,
     FUT: Future<Output = Result<T, Error_req>>,
-    F: Fn(&'a ARGS<f64, String>) -> FUT,
+    F: Fn(&AR) -> FUT,
 {
     let mut res = func(args).await;
     while res.is_err() {
@@ -19,15 +19,16 @@ where
     res.unwrap()
 }
 
-pub async fn one_time<'a, T, O, F, FUT,>(
+pub async fn one_time<'a, T, O, F, FUT, AR>(
     func: F,
-    args: &ARGS<'a, f64, String>,
+    args: &AR,
 ) -> T
 where 
+    AR: Sized,
     for<'c> &'c T: IntoIterator<Item = &'c O>,
     T: Index<usize, Output = O>,
     O: PartialEq,
-    F: Fn(&ARGS<'a, f64, String>) -> FUT,
+    F: Fn(&AR) -> FUT,
     FUT: Future<Output = T>,
 {
     let mut res = func(args).await;

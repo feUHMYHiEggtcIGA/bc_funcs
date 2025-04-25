@@ -5,7 +5,6 @@ use reqwest::{
     get,
 };
 use bc_utils_lg::structs_and_types::exch::bybit::klines::RESULT_KLINE_W;
-use bc_utils_lg::enums::indicators::T_ARGS;
 use futures::future::join_all;
 use bc_utils_lg::structs_and_types::maps_abstr::MAP;
 use bc_core_funcs::mechanisms::{
@@ -57,24 +56,32 @@ pub async fn klines_a(
 ) -> Vec<Vec<String>>
 {
     all_or_nothing(
-        |v| klines(
-            v[0].unwrap_str(),
-            v[1].unwrap_str(),
-            v[2].unwrap_str(),
-            v[3].unwrap_str(),
-            v[4].unwrap_usize(),
-            v[5].unwrap_usize(),
-            v[6].unwrap_usize(),
+        |(
+            api_url,
+            category,
+            symbol,
+            interval,
+            limit,
+            start,
+            end,
+        )| klines(
+            api_url,
+            category,
+            symbol,
+            interval,
+            limit,
+            start,
+            end,
         ),
-        &vec![
-            T_ARGS::Str(api_url),
-            T_ARGS::Str(category),
-            T_ARGS::Str(symbol),
-            T_ARGS::Str(interval),
-            T_ARGS::Usize(*limit),
-            T_ARGS::Usize(*start),
-            T_ARGS::Usize(*end),
-        ],
+        &(
+            api_url,
+            category,
+            symbol,
+            interval,
+            limit,
+            start,
+            end,
+        ),
     ).await
 }
 
