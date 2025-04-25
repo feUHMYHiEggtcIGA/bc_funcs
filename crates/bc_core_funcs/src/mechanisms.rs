@@ -75,3 +75,37 @@ where
     }
     res
 }
+
+pub async fn one_time_hm_kline<'a, H, T, O, F, FUT>(
+    func: F,
+    args: (&'a str, &'a str, &'a [String], &'a str),
+) -> H
+where
+    for<'b> &'b H: IntoIterator<Item = (&'b &'a str, &'b T)>,
+    for<'b> &'b T: IntoIterator<Item = &'b O>,
+    T: Index<usize, Output = O>,
+    O: PartialEq,
+    F: Fn(&'a str, &'a str, &'a [String], &'a str) -> FUT,
+    FUT: Future<Output = H>,
+{
+    let mut res = func(args.0, args.1, args.2, args.3).await;
+    let mut first = &res
+        .into_iter()
+        .next()
+        .unwrap()
+        .1
+        [0];
+    while res
+        .into_iter()
+        .any(|v| &v.1[0] != first)
+    {
+        res = func(args.0, args.1, args.2, args.3).await;
+        first = &res
+            .into_iter()
+            .next()
+            .unwrap()
+            .1
+            [0];
+    }
+    res
+}

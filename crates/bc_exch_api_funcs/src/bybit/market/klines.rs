@@ -4,13 +4,17 @@ use reqwest::{
     Error as Error_req,
     get,
 };
-use bc_utils_lg::structs_and_types::{exch::bybit::klines::RESULT_KLINE_W, structures_abstr::ARGS};
+use bc_utils_lg::structs_and_types::{
+    exch::bybit::klines::RESULT_KLINE_W, 
+    structures_abstr::ARGS
+};
 use bc_utils_lg::enums::indicators::T_ARGS;
 use futures::future::join_all;
 use bc_utils_lg::structs_and_types::maps_abstr::MAP;
 use bc_core_funcs::mechanisms::{
     all_or_nothing, 
     one_time_hm,
+    one_time_hm_kline,
 };
 
 use crate::bybit::api_url::KLINE;
@@ -139,34 +143,10 @@ pub async fn kline_symbols_ao<'a>(
     interval: &'a str,
 ) -> MAP<&'a str, Vec<String>>
 {   
-    let mut res = kline_symbols_a(api_url, 
-        category, 
-        symbols, 
-        interval,
-    ).await;
-    let mut first = &res
-        .iter()
-        .next()
-        .unwrap()
-        .1
-        [0];
-    while res
-        .iter()
-        .any(|v| &v.1[0] != first)
-    {
-        res = kline_symbols_a(api_url, 
-            category, 
-            symbols, 
-            interval,
-        ).await;
-        first = &res
-            .iter()
-            .next()
-            .unwrap()
-            .1
-            [0];
-    }
-    res
+    one_time_hm_kline(
+        kline_symbols_a,
+        (api_url, category, symbols, interval),
+    ).await
 }
 
 pub async fn kline_symbols_ao_abstr<'a>(
