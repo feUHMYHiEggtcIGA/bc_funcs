@@ -32,7 +32,7 @@ pub fn window_tqo_b(
 }
 
 pub fn window_tqo_b_abstr<T>(
-    args: &ARGS<T, T>,
+    args: &ARGS<T>,
 ) -> usize
 where 
     T: Float,
@@ -156,7 +156,7 @@ where
 #[allow(clippy::ptr_arg)]
 pub fn tqo_b_bf_abstr< T>(
     src: &SRC_ARG<T>,
-    args: &ARGS<T, T>,
+    args: &ARGS<T>,
     bf: & mut BF_VEC<T>,
 ) -> T
 where 
@@ -181,7 +181,7 @@ where
 
 pub fn tqo_b_f_abstr<T>(
     src: &SRCS_ARG<T>,
-    args: &ARGS<T, T>,
+    args: &ARGS<T>,
 ) -> T
 where 
     T: Float,
@@ -287,7 +287,7 @@ where
 
 pub fn tqo_b_coll_abstr<C, T>(
     src: &SRCS_ARG<T>,
-    args: &ARGS<T, T>,
+    args: &ARGS<T>,
 ) -> C
 where 
     T: Float,

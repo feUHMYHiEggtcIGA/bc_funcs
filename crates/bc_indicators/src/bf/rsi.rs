@@ -57,7 +57,7 @@ where
 
 pub fn bf_rsi_abstr<T, V>(
     src: &SRCS_ARG<V>,
-    args: &ARGS<T, T>,
+    args: &ARGS<T>,
     exc_last: &bool,
 ) -> BF_VEC<T>
 where 

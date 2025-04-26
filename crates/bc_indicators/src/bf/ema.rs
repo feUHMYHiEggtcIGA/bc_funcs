@@ -54,7 +54,7 @@ where
 // todo: check links of returned values
 pub fn bf_ema_abstr<'a, T>(
     src: &SRCS_ARG<T>,
-    args: &ARGS<T, T>,
+    args: &ARGS<T>,
     exc_last: &bool,
 ) -> BF_VEC<T>
 where 

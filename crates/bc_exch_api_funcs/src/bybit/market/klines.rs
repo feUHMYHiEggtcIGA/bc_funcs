@@ -56,7 +56,7 @@ pub async fn klines_a(
 ) -> Vec<Vec<String>>
 {
     all_or_nothing(
-        |(
+        async || klines(
             api_url,
             category,
             symbol,
@@ -64,24 +64,7 @@ pub async fn klines_a(
             limit,
             start,
             end,
-        )| klines(
-            api_url,
-            category,
-            symbol,
-            interval,
-            limit,
-            start,
-            end,
-        ),
-        &(
-            api_url,
-            category,
-            symbol,
-            interval,
-            limit,
-            start,
-            end,
-        ),
+        ).await,
     ).await
 }
 
@@ -147,13 +130,12 @@ pub async fn kline_symbols_ao<'a>(
 ) -> MAP<&'a str, Vec<String>>
 {   
     one_time_hm(
-        |(api_url, category, symbols, interval)| kline_symbols_a(
+        async || kline_symbols_a(
             api_url, 
             category, 
             symbols, 
             interval,
-        ),
-        &(api_url, category, symbols, interval),
+        ).await,
     ).await
 }
 

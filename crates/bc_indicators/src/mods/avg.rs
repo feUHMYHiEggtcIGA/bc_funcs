@@ -8,7 +8,7 @@ use bc_utils::nums::avg_with;
 pub fn avg_abstr<T>(
     v: &T,
     add: &SRC_ARG<T>,
-    _: &ARGS<T, T>, 
+    _: &ARGS<T>, 
 ) -> T
 where 
     T: Float,
@@ -20,7 +20,7 @@ where
 pub fn avg_from_coll_abstr<T>(
     v: &SRC_ARG<T>,
     add: &SRCS_ARG<T>,
-    _: &ARGS<T, T>
+    _: &ARGS<T>
 ) -> T
 where 
     T: Float,
@@ -32,7 +32,7 @@ where
 pub fn avg_bf_abstr<T>(
     v: &T,
     add: &SRC_ARG<T>,
-    _: &ARGS<T, T>, 
+    _: &ARGS<T>, 
     _: &mut BF_VEC<T>
 ) -> T
 where 
@@ -72,7 +72,7 @@ where
 pub fn avg_coll_abstr<C, T>(
     src: &SRC_ARG<T>,
     add: &SRCS_ARG<T>,
-    _: &ARGS<T, T>,
+    _: &ARGS<T>,
 ) -> C
 where 
     T: Float,

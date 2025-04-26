@@ -14,8 +14,8 @@ use crate::gw::mods::*;
 pub fn gw_src_f<T>(
     buff_src: &SRCS<T>,
     settings: &'static Vec<SETTINGS_USED_SRC>,
-    map_mod_abstr_: &MAP_MOD_T<T, T>,
-    map_map_args_mods: &MAP1_ARGS<T, T>,
+    map_mod_abstr_: &MAP_MOD_T<T>,
+    map_map_args_mods: &MAP1_ARGS<T>,
     init_coll: Vec<T>,
     func_add: fn(&mut Vec<T>, T),
 ) -> Vec<T>
@@ -54,8 +54,8 @@ where
 pub fn gw_src_coll<C, M, T>(
     src: &SRCS<T>,
     settings: &'static Vec<SETTINGS_USED_SRC>,
-    map_mod_coll_abstr_: &MAP_MOD_COLL<C, T, T>,
-    map_map_args_mods: &MAP1_ARGS<T, T>,
+    map_mod_coll_abstr_: &MAP_MOD_COLL<C, T>,
+    map_map_args_mods: &MAP1_ARGS<T>,
     init_coll: M,
     func_add: fn(&mut M, C)
 ) -> M

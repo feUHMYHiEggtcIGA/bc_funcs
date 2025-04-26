@@ -19,7 +19,7 @@ where
 
 pub fn percent_abstr<T, V>(
     src: &SRC_ARG<T>,
-    _: &ARGS<T, T>,
+    _: &ARGS<T>,
 ) -> T 
 where
     T: Float,
@@ -48,7 +48,7 @@ where
 
 pub fn percent_coll_abstr<C, T, V>(
     src: &SRCS_ARG<T>,
-    _: ARGS<T, T>,
+    _: &ARGS<T>,
 ) -> C
 where 
     T: Float,

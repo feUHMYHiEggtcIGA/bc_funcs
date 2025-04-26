@@ -9,7 +9,7 @@ use bc_utils_lg::structs_and_types::settings::{SETTINGS_IND, SETTINGS_USED_MODS}
 #[must_use]
 pub fn map_args_ind<T>(
     settings: &'static Vec<SETTINGS_IND>
-) -> MAP_ARGS<T, T>
+) -> MAP_ARGS<T>
 where  
     T: Float,
 {
@@ -20,15 +20,15 @@ where
             (
                 setting.key_uniq.as_str(),
                 match setting.key.as_str() {
-                    "sma" | "rma" | "ema" | "rsi" => vec![T_ARGS::<T, T>::Usize(setting.kwargs_usize["window"])],
+                    "sma" | "rma" | "ema" | "rsi" => vec![T_ARGS::<T>::Usize(setting.kwargs_usize["window"])],
                     "tqo_b" => vec![
-                        T_ARGS::<T, T>::Usize(setting.kwargs_usize["window_ema_fast"]),
-                        T_ARGS::<T, T>::Usize(setting.kwargs_usize["window_ema_slow"]),
-                        T_ARGS::<T, T>::Usize(setting.kwargs_usize["window_trend"]),
-                        T_ARGS::<T, T>::Usize(setting.kwargs_usize["window_noise"]),
-                        T_ARGS::<T, T>::Usize(setting.kwargs_usize["add_iters"]),
-                        T_ARGS::<T, T>::Float(T::from(setting.kwargs_f64["correlation_factor"]).unwrap()),
-                        T_ARGS::<T, T>::String(setting.kwargs_string["noise_type"].clone()),
+                        T_ARGS::<T>::Usize(setting.kwargs_usize["window_ema_fast"]),
+                        T_ARGS::<T>::Usize(setting.kwargs_usize["window_ema_slow"]),
+                        T_ARGS::<T>::Usize(setting.kwargs_usize["window_trend"]),
+                        T_ARGS::<T>::Usize(setting.kwargs_usize["window_noise"]),
+                        T_ARGS::<T>::Usize(setting.kwargs_usize["add_iters"]),
+                        T_ARGS::<T>::Float(T::from(setting.kwargs_f64["correlation_factor"]).unwrap()),
+                        T_ARGS::<T>::String(setting.kwargs_string["noise_type"].clone()),
                     ],
                     _ => panic!("key indication unknown"),
                 }
@@ -39,7 +39,7 @@ where
 
 fn map_args_mod<T>(
     settings: &'static Vec<SETTINGS_USED_MODS>
-) -> MAP_ARGS<T, T>
+) -> MAP_ARGS<T>
 where 
     T: Float
 {
@@ -67,7 +67,7 @@ where
 #[must_use]
 pub fn map1_args_mod<T>(
     settings: &'static Vec<SETTINGS_IND>,
-) -> MAP1_ARGS<T, T>
+) -> MAP1_ARGS<T>
 where 
     T: Float,
 {
@@ -86,7 +86,7 @@ where
 #[must_use]
 pub fn map2_args_mods_src<T>(
     settings: &'static Vec<SETTINGS_IND>
-) -> MAP2_ARGS<T, T>
+) -> MAP2_ARGS<T>
 where 
     T: Float,
 {

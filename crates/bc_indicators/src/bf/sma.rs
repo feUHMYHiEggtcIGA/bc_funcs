@@ -35,7 +35,7 @@ where
 
 pub fn bf_sma_abstr<'a, T>(
     src: &SRCS_ARG<T>,
-    args: &ARGS<T, T>,
+    args: &ARGS<T>,
     exc_last: &bool,
 ) -> BF_VEC<T>
 where 

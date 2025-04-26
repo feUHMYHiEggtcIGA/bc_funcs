@@ -30,7 +30,7 @@ where
 
 pub fn mult_osc_abstr<T, V>(
     src: &SRC_ARG<V>,
-    args: &ARGS<T, T>,
+    args: &ARGS<T>,
 ) -> T
 where
     T: Float,
@@ -58,7 +58,7 @@ where
 
 pub fn mult_osc_coll_abstr<C, T, V>(
     src: &SRCS_ARG<V>,
-    args: &ARGS<T, T>
+    args: &ARGS<T>
 ) -> C
 where
     T: Float,

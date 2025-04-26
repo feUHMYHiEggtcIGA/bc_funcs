@@ -24,7 +24,7 @@ where
 
 pub fn mult_diff_abstr<T, V>(
     src: &SRC_ARG<V>,
-    args: &ARGS<T, T>,
+    args: &ARGS<T>,
 ) -> T
 where 
     T: Float,
@@ -52,7 +52,7 @@ where
 
 pub fn mult_diff_coll_abstr<C, T, V>(
     src: &SRCS_ARG<T>,
-    args: &ARGS<T, T>
+    args: &ARGS<T>
 ) -> C
 where 
     T: Float,

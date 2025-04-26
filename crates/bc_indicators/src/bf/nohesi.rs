@@ -54,7 +54,7 @@ where
 pub fn bf_nohesi_abstr<'a, T>(
     src: &SRC_ARG<T>,
     _: &SRCS_ARG<T>,
-    args: &ARGS<T, T>,
+    args: &ARGS<T>,
     exc_last: &bool
 ) -> BF_VEC<T>
 where  

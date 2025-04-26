@@ -25,12 +25,12 @@ use crate::gw::{
 pub fn gw_ind_bf<T>(
     buff_src: &SRCS<T>,
     settings: &'static Vec<SETTINGS_IND>,
-    map_ind_bf_: &MAP_IND_T_BF<T, T>,
-    map_mods_bf_all_: &MAP_MOD_T_BF<T, T>,
-    map_mod_f_: &MAP_MOD_T<T, T>,
-    map_args_ind_bf_: &MAP_ARGS<T, T>,
-    map1_args_mods_ind_: &MAP1_ARGS<T, T>,
-    map2_args_mods_src_: &MAP2_ARGS<T, T>,
+    map_ind_bf_: &MAP_IND_T_BF<T>,
+    map_mods_bf_all_: &MAP_MOD_T_BF<T>,
+    map_mod_f_: &MAP_MOD_T<T>,
+    map_args_ind_bf_: &MAP_ARGS<T>,
+    map1_args_mods_ind_: &MAP1_ARGS<T>,
+    map2_args_mods_src_: &MAP2_ARGS<T>,
     map_bf_ind: &mut MAP_BF_VEC<T>,
     map_bf_mods: &mut MAP1_BF_VEC<T>,
 ) -> FxHashMap<&'static str, T>
@@ -76,10 +76,10 @@ where
 pub fn gw_ind_coll<C, M, T>(
     src: &SRCS<T>,
     settings: &'static Vec<SETTINGS_IND>,
-    map_ind_coll_abstr_: &MAP_IND_COLL<C, T, T>,
-    map_args_: &MAP_ARGS<T, T>,
-    map_mod_coll_: &MAP_MOD_COLL<C, T, T>,
-    map_map_map_args_mods_src_: &MAP2_ARGS<T, T>,
+    map_ind_coll_abstr_: &MAP_IND_COLL<C, T>,
+    map_args_: &MAP_ARGS<T>,
+    map_mod_coll_: &MAP_MOD_COLL<C, T>,
+    map_map_map_args_mods_src_: &MAP2_ARGS<T>,
     init_coll: M,
     func_add: fn(&mut M, C),
 ) -> FxHashMap<&'static str, C>

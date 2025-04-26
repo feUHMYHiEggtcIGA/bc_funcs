@@ -47,7 +47,7 @@ where
 #[allow(clippy::pedantic)]
 pub fn rsi_bf_abstr<T>(
     src: &SRC_ARG<T>,
-    _: &ARGS<T, T>, 
+    _: &ARGS<T>, 
     bf: & mut BF_VEC<T>
 ) -> T 
 where 
@@ -90,7 +90,7 @@ where
 
 pub fn rsi_f_abstr<T>(
     src: &SRCS_ARG<T>,
-    args: &ARGS<T, T>,
+    args: &ARGS<T>,
 ) -> T
 where 
     T: Float,
@@ -147,7 +147,7 @@ where
 
 pub fn rsi_coll_abstr<C, T>(
     src: &SRCS_ARG<T>,
-    args: &ARGS<T, T>,
+    args: &ARGS<T>,
 ) -> C 
 where
     T: Float,

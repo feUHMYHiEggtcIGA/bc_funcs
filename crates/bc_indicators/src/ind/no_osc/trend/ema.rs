@@ -48,7 +48,7 @@ where
 #[allow(clippy::needless_borrows_for_generic_args)]
 pub fn ema_bf_abstr<T>(
     src: &SRC_ARG<T>,
-    _: &ARGS<T, T>, 
+    _: &ARGS<T>, 
     bf: &mut BF_VEC<T>
 ) -> T 
 where 
@@ -80,7 +80,7 @@ where
 
 pub fn ema_f_abstr<T>(
     src: &SRCS_ARG<T>,
-    args: &ARGS<T, T>,
+    args: &ARGS<T>,
 ) -> T
 where 
     T: Float,
@@ -121,7 +121,7 @@ where
 
 pub fn ema_coll_abstr<C, T>(
     src: &SRCS_ARG<T>,
-    args: &ARGS<T, T>,
+    args: &ARGS<T>,
 ) -> C 
 where
     T: Float,

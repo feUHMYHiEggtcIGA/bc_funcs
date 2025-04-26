@@ -47,7 +47,7 @@ where
 pub fn nohesi_bf_abstr<T>(
     v: &T,
     _: &SRC_ARG<T>,
-    args: &ARGS<T, T>, 
+    args: &ARGS<T>, 
     bf: &mut BF_VEC<T>,
 ) -> T 
 where 
@@ -79,7 +79,7 @@ where
 pub fn nohesi_f_abstr<T>(
     src: &SRC_ARG<T>,
     _: &SRCS_ARG<T>,
-    args: &ARGS<T, T>,
+    args: &ARGS<T>,
 ) -> T
 where 
     T: Float,
@@ -106,7 +106,7 @@ where
 pub fn nohesi_coll_abstr<C, T>(
     src: &SRC_ARG<T>,
     _: &SRCS_ARG<T>,
-    args: &ARGS<T, T>,
+    args: &ARGS<T>,
 ) -> C
 where
     T: Float,

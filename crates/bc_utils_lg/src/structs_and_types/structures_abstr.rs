@@ -6,7 +6,7 @@ use crate::enums::indicators::*;
 
 
 pub type BF_VEC<T> = Vec<T_HASHMAP<T>>;
-pub type ARGS<'a, F, T> = Vec<T_ARGS<'a, F, T>>;
+pub type ARGS<'a, F> = Vec<T_ARGS<'a, F>>;
 pub type SRC<T> = FxHashMap<String, T>;
 pub type SRCS<'a, T> = FxHashMap<String, Vec<T>>;
 pub type SRC_ARG<T> = [T];
