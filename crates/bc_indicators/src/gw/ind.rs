@@ -7,9 +7,9 @@ use std::vec;
 
 use num_traits::Float;
 use rustc_hash::FxHashMap;
-use bc_utils_lg::structs_and_types::maps_abstr::*;
-use bc_utils_lg::structs_and_types::structures_abstr::*;
-use bc_utils_lg::structs_and_types::settings::SETTINGS_IND;
+use bc_utils_lg::types::maps::*;
+use bc_utils_lg::types::structures::*;
+use bc_utils_lg::structs::settings::SETTINGS_IND;
 use bc_utils_lg::traits::coll::{AS_ITER, AS_SLICE};
 
 use crate::gw::{

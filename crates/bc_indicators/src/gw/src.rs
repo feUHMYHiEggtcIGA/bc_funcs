@@ -4,9 +4,9 @@ use bc_utils::other::coll1_roll_replace_el;
 use bc_utils_lg::traits::coll::AS_SLICE;
 use num_traits::Float;
 use rustc_hash::FxHashMap;
-use bc_utils_lg::structs_and_types::settings::SETTINGS_USED_SRC;
-use bc_utils_lg::structs_and_types::structures_abstr::*;
-use bc_utils_lg::structs_and_types::maps_abstr::*;
+use bc_utils_lg::structs::settings::SETTINGS_USED_SRC;
+use bc_utils_lg::types::structures::*;
+use bc_utils_lg::types::maps::*;
 
 use crate::gw::mods::*;
 

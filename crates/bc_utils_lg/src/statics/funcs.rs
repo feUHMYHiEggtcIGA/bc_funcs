@@ -1,6 +1,6 @@
 use num_traits::Float;
 
-use crate::structs_and_types::structures_abstr::*;
+use crate::types::structures::*;
 
 pub fn fn_bf_mod_abstr_default<T>(
     _: &SRC_ARG<T>,

@@ -1,6 +1,6 @@
 #![allow(non_camel_case_types)]
 
-use crate::structs_and_types::structures_abstr::*;
+use crate::types::structures::*;
 
 pub type FUNC_USIZE<T> = fn(&ARGS<T>) -> usize;
 pub type FUNC_T<T> = fn(&ARGS<T>) -> T;

@@ -4,8 +4,8 @@ use std::ops::{
 };
 
 use num_traits::Float;
-use bc_utils_lg::structs_and_types::funcs_abstr::*;
-use bc_utils_lg::structs_and_types::maps_abstr::*;
+use bc_utils_lg::types::funcs::*;
+use bc_utils_lg::types::maps::*;
 use bc_utils_lg::statics::funcs::fn_bf_mod_abstr_default;
 
 use crate::bf::{

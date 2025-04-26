@@ -6,16 +6,8 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
 #[derive(std::fmt::Debug)]
-pub struct RESULT_KLINE{
+pub struct RESULT_KLINE_W{
     pub symbol: String,
     pub category: String,
     pub list: Vec<Vec<String>>,
-}
-
-#[derive(Serialize, Deserialize)]
-#[derive(std::fmt::Debug)]
-pub struct RESULT_KLINE_W{
-    pub retCode: i32,
-    pub retMsg: String,
-    pub result: RESULT_KLINE,
 }

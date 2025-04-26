@@ -2,7 +2,7 @@ use std::borrow::Borrow;
 
 use num_traits::Float;
 use rustc_hash::FxHashMap;
-use bc_utils_lg::structs_and_types::structures_abstr::{ARGS, BF_VEC, SRCS_ARG, SRC_ARG};
+use bc_utils_lg::types::structures::{ARGS, BF_VEC, SRCS_ARG, SRC_ARG};
 
 use crate::bf::nohesi::bf_nohesi;
 

@@ -3,8 +3,8 @@ use core::f64;
 use bc_indicators::gw::mods::gw_mod_coll;
 use bc_utils::other::coll1_roll_replace_el;
 use bc_utils_lg::statics::prices::{CLOSE, SRCS};
-use bc_utils_lg::structs_and_types::maps_abstr::*;
-use bc_utils_lg::structs_and_types::settings::SETTINGS_USED_MODS;
+use bc_utils_lg::types::maps::*;
+use bc_utils_lg::structs::settings::SETTINGS_USED_MODS;
 use bc_utils_lg::implement::structures::VEC;
 use rustc_hash::FxHashMap;
 

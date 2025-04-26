@@ -6,7 +6,7 @@ use std::borrow::Borrow;
 
 use num_traits::Float;
 use rustc_hash::FxHashMap;
-use bc_utils_lg::structs_and_types::structures_abstr::*;
+use bc_utils_lg::types::structures::*;
 
 use crate::bf::ema::bf_ema;
 

@@ -2,8 +2,8 @@
 
 use rustc_hash::FxHashMap;
 
-use crate::structs_and_types::funcs_abstr::*;
-use crate::structs_and_types::structures_abstr::*;
+use crate::types::funcs::*;
+use crate::types::structures::*;
 
 
 pub type MAP<K, V> = FxHashMap<K, V>;

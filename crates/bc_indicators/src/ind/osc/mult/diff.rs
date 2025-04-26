@@ -1,7 +1,7 @@
 use std::borrow::Borrow;
 
 use num_traits::Float;
-use bc_utils_lg::structs_and_types::structures_abstr::{ARGS, SRCS_ARG, SRC_ARG};
+use bc_utils_lg::types::structures::{ARGS, SRCS_ARG, SRC_ARG};
 
 pub fn mult_diff<T, V>(
     v1: V,

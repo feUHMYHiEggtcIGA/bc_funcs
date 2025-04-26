@@ -1,7 +1,7 @@
 use bc_exch_api_funcs::bybit::market::klines::*;
 
 #[tokio::test]
-async fn klines_lch_1() -> Result<(), reqwest::Error>{
+async fn klines_lch_1() {
     klines(
         "https://api.bybit.com", 
         "linear",
@@ -11,12 +11,12 @@ async fn klines_lch_1() -> Result<(), reqwest::Error>{
         &0,
         &0,
     )
-        .await?;
-    Ok(())
+        .await
+        .unwrap();
 }
 
 #[tokio::test]
-async fn klines_a_lch_1(){
+async fn klines_a_lch_1() {
     klines_a(
         "https://api.bybit.com", 
         "linear",
@@ -30,7 +30,7 @@ async fn klines_a_lch_1(){
 }
 
 #[tokio::test]
-async fn kline_symbols_lch_1(){
+async fn kline_symbols_lch_1() {
     let symbols = vec![
         "SUIUSDT".to_string(), 
         "ETHUSDT".to_string(), 
@@ -46,7 +46,7 @@ async fn kline_symbols_lch_1(){
 }
 
 #[tokio::test]
-async fn kline_symbols_a_lch_1(){
+async fn kline_symbols_a_lch_1() {
     let symbols = vec![
         "SUIUSDT".to_string(), 
         "ETHUSDT".to_string(), 
@@ -62,7 +62,7 @@ async fn kline_symbols_a_lch_1(){
 }
 
 #[tokio::test]
-async fn kline_symbols_ao_lch_1(){
+async fn kline_symbols_ao_lch_1() {
     let symbols = vec![
         "SUIUSDT".to_string(), 
         "ETHUSDT".to_string(), 
@@ -78,7 +78,7 @@ async fn kline_symbols_ao_lch_1(){
 }
 
 #[tokio::test]
-async fn klines_symbols_lch_1() -> Result<(), reqwest::Error>{
+async fn klines_symbols_lch_1() {
     let symbols = vec![
         "SUIUSDT".to_string(), 
         "ETHUSDT".to_string(), 
@@ -94,11 +94,10 @@ async fn klines_symbols_lch_1() -> Result<(), reqwest::Error>{
         &0,
     )
         .await;
-    Ok(())
 }
 
 #[tokio::test]
-async fn klines_symbols_a_lch_1(){
+async fn klines_symbols_a_lch_1() {
     let symbols = vec![
         "SUIUSDT".to_string(), 
         "ETHUSDT".to_string(), 

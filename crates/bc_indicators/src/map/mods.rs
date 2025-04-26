@@ -2,8 +2,8 @@ use std::ops::AddAssign;
 use std::iter::Sum;
 
 use num_traits::Float;
-use bc_utils_lg::structs_and_types::funcs_abstr::*;
-use bc_utils_lg::structs_and_types::maps_abstr::*;
+use bc_utils_lg::types::funcs::*;
+use bc_utils_lg::types::maps::*;
 
 use crate::mods::{
     avg::{avg_abstr, avg_coll_abstr, avg_from_coll_abstr, avg_bf_abstr},

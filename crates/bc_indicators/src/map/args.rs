@@ -1,7 +1,7 @@
 use num_traits::Float;
 use bc_utils_lg::enums::indicators::*;
-use bc_utils_lg::structs_and_types::maps_abstr::*;
-use bc_utils_lg::structs_and_types::settings::{SETTINGS_IND, SETTINGS_USED_MODS};
+use bc_utils_lg::types::maps::*;
+use bc_utils_lg::structs::settings::{SETTINGS_IND, SETTINGS_USED_MODS};
 
 
 #[allow(clippy::missing_panics_doc)]
@@ -9,7 +9,7 @@ use bc_utils_lg::structs_and_types::settings::{SETTINGS_IND, SETTINGS_USED_MODS}
 #[must_use]
 pub fn map_args_ind<T>(
     settings: &'static Vec<SETTINGS_IND>
-) -> MAP_ARGS<T>
+) -> MAP_ARGS<'static, T>
 where  
     T: Float,
 {
@@ -39,7 +39,7 @@ where
 
 fn map_args_mod<T>(
     settings: &'static Vec<SETTINGS_USED_MODS>
-) -> MAP_ARGS<T>
+) -> MAP_ARGS<'static, T>
 where 
     T: Float
 {
@@ -67,7 +67,7 @@ where
 #[must_use]
 pub fn map1_args_mod<T>(
     settings: &'static Vec<SETTINGS_IND>,
-) -> MAP1_ARGS<T>
+) -> MAP1_ARGS<'static, T>
 where 
     T: Float,
 {
@@ -86,7 +86,7 @@ where
 #[must_use]
 pub fn map2_args_mods_src<T>(
     settings: &'static Vec<SETTINGS_IND>
-) -> MAP2_ARGS<T>
+) -> MAP2_ARGS<'static, T>
 where 
     T: Float,
 {

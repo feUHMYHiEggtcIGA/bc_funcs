@@ -4,15 +4,16 @@ use reqwest::{
     Error as Error_req,
     get,
 };
-use bc_utils_lg::structs_and_types::exch::bybit::klines::RESULT_KLINE_W;
+use bc_utils_lg::structs::exch::bybit::result::RESULT_EXCH_BYBIT;
+use bc_utils_lg::structs::exch::bybit::klines::RESULT_KLINE_W;
 use futures::future::join_all;
-use bc_utils_lg::structs_and_types::maps_abstr::MAP;
+use bc_utils_lg::types::maps::MAP;
 use bc_core_funcs::mechanisms::{
     all_or_nothing, 
     one_time_hm,
 };
 
-use crate::bybit::api_url::KLINE;
+use crate::bybit::url_const::KLINE;
 
 
 pub async fn klines(
@@ -38,7 +39,7 @@ pub async fn klines(
             )
         )
             .await?
-            .json::<RESULT_KLINE_W>()
+            .json::<RESULT_EXCH_BYBIT<RESULT_KLINE_W>>()
         .await?
         .result
         .list

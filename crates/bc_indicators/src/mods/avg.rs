@@ -1,7 +1,7 @@
 use std::borrow::Borrow;
 
 use num_traits::Float;
-use bc_utils_lg::structs_and_types::structures_abstr::{ARGS, SRC_ARG, SRCS_ARG, BF_VEC};
+use bc_utils_lg::types::structures::{ARGS, SRC_ARG, SRCS_ARG, BF_VEC};
 use bc_utils::nums::avg_with;
 
 

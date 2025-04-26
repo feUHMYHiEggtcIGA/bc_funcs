@@ -1,8 +1,8 @@
-use bc_utils_lg::structs_and_types::settings::SETTINGS_IND;
+use bc_utils_lg::structs::settings::SETTINGS_IND;
 use num_traits::Float;
-use bc_utils_lg::structs_and_types::funcs_abstr::FUNC_USIZE;
-use bc_utils_lg::structs_and_types::maps_abstr::*;
-use bc_utils_lg::structs_and_types::structures_abstr::ARGS;
+use bc_utils_lg::types::funcs::FUNC_USIZE;
+use bc_utils_lg::types::maps::*;
+use bc_utils_lg::types::structures::ARGS;
 use rustc_hash::FxHashMap;
 
 use crate::ind::osc::trend::tqo_b::window_tqo_b_abstr;

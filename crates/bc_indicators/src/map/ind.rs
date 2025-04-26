@@ -1,8 +1,8 @@
 use std::iter::Sum;
 
 use num_traits::Float;
-use bc_utils_lg::structs_and_types::maps_abstr::*;
-use bc_utils_lg::structs_and_types::funcs_abstr::*;
+use bc_utils_lg::types::maps::*;
+use bc_utils_lg::types::funcs::*;
 
 use crate::ind::{
     no_osc::trend::ema::{ema_bf_abstr, ema_f_abstr, ema_coll_abstr},

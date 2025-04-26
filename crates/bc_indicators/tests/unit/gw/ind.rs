@@ -3,7 +3,7 @@ use bc_utils_lg::statics::settings::{
     SETTINGS_IND_TEST,
 };
 use bc_utils_lg::statics::prices::SRCS;
-use bc_utils_lg::structs_and_types::maps_abstr::MAP_COLL;
+use bc_utils_lg::types::maps::MAP_COLL;
 use bc_utils_lg::implement::structures::VEC;
 
 use bc_indicators::gw::bf::gw_func_bf_ind;
