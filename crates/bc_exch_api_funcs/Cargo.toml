@@ -1,6 +1,6 @@
 [package]
 name = "bc_exch_api_funcs"
-version = "0.1.2"
+version = "0.1.3"
 edition = "2024"
 
 [dependencies]
@@ -24,4 +24,9 @@ harness = false
 [[bench]]
 name = "instr_info_bybit"
 path = "benches/bybit/market/instr_info.rs"
+harness = false
+
+[[bench]]
+name = "symbols_bybit"
+path = "benches/bybit/market/symbols.rs"
 harness = false

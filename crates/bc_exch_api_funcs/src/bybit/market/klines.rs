@@ -16,7 +16,7 @@ use bc_core_funcs::mechanisms::{
 use crate::bybit::url_const::KLINE;
 
 
-pub async fn klines(
+pub async fn klines_req(
     api_url: &str,
     category: &str,
     symbol: &str,
@@ -24,26 +24,22 @@ pub async fn klines(
     limit: &usize,
     start: &usize,
     end: &usize,
-) -> Result<Vec<Vec<String>>, Error_req>
+) -> Result<RESULT_EXCH_BYBIT<RESULT_KLINE_W>, Error_req>
 {
-    Ok(
-        get(
-            format!(
-                "{api_url}{KLINE}\
-                ?category={category}\
-                &symbol={symbol}\
-                &interval={interval}\
-                &limit={limit}\
-                &start={start}\
-                &end={end}"
-            )
+    get(
+        format!(
+            "{api_url}{KLINE}\
+            ?category={category}\
+            &symbol={symbol}\
+            &interval={interval}\
+            &limit={limit}\
+            &start={start}\
+            &end={end}"
         )
-            .await?
-            .json::<RESULT_EXCH_BYBIT<RESULT_KLINE_W>>()
-        .await?
-        .result
-        .list
     )
+        .await?
+        .json::<RESULT_EXCH_BYBIT<RESULT_KLINE_W>>()
+    .await
 }
 
 pub async fn klines_a(
@@ -57,7 +53,7 @@ pub async fn klines_a(
 ) -> Vec<Vec<String>>
 {
     all_or_nothing(
-        async || klines(
+        async || Ok(klines_req(
             api_url,
             category,
             symbol,
@@ -65,7 +61,7 @@ pub async fn klines_a(
             limit,
             start,
             end,
-        ).await,
+        ).await?.result.list),
     ).await
 }
 
@@ -80,7 +76,7 @@ pub async fn kline_symbols<'a>(
         symbols
            .iter()
            .map(|s| async {
-                (s.as_str(), Ok(klines(
+                (s.as_str(), Ok(klines_req(
                     api_url, 
                     category, 
                     s, 
@@ -88,7 +84,7 @@ pub async fn kline_symbols<'a>(
                     &1, 
                     &0, 
                     &0,
-                ).await.unwrap()[0].clone()))
+                ).await.unwrap().result.list.remove(0)))
            })
     )
         .await
@@ -154,7 +150,15 @@ pub async fn klines_symbols<'a>(
         symbols
         .iter()
         .map(|s| async {
-            (s.as_str(), klines(api_url, category, s, interval, limit, start, end).await)
+            (s.as_str(), Ok(klines_req(
+                api_url, 
+                category, 
+                s, 
+                interval, 
+                limit, 
+                start, 
+                end
+            ).await.unwrap().result.list))
         })
     )
         .await

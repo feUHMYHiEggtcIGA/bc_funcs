@@ -7,10 +7,10 @@ use tokio::runtime::Runtime;
 
 use bc_exch_api_funcs::bybit::market::klines::*;
 
-fn klines_lch_1(c: &mut Criterion) {
+fn klines_req_lch_1(c: &mut Criterion) {
     let rtm = Runtime::new().unwrap();
-    c.bench_function("klines_lch_1", |b| {
-        b.to_async(&rtm).iter(|| klines(
+    c.bench_function("klines_req_lch_1", |b| {
+        b.to_async(&rtm).iter(|| klines_req(
             "https://api.bybit.com", 
             "linear",
             "SUIUSDT",
@@ -110,7 +110,7 @@ fn klines_symbols_a_lch_1(c: &mut Criterion) {
 
 criterion_group!(
     benches, 
-    klines_lch_1, 
+    klines_req_lch_1, 
     klines_a_lch_1,
     kline_symbols_lch_1,
     kline_symbols_a_lch_1,

@@ -1,8 +1,8 @@
 use bc_exch_api_funcs::bybit::market::klines::*;
 
 #[tokio::test]
-async fn klines_lch_1() {
-    klines(
+async fn klines_req_lch_1() {
+    klines_req(
         "https://api.bybit.com", 
         "linear",
         "SUIUSDT",
