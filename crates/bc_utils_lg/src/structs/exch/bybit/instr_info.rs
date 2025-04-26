@@ -60,7 +60,7 @@ pub struct RESULT_INSTR_INFO_W1 {
     pub upperFundingRate: String,
     pub lowerFundingRate: String,
     pub isPreListing: bool,
-    pub preListingInfo: String,
+    pub preListingInfo: Option<String>,
     pub riskParameters: RESULT_INSTR_INFO_W2_RISK_PARAMETERS,
 }
 
