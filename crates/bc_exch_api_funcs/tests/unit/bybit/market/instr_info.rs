@@ -32,7 +32,7 @@ async fn instr_info_lch_1(){
 }
 
 #[tokio::test]
-async fn instrs_unfo_lch_1(){
+async fn instrs_info_lch_1(){
     instrs_info(
         "https://api.bybit.com",
         "linear", 
@@ -42,4 +42,16 @@ async fn instrs_unfo_lch_1(){
     )
         .await
         .unwrap();
+}
+
+#[tokio::test]
+async fn instrs_info_a_lch_1(){
+    instrs_info_a(
+        "https://api.bybit.com",
+        "linear", 
+        &["SUIUSDT".to_string(), "UNIUSDT".to_string(), "ETHUSDT".to_string()],
+        "",
+        "",
+    )
+        .await;
 }

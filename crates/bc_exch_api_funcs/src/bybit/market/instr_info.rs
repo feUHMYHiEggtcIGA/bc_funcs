@@ -111,3 +111,22 @@ pub async fn instrs_info<'a>(
     }
     Ok(res)
 }
+
+pub async fn instrs_info_a<'a>(
+    api_url: &'a str,
+    category: &'a str,
+    symbols: &'a [String],
+    status: &'a str,
+    base_coin: &'a str,
+) -> MAP<&'a str, RESULT_INSTR_INFO_W1>
+{
+    all_or_nothing(
+        || instrs_info(
+            api_url, 
+            category, 
+            symbols, 
+            status, 
+            base_coin
+        )
+    ).await
+}
