@@ -1,13 +1,11 @@
 use std::ops::Index;
 
-use reqwest::Error as Error_req;
-
 
 pub async fn all_or_nothing<T, F, FUT>(
     func: F,
 ) -> T
 where 
-    FUT: Future<Output = Result<T, Error_req>>,
+    FUT: Future<Output = Result<T, Box<dyn std::error::Error>>>,
     F: Fn() -> FUT,
 {
     let mut res = func().await;

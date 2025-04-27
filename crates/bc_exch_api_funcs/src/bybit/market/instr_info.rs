@@ -40,9 +40,9 @@ pub async fn instr_info(
     symbol: &str,
     status: &str,
     base_coin: &str,
-) -> Result<RESULT_INSTR_INFO1, Error_req>
+) -> Result<RESULT_INSTR_INFO1, Box<dyn std::error::Error>>
 {
-    Ok(instr_info_req(
+    instr_info_req(
         api_url, 
         category, 
         symbol, 
@@ -50,7 +50,7 @@ pub async fn instr_info(
         base_coin, 
         &1,
         ""
-    ).await?.result.list.remove(0))
+    ).await?.result.list.into_iter().next().ok_or(Box::from("not found"))
 }
 
 pub async fn instr_info_a(
@@ -78,7 +78,7 @@ pub async fn instrs_info<'a>(
     symbols: &'a [String],
     status: &'a str,
     base_coin: &'a str,
-) -> Result<MAP<&'a str, RESULT_INSTR_INFO1>, Error_req> 
+) -> Result<MAP<&'a str, RESULT_INSTR_INFO1>, Box<dyn std::error::Error>> 
 {
     let mut res = MAP::default();
     let mut passed = vec![];

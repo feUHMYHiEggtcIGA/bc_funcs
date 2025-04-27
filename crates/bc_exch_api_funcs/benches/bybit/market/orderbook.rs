@@ -36,7 +36,7 @@ fn orderbooks_lch_1(c: &mut Criterion) {
     let rtm = Runtime::new().unwrap();
     let symbols = &[
         "SUIUSDT".to_string(), 
-        "WALRUSUSDT".to_string(), 
+        "ETHUSDT".to_string(),
         "ATOMUSDT".to_string(),
     ];
     c.bench_function("orderbooks_lch_1", |b| {
@@ -53,7 +53,7 @@ fn orderbooks_a_lch_1(c: &mut Criterion) {
     let rtm = Runtime::new().unwrap();
     let symbols = &[
         "SUIUSDT".to_string(), 
-        "WALRUSUSDT".to_string(), 
+        "ETHUSDT".to_string(),
         "ATOMUSDT".to_string(),
     ];
     c.bench_function("orderbooks_a_lch_1", |b| {

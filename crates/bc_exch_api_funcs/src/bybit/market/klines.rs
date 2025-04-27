@@ -50,9 +50,17 @@ pub async fn klines(
     limit: &usize,
     start: &usize,
     end: &usize,
-) -> Result<RESULT_KLINE, Error_req>
+) -> Result<Vec<Vec<String>>, Error_req>
 {
-    Ok(klines_req(api_url, category, symbol, interval, limit, start, end).await?.result)
+    Ok(klines_req(
+        api_url, 
+        category, 
+        symbol, 
+        interval, 
+        limit, 
+        start, 
+        end
+    ).await?.result.list)
 }
 
 pub async fn klines_a(
@@ -83,26 +91,35 @@ pub async fn kline_symbols<'a>(
     category: &str,
     symbols: &'a [String],
     interval: &str,
-) -> Result<MAP<&'a str, Vec<String>>, Error_req>
+) -> MAP<&'a str, Result<Vec<String>, Box<dyn std::error::Error>>>
 {
-    Ok(join_all(
+    join_all(
         symbols
            .iter()
            .map(|s| async {
-                (s.as_str(), klines(
-                    api_url, 
-                    category, 
-                    s, 
-                    interval, 
-                    &1, 
-                    &0, 
-                    &0,
-                ).await.unwrap().list.remove(0))
+                (
+                    s.as_str(), 
+                    async {
+                        klines(
+                            api_url, 
+                            category, 
+                            s, 
+                            interval, 
+                            &1, 
+                            &0, 
+                            &0,
+                        )
+                            .await?
+                            .into_iter()
+                            .next()
+                            .ok_or(Box::from("not found"))
+                    }.await,
+                )
            })
     )
         .await
         .into_iter()
-        .collect())
+        .collect()
 }
 
 pub async fn kline_symbols_a<'a>(
@@ -114,18 +131,27 @@ pub async fn kline_symbols_a<'a>(
 {
     join_all(
         symbols
-        .iter()
-        .map(|s| async {
-            (s.as_str(), klines_a(
-                api_url, 
-                category, 
-                s, 
-                interval,
-                &1,
-                &0, 
-                &0,
-            ).await[0].clone())
-        })
+           .iter()
+           .map(|s| async {
+                (
+                    s.as_str(), 
+                    async {
+                        klines_a(
+                            api_url, 
+                            category, 
+                            s, 
+                            interval, 
+                            &1, 
+                            &0, 
+                            &0,
+                        )
+                            .await
+                            .into_iter()
+                            .next()
+                            .unwrap_or(vec![])
+                    }.await,
+                )
+           })
     )
         .await
         .into_iter()
@@ -157,26 +183,30 @@ pub async fn klines_symbols<'a>(
     limit: &usize,
     start: &usize,
     end: &usize,
-) -> Result<MAP<&'a str, Vec<Vec<String>>>, Error_req>
+) -> MAP<&'a str, Result<Vec<Vec<String>>, Error_req>>
 {
-    Ok(join_all(
+    join_all(
         symbols
         .iter()
         .map(|s| async {
-            (s.as_str(), klines_req(
-                api_url, 
-                category, 
-                s, 
-                interval, 
-                limit, 
-                start, 
-                end
-            ).await.unwrap().result.list)
+            (
+                s.as_str(), 
+                klines(
+                    api_url, 
+                    category, 
+                    s, 
+                    interval, 
+                    limit, 
+                    start, 
+                    end
+                )
+                    .await
+            )
         })
     )
         .await
         .into_iter()
-        .collect())
+        .collect()
 }
 
 pub async fn klines_symbols_a<'a>(
@@ -193,7 +223,19 @@ pub async fn klines_symbols_a<'a>(
         symbols
         .iter()
         .map(|s| async {
-            (s.as_str(), klines_a(api_url, category, s, interval, limit, start, end).await)
+            (
+                s.as_str(), 
+                klines_a(
+                    api_url, 
+                    category, 
+                    s, 
+                    interval, 
+                    limit, 
+                    start, 
+                    end
+                )
+                    .await
+            )
         })
     )
         .await

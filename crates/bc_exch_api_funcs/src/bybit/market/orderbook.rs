@@ -36,7 +36,7 @@ pub async fn orderbook(
     category: &str,
     symbol: &str,
     limit: &usize,
-) -> Result<RESULT_ORDERBOOK, Error_req>
+) -> Result<RESULT_ORDERBOOK, Box<dyn std::error::Error>>
 {
     Ok(orderbook_req(api_url, category, symbol, limit).await?.result)
 }
@@ -61,7 +61,7 @@ pub async fn orderbooks<'a>(
     category: &str,
     symbols: &'a [String],
     limit: &usize,
-) -> MAP<&'a str, Result<RESULT_ORDERBOOK, Error_req>>
+) -> MAP<&'a str, Result<RESULT_ORDERBOOK, Box<dyn std::error::Error>>>
 {
     join_all(
         symbols
