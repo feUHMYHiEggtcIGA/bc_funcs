@@ -31,6 +31,23 @@ pub async fn symbols_req(
     .await
 }
 
+pub async fn symbols(
+    api_url: &str,
+    category: &str,
+    symbol: &str,
+    base_coin: &str,
+    exp_date: &str
+) -> Result<Vec<RESULT_SYMBOLS1>, Box<dyn std::error::Error>>
+{
+    Ok(symbols_req(
+        api_url, 
+        category, 
+        symbol, 
+        base_coin, 
+        exp_date
+    ).await?.result.list)
+}
+
 pub async fn symbols_a(
     api_url: &str,
     category: &str,
@@ -39,11 +56,11 @@ pub async fn symbols_a(
     exp_date: &str
 ) -> Vec<RESULT_SYMBOLS1>
 {
-    all_or_nothing(async || Ok(symbols_req(
+    all_or_nothing(async || symbols(
         api_url, 
         category, 
         symbol, 
         base_coin, 
         exp_date
-    ).await.unwrap().result.list)).await
+    ).await).await
 }
