@@ -6,7 +6,7 @@ use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize)]
 #[derive(std::fmt::Debug)]
-pub struct RESULT_INSTR_INFO_W2_LEVERAGE_FILTER {
+pub struct RESULT_INSTR_INFO2_LEVERAGE_FILTER {
     pub minLeverage: String,
     pub maxLeverage: String,
     pub leverageStep: String,
@@ -14,7 +14,7 @@ pub struct RESULT_INSTR_INFO_W2_LEVERAGE_FILTER {
 
 #[derive(Serialize, Deserialize)]
 #[derive(std::fmt::Debug)]
-pub struct RESULT_INSTR_INFO_W2_PRICE_FILTER {
+pub struct RESULT_INSTR_INFO2_PRICE_FILTER {
     pub minPrice: String,
     pub maxPrice: String,
     pub tickSize: String,
@@ -22,7 +22,7 @@ pub struct RESULT_INSTR_INFO_W2_PRICE_FILTER {
 
 #[derive(Serialize, Deserialize)]
 #[derive(std::fmt::Debug)]
-pub struct RESULT_INSTR_INFO_W2_LOT_SIZE_FILTER {
+pub struct RESULT_INSTR_INFO2_LOT_SIZE_FILTER {
     pub maxOrderQty: String,
     pub minOrderQty: String,
     pub qtyStep: String,
@@ -33,14 +33,14 @@ pub struct RESULT_INSTR_INFO_W2_LOT_SIZE_FILTER {
 
 #[derive(Serialize, Deserialize)]
 #[derive(std::fmt::Debug)]
-pub struct RESULT_INSTR_INFO_W2_RISK_PARAMETERS {
+pub struct RESULT_INSTR_INFO2_RISK_PARAMETERS {
     pub priceLimitRatioX: String,
     pub priceLimitRatioY: String,
 }
 
 #[derive(Serialize, Deserialize)]
 #[derive(std::fmt::Debug)]
-pub struct RESULT_INSTR_INFO_W1 {
+pub struct RESULT_INSTR_INFO1 {
     pub symbol: String,
     pub contractType: String,
     pub status: String,
@@ -50,9 +50,9 @@ pub struct RESULT_INSTR_INFO_W1 {
     pub deliveryTime: String,
     pub deliveryFeeRate: String,
     pub priceScale: String,
-    pub leverageFilter: RESULT_INSTR_INFO_W2_LEVERAGE_FILTER,
-    pub priceFilter: RESULT_INSTR_INFO_W2_PRICE_FILTER,
-    pub lotSizeFilter: RESULT_INSTR_INFO_W2_LOT_SIZE_FILTER,
+    pub leverageFilter: RESULT_INSTR_INFO2_LEVERAGE_FILTER,
+    pub priceFilter: RESULT_INSTR_INFO2_PRICE_FILTER,
+    pub lotSizeFilter: RESULT_INSTR_INFO2_LOT_SIZE_FILTER,
     pub unifiedMarginTrade: bool,
     pub fundingInterval: i32,
     pub settleCoin: String,
@@ -61,13 +61,13 @@ pub struct RESULT_INSTR_INFO_W1 {
     pub lowerFundingRate: String,
     pub isPreListing: bool,
     pub preListingInfo: Option<String>,
-    pub riskParameters: RESULT_INSTR_INFO_W2_RISK_PARAMETERS,
+    pub riskParameters: RESULT_INSTR_INFO2_RISK_PARAMETERS,
 }
 
 #[derive(Serialize, Deserialize)]
 #[derive(std::fmt::Debug)]
-pub struct RESULT_INSTR_INFO_W {
+pub struct RESULT_INSTR_INFO {
     pub category: String,
-    pub list: Vec<RESULT_INSTR_INFO_W1>,
+    pub list: Vec<RESULT_INSTR_INFO1>,
     pub nextPageCursor: String,
 }

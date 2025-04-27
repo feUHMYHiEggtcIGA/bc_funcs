@@ -1,7 +1,7 @@
 use bc_utils_lg::structs::exch::bybit::result::RESULT_EXCH_BYBIT;
 use bc_utils_lg::structs::exch::bybit::symbols::{
-    RESULT_SYMBOLS_W, 
-    RESULT_SYMBOLS_W1,
+    RESULT_SYMBOLS, 
+    RESULT_SYMBOLS1,
 };
 use reqwest::{get, Error as Error_req};
 use bc_core_funcs::mechanisms::all_or_nothing;
@@ -15,7 +15,7 @@ pub async fn symbols_req(
     symbol: &str,
     base_coin: &str,
     exp_date: &str
-) -> Result<RESULT_EXCH_BYBIT<RESULT_SYMBOLS_W>, Error_req>
+) -> Result<RESULT_EXCH_BYBIT<RESULT_SYMBOLS>, Error_req>
 {
     get(
         format!(
@@ -27,7 +27,7 @@ pub async fn symbols_req(
         )
     )
         .await?
-        .json::<RESULT_EXCH_BYBIT<RESULT_SYMBOLS_W>>()
+        .json::<RESULT_EXCH_BYBIT<RESULT_SYMBOLS>>()
     .await
 }
 
@@ -37,7 +37,7 @@ pub async fn symbols_a(
     symbol: &str,
     base_coin: &str,
     exp_date: &str
-) -> Vec<RESULT_SYMBOLS_W1>
+) -> Vec<RESULT_SYMBOLS1>
 {
     all_or_nothing(async || Ok(symbols_req(
         api_url, 

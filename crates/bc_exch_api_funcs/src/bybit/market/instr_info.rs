@@ -1,7 +1,7 @@
 use reqwest::{get, Error as Error_req};
 use bc_utils_lg::structs::exch::bybit::instr_info::{
-    RESULT_INSTR_INFO_W,
-    RESULT_INSTR_INFO_W1, 
+    RESULT_INSTR_INFO,
+    RESULT_INSTR_INFO1, 
 };
 use bc_utils_lg::structs::exch::bybit::result::RESULT_EXCH_BYBIT;
 use bc_core_funcs::mechanisms::all_or_nothing;
@@ -10,7 +10,7 @@ use bc_utils_lg::types::maps::MAP;
 use crate::bybit::url_const::INSTR_INFO;
 
 
-pub async fn instrs_info_req(
+pub async fn instr_info_req(
     api_url: &str,
     category: &str,
     symbol: &str,
@@ -18,7 +18,7 @@ pub async fn instrs_info_req(
     base_coin: &str,
     limit: &usize,
     cursor: &str
-) -> Result<RESULT_EXCH_BYBIT<RESULT_INSTR_INFO_W>, Error_req>
+) -> Result<RESULT_EXCH_BYBIT<RESULT_INSTR_INFO>, Error_req>
 {
     get(format!(
         "{api_url}{INSTR_INFO}\
@@ -30,7 +30,7 @@ pub async fn instrs_info_req(
         &cursor={cursor}"
     ))
         .await?
-        .json::<RESULT_EXCH_BYBIT<RESULT_INSTR_INFO_W>>()
+        .json::<RESULT_EXCH_BYBIT<RESULT_INSTR_INFO>>()
         .await
 }
 
@@ -40,9 +40,9 @@ pub async fn instr_info(
     symbol: &str,
     status: &str,
     base_coin: &str,
-) -> Result<RESULT_INSTR_INFO_W1, Error_req>
+) -> Result<RESULT_INSTR_INFO1, Error_req>
 {
-    Ok(instrs_info_req(
+    Ok(instr_info_req(
         api_url, 
         category, 
         symbol, 
@@ -59,7 +59,7 @@ pub async fn instr_info_a(
     symbol: &str,
     status: &str,
     base_coin: &str,
-) -> RESULT_INSTR_INFO_W1
+) -> RESULT_INSTR_INFO1
 {
     all_or_nothing(
         async || instr_info(
@@ -78,16 +78,13 @@ pub async fn instrs_info<'a>(
     symbols: &'a [String],
     status: &'a str,
     base_coin: &'a str,
-) -> Result<MAP<&'a str, RESULT_INSTR_INFO_W1>, Error_req> 
+) -> Result<MAP<&'a str, RESULT_INSTR_INFO1>, Error_req> 
 {
     let mut res = MAP::default();
     let mut passed = vec![];
     let mut cursor = "".to_string();
-    let mut count = 0;
     while passed.len() != symbols.len() {
-        count += 1;
-        if count == 5 { break;}
-        let response_ = instrs_info_req(
+        let response_ = instr_info_req(
             api_url, 
             category, 
             "", 
@@ -118,7 +115,7 @@ pub async fn instrs_info_a<'a>(
     symbols: &'a [String],
     status: &'a str,
     base_coin: &'a str,
-) -> MAP<&'a str, RESULT_INSTR_INFO_W1>
+) -> MAP<&'a str, RESULT_INSTR_INFO1>
 {
     all_or_nothing(
         || instrs_info(

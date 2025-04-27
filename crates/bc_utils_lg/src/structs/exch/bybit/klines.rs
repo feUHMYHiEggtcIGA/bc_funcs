@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
 #[derive(std::fmt::Debug)]
-pub struct RESULT_KLINE_W{
+pub struct RESULT_KLINE{
     pub symbol: String,
     pub category: String,
     pub list: Vec<Vec<String>>,

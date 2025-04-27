@@ -5,7 +5,7 @@ use reqwest::{
     get,
 };
 use bc_utils_lg::structs::exch::bybit::result::RESULT_EXCH_BYBIT;
-use bc_utils_lg::structs::exch::bybit::klines::RESULT_KLINE_W;
+use bc_utils_lg::structs::exch::bybit::klines::RESULT_KLINE;
 use futures::future::join_all;
 use bc_utils_lg::types::maps::MAP;
 use bc_core_funcs::mechanisms::{
@@ -24,7 +24,7 @@ pub async fn klines_req(
     limit: &usize,
     start: &usize,
     end: &usize,
-) -> Result<RESULT_EXCH_BYBIT<RESULT_KLINE_W>, Error_req>
+) -> Result<RESULT_EXCH_BYBIT<RESULT_KLINE>, Error_req>
 {
     get(
         format!(
@@ -38,8 +38,21 @@ pub async fn klines_req(
         )
     )
         .await?
-        .json::<RESULT_EXCH_BYBIT<RESULT_KLINE_W>>()
+        .json::<RESULT_EXCH_BYBIT<RESULT_KLINE>>()
     .await
+}
+
+pub async fn klines(
+    api_url: &str,
+    category: &str,
+    symbol: &str,
+    interval: &str,
+    limit: &usize,
+    start: &usize,
+    end: &usize,
+) -> Result<RESULT_KLINE, Error_req>
+{
+    Ok(klines_req(api_url, category, symbol, interval, limit, start, end).await?.result)
 }
 
 pub async fn klines_a(
@@ -70,13 +83,13 @@ pub async fn kline_symbols<'a>(
     category: &str,
     symbols: &'a [String],
     interval: &str,
-) -> MAP<&'a str, Result<Vec<String>, Error_req>>
+) -> Result<MAP<&'a str, Vec<String>>, Error_req>
 {
-    join_all(
+    Ok(join_all(
         symbols
            .iter()
            .map(|s| async {
-                (s.as_str(), Ok(klines_req(
+                (s.as_str(), klines(
                     api_url, 
                     category, 
                     s, 
@@ -84,12 +97,12 @@ pub async fn kline_symbols<'a>(
                     &1, 
                     &0, 
                     &0,
-                ).await.unwrap().result.list.remove(0)))
+                ).await.unwrap().list.remove(0))
            })
     )
         .await
         .into_iter()
-        .collect()
+        .collect())
 }
 
 pub async fn kline_symbols_a<'a>(
@@ -144,13 +157,13 @@ pub async fn klines_symbols<'a>(
     limit: &usize,
     start: &usize,
     end: &usize,
-) -> MAP<&'a str, Result<Vec<Vec<String>>, Error_req>>
+) -> Result<MAP<&'a str, Vec<Vec<String>>>, Error_req>
 {
-    join_all(
+    Ok(join_all(
         symbols
         .iter()
         .map(|s| async {
-            (s.as_str(), Ok(klines_req(
+            (s.as_str(), klines_req(
                 api_url, 
                 category, 
                 s, 
@@ -158,12 +171,12 @@ pub async fn klines_symbols<'a>(
                 limit, 
                 start, 
                 end
-            ).await.unwrap().result.list))
+            ).await.unwrap().result.list)
         })
     )
         .await
         .into_iter()
-        .collect()
+        .collect())
 }
 
 pub async fn klines_symbols_a<'a>(

@@ -36,7 +36,7 @@ async fn kline_symbols_lch_1() {
         "ETHUSDT".to_string(), 
         "ATOMUSDT".to_string(),
     ];
-    kline_symbols(
+    let _ = kline_symbols(
         "https://api.bybit.com", 
         "linear",
         symbols.as_slice(),
@@ -84,7 +84,7 @@ async fn klines_symbols_lch_1() {
         "ETHUSDT".to_string(), 
         "ATOMUSDT".to_string(),
     ];
-    klines_symbols(
+    let _ = klines_symbols(
         "https://api.bybit.com", 
         "linear",
         symbols.as_slice(),

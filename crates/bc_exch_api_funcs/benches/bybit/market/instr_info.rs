@@ -8,10 +8,10 @@ use tokio::runtime::Runtime;
 use bc_exch_api_funcs::bybit::market::instr_info::*;
 
 
-fn instrs_info_req_lch_1(c: &mut Criterion) {
+fn instr_info_req_lch_1(c: &mut Criterion) {
     let rtm = Runtime::new().unwrap();
-    c.bench_function("instrs_info_req_lch_1", |b| {
-        b.to_async(&rtm).iter(|| instrs_info_req(
+    c.bench_function("instr_info_req_lch_1", |b| {
+        b.to_async(&rtm).iter(|| instr_info_req(
             "https://api.bybit.com",
             "linear", 
             "BTCUSDT",
@@ -79,7 +79,7 @@ fn instrs_info_a_lch_1(c: &mut Criterion) {
 
 criterion_group!(
     benches, 
-    instrs_info_req_lch_1,
+    instr_info_req_lch_1,
     instr_info_lch_1,
     instr_info_a_lch_1,
     instrs_info_lch_1,

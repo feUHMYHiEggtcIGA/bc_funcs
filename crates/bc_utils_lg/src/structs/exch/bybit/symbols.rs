@@ -6,7 +6,7 @@ use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize)]
 #[derive(std::fmt::Debug)]
-pub struct RESULT_SYMBOLS_W1 {
+pub struct RESULT_SYMBOLS1 {
     pub symbol: String,
     pub lastPrice: String,
     pub indexPrice: String,
@@ -35,7 +35,7 @@ pub struct RESULT_SYMBOLS_W1 {
 
 #[derive(Serialize, Deserialize)]
 #[derive(std::fmt::Debug)]
-pub struct  RESULT_SYMBOLS_W {
+pub struct  RESULT_SYMBOLS {
     pub category: String,
-    pub list: Vec<RESULT_SYMBOLS_W1>,
+    pub list: Vec<RESULT_SYMBOLS1>,
 }
