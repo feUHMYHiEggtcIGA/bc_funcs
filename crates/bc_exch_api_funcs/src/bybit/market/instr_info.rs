@@ -4,7 +4,7 @@ use bc_utils_lg::structs::exch::bybit::instr_info::{
     RESULT_INSTR_INFO1, 
 };
 use bc_utils_lg::structs::exch::bybit::result::RESULT_EXCH_BYBIT;
-use bc_core_funcs::mechanisms::all_or_nothing;
+use bc_utils_core::mechanisms::all_or_nothing;
 use bc_utils_lg::types::maps::MAP;
 
 use crate::bybit::url_const::INSTR_INFO;

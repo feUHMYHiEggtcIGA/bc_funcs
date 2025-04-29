@@ -1,41 +1,23 @@
 #![allow(non_camel_case_types)]
 
-use rustc_hash::FxHashMap;
+use crate::types::maps::MAP;
 use serde::{Deserialize, Serialize};
 
 
 #[derive(Serialize, Deserialize)]
-pub struct SETTINGS_USED_MODS {
-    pub key: String,
-    pub kwargs_usize: FxHashMap<String, usize>,
-    pub kwargs_f64: FxHashMap<String, f64>,
-    pub kwargs_string: FxHashMap<String, String>,
-    pub used_indications: Vec<String>,
-}
-
-#[derive(Serialize, Deserialize)]
 pub struct SETTINGS_USED_SRC {
     pub key: String,
-    pub key_uniq: String,
     pub sub_from_last_i: usize, 
-    pub add_in_coll: bool,
-    pub used_mods: Vec<SETTINGS_USED_MODS>
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct SETTINGS_IND {
     pub key: String,
-    pub key_uniq: String,
-    pub kwargs_usize: FxHashMap<String, usize>,
-    pub kwargs_f64: FxHashMap<String, f64>,
-    pub kwargs_string: FxHashMap<String, String>,
+    pub kwargs_usize: MAP<String, usize>,
+    pub kwargs_f64: MAP<String, f64>,
+    pub kwargs_string: MAP<String, String>,
     pub used_src: Vec<SETTINGS_USED_SRC>,
-    pub used_mods: Vec<SETTINGS_USED_MODS>,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct SETTINGS_SRC {
-    buffer_size: usize,
+    pub used_ind: Vec<String>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -45,6 +27,5 @@ pub struct SETTINGS {
     pub msg_key: String,
     pub msg_chat: String,
     pub is_demo: bool,
-    pub src: Vec<SETTINGS_SRC>,
-    pub indications: Vec<SETTINGS_IND>,
+    pub indications: MAP<String, SETTINGS_IND>,
 }

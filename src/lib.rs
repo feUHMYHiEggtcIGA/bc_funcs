@@ -10,3 +10,6 @@ pub mod indicators {
 pub mod exch_api_funcs{
     pub use bc_exch_api_funcs::*;
 }
+pub mod utils_core {
+    pub use bc_utils_core::*;
+}

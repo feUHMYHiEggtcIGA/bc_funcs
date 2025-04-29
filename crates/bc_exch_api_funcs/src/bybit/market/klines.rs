@@ -8,7 +8,7 @@ use bc_utils_lg::structs::exch::bybit::result::RESULT_EXCH_BYBIT;
 use bc_utils_lg::structs::exch::bybit::klines::RESULT_KLINE;
 use futures::future::join_all;
 use bc_utils_lg::types::maps::MAP;
-use bc_core_funcs::mechanisms::{
+use bc_utils_core::mechanisms::{
     all_or_nothing, 
     one_time_hm,
 };

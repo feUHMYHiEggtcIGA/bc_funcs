@@ -1,5 +1,5 @@
 [package]
-name = "bc_core_funcs"
+name = "bc_utils_core"
 version = "0.1.1"
 edition = "2024"
 

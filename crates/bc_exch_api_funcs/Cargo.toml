@@ -4,7 +4,7 @@ version = "0.1.5"
 edition = "2024"
 
 [dependencies]
-bc_core_funcs ={ path = "../bc_core_funcs"}
+bc_utils_core ={ path = "../bc_utils_core"}
 bc_utils_lg ={ path = "../bc_utils_lg" }
 
 tokio = { version = "1", features = ["full"] }

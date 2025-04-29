@@ -4,7 +4,7 @@ use bc_utils_lg::structs::exch::bybit::symbols::{
     RESULT_SYMBOLS1,
 };
 use reqwest::{get, Error as Error_req};
-use bc_core_funcs::mechanisms::all_or_nothing;
+use bc_utils_core::mechanisms::all_or_nothing;
 
 use crate::bybit::url_const::TICKERS;
 

@@ -52,13 +52,12 @@ where
 }
 
 pub fn bf_nohesi_abstr<'a, T>(
-    src: &SRC_ARG<T>,
-    _: &SRCS_ARG<T>,
+    src: &SRCS_ARG<T>,
     args: &ARGS<T>,
     exc_last: &bool
 ) -> BF_VEC<T>
 where  
     T: Float,
 {
-    vec![T_HASHMAP::Float(bf_nohesi(src, args.first().unwrap().unwrap_f(), exc_last))]
+    vec![T_HASHMAP::Float(bf_nohesi(src[0], args.first().unwrap().unwrap_f(), exc_last))]
 }

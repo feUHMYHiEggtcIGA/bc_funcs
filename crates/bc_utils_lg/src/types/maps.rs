@@ -1,12 +1,20 @@
 #![allow(non_camel_case_types)]
 
-use rustc_hash::FxHashMap;
+use rustc_hash::{
+    FxHasher,
+    FxHashMap,
+};
+use core::hash::BuildHasherDefault;
+use indexmap::IndexMap;
 
 use crate::types::funcs::*;
 use crate::types::structures::*;
 
 
 pub type MAP<K, V> = FxHashMap<K, V>;
+pub type MAP_LINK<K, V> = IndexMap<K, V, BuildHasherDefault<FxHasher>>;
+
+
 pub type MAP_BF_VEC<'a, T> = FxHashMap<&'static str, BF_VEC<T>>;
 pub type MAP1_BF_VEC<'a, T> = FxHashMap<&'static str, MAP_BF_VEC<'a, T>>;
 pub type MAP_IND_T<F> = FxHashMap<&'static str, IND_T<F>>;

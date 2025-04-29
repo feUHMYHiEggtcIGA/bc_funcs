@@ -2,6 +2,5 @@
 
 pub mod bf;
 pub mod ind;
-pub mod mods;
 pub mod map;
 pub mod gw;

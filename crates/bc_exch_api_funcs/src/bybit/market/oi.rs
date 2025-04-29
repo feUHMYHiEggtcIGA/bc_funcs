@@ -4,7 +4,7 @@ use bc_utils_lg::structs::exch::bybit::oi::{
     RESULT_OI1, 
 };
 use bc_utils_lg::structs::exch::bybit::result::RESULT_EXCH_BYBIT;
-use bc_core_funcs::mechanisms::all_or_nothing;
+use bc_utils_core::mechanisms::all_or_nothing;
 
 use crate::bybit::url_const::OI;
 

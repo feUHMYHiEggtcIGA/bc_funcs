@@ -65,21 +65,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9d297deb1925b89f2ccc13d7635fa0714f12c87adce1c75356b39ca9b7178567"
 
 [[package]]
-name = "bc_core_funcs"
-version = "0.1.1"
-dependencies = [
- "bc_utils_lg",
- "hex",
- "hmac",
- "reqwest",
- "sha2",
-]
-
-[[package]]
 name = "bc_exch_api_funcs"
 version = "0.1.5"
 dependencies = [
- "bc_core_funcs",
+ "bc_utils_core",
  "bc_utils_lg",
  "criterion",
  "futures",
@@ -91,18 +80,18 @@ dependencies = [
 
 [[package]]
 name = "bc_funcs"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
- "bc_core_funcs",
  "bc_exch_api_funcs",
  "bc_indicators",
  "bc_utils",
+ "bc_utils_core",
  "bc_utils_lg",
 ]
 
 [[package]]
 name = "bc_indicators"
-version = "0.1.23"
+version = "0.2.0"
 dependencies = [
  "bc_utils",
  "bc_utils_lg",
@@ -119,9 +108,21 @@ dependencies = [
 ]
 
 [[package]]
-name = "bc_utils_lg"
-version = "0.1.35"
+name = "bc_utils_core"
+version = "0.1.1"
 dependencies = [
+ "bc_utils_lg",
+ "hex",
+ "hmac",
+ "reqwest",
+ "sha2",
+]
+
+[[package]]
+name = "bc_utils_lg"
+version = "0.1.4"
+dependencies = [
+ "indexmap",
  "num-traits",
  "rustc-hash",
  "serde",

@@ -1,4 +1,4 @@
-use bc_utils_lg::structs::settings::SETTINGS_IND;
+use bc_utils_lg::structs::settings::{SETTINGS_IND, SETTINGS_USED_SRC};
 use num_traits::Float;
 use bc_utils_lg::types::funcs::FUNC_USIZE;
 use bc_utils_lg::types::maps::*;
@@ -23,7 +23,7 @@ where
 
 pub fn map_window_ind<T>(
     map_func_window: &MAP_FUNC_USIZE<T>, 
-    settings: &'static Vec<SETTINGS_IND>,
+    settings: &'static MAP<String, SETTINGS_IND>,
     map_args: &MAP_ARGS<T>
 ) -> FxHashMap<&'static str, usize>
 where 
@@ -33,10 +33,10 @@ where
         .iter()
         .map(
             |setting| {
-                let key_uniq = setting.key_uniq.as_str();
+                let key_uniq = setting.0.as_str();
                 (
                     key_uniq,
-                    map_func_window[setting.key.as_str()](
+                    map_func_window[setting.1.key.as_str()](
                         &map_args[key_uniq]
                     )
                 )

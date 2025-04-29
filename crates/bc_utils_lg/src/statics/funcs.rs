@@ -2,8 +2,7 @@ use num_traits::Float;
 
 use crate::types::structures::*;
 
-pub fn fn_bf_mod_abstr_default<T>(
-    _: &SRC_ARG<T>,
+pub fn fn_ind_bf_abstr_default<T>(
     _: &SRCS_ARG<T>,
     _: &ARGS<T>,
     _: &bool,

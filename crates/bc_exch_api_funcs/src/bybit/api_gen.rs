@@ -1,4 +1,4 @@
-use bc_core_funcs::hashing::hmac_;
+use bc_utils_core::hashing::hmac_;
 
 
 pub fn api_gen(
