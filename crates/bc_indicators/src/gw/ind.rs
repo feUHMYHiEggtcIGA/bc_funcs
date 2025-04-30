@@ -43,14 +43,13 @@ where
                 {
                     src_arg.push({
                         let sk = &buff_src[&us_el.key];
-                        sk[sk.len() - us_el.sub_from_last_i - 1]
+                        sk[sk.len() - 1 - us_el.sub_from_last_i]
                     });
                 }
                 for ui_el in &setting
                     .1
                     .used_ind
                 {
-                    // println!("{:#?} {}", map, ui_el.as_str());
                     src_arg.push(map[ui_el.as_str()]);
                 }
                 map.insert(
@@ -61,7 +60,6 @@ where
                         map_bf_ind.get_mut(key_uniq_str).unwrap(),
                     )
                 );
-                // println!("{map:#?}",);
                 map
             }
         )

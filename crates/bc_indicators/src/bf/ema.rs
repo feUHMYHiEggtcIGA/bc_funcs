@@ -23,6 +23,7 @@ where
     let len = src.len();
     let mut res = T::zero();
     let window_t = T::from(*window).unwrap();
+    println!("{}", src.len());
     
     let alpha = alpha_ema(&window_t);
     for (i, el) in {
@@ -51,7 +52,6 @@ where
     ])
 }
 
-// todo: check links of returned values
 pub fn bf_ema_abstr<'a, T>(
     src: &SRCS_ARG<T>,
     args: &ARGS<T>,

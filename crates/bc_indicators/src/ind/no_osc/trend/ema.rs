@@ -105,7 +105,7 @@ where
     C: FromIterator<T>
 {
     let w = *window * 10;
-    let mut bf = bf_ema(&src[0..w + 1], window, &true,);
+    let mut bf = bf_ema(&src[0..w], window, &false,);
     src
         [w..src.len()]
         .iter()

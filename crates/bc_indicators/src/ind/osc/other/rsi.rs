@@ -120,28 +120,16 @@ where
     T: std::ops::DivAssign,
     C: FromIterator<T>
 {
-    let w = *window * 10 + 1;
+    let w = window * 10 + 1;
     let (
         mut bf,
         mut rma1,
         mut rma2,
-    ) = bf_rsi(
-        &src[..w + 1], 
-        window,
-        &true,
-    );
+    ) = bf_rsi(&src[..w + 1], window, &false);
     src
-        [w..src.len()]
+        [w + 1..]
         .iter()
-        .map(
-            |v|
-            rsi_bf(
-                v, 
-                &mut bf,
-                &mut rma1,
-                &mut rma2,
-            )
-        )
+        .map(|v| rsi_bf(v, &mut bf, &mut rma1, &mut rma2))
         .collect()
 }
 

@@ -13,7 +13,6 @@ use crate::bf::{
     sma::bf_sma_abstr,
     rma::bf_rma_abstr,
     rsi::bf_rsi_abstr,
-    tqo_b::bf_tqo_b_abstr,
     nohesi::bf_nohesi_abstr,
 };
 
@@ -29,7 +28,6 @@ where
         ("ema", bf_ema_abstr as FUNC_BF_IND<T>),
         ("rma", bf_rma_abstr as FUNC_BF_IND<T>),
         ("rsi", bf_rsi_abstr as FUNC_BF_IND<T>),
-        ("tqo_b", bf_tqo_b_abstr as FUNC_BF_IND<T>),
         ("nohesi", bf_nohesi_abstr as FUNC_BF_IND<T>),
         ("avg", fn_ind_bf_abstr_default as FUNC_BF_IND<T>),
     ])

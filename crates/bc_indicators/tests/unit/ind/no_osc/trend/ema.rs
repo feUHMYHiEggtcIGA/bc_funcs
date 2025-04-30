@@ -47,3 +47,11 @@ fn ema_f_res_skip_1() {
         2.254711084891796,
     );
 }
+
+#[test]
+fn ema_coll_res_1() {
+    assert!(
+        (ema_coll::<Vec<f64>, _,>(OPEN.as_slice(), &WINDOW).last().unwrap() /
+        &ema_f(OPEN.as_slice(), &WINDOW) - 1.0).abs() < 0.0001
+    );
+}

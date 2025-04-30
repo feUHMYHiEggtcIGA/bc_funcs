@@ -91,7 +91,7 @@ dependencies = [
 
 [[package]]
 name = "bc_indicators"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "bc_utils",
  "bc_utils_lg",

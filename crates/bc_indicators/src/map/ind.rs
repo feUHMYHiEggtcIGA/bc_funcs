@@ -12,7 +12,6 @@ use crate::ind::{
     no_osc::other::avg::{avg_bf_abstr, avg_coll_abstr},
     no_osc::other::nohesi::{nohesi_bf_abstr, nohesi_coll_abstr, nohesi_f_abstr},
     osc::other::rsi::{rsi_bf_abstr, rsi_f_abstr, rsi_coll_abstr},
-    osc::trend::tqo_b::{tqo_b_bf_abstr, tqo_b_f_abstr, tqo_b_coll_abstr},
 };
 
 
@@ -28,7 +27,6 @@ where
         ("ema", ema_bf_abstr as IND_T_BF<T>),
         ("bfa", rma_bf_abstr as IND_T_BF<T>),
         ("rsi", rsi_bf_abstr as IND_T_BF<T>),
-        ("tqo_b", tqo_b_bf_abstr as IND_T_BF<T>),
         ("nohesi", nohesi_bf_abstr as IND_T_BF<T>),
         ("avg", avg_bf_abstr as IND_T_BF<T>),
     ])
@@ -41,13 +39,13 @@ where
     T: Sum,
     T: std::ops::AddAssign,
     T: std::ops::DivAssign,
+    T: std::ops::SubAssign,
 {
     MAP_IND_T::from_iter([
         ("sma", sma_f_abstr as IND_T<T>),
         ("ema", ema_f_abstr as IND_T<T>),
         ("bfa", rma_f_abstr as IND_T<T>),
         ("rsi", rsi_f_abstr as IND_T<T>),
-        ("tqo_b", tqo_b_f_abstr as IND_T<T>),
         ("nohesi", nohesi_f_abstr as IND_T<T>),
     ])
 }
@@ -66,7 +64,6 @@ where
         ("ema", ema_coll_abstr as IND_COLL<C, T>),
         ("bfa", rma_coll_abstr as IND_COLL<C, T>),
         ("rsi", rsi_coll_abstr as IND_COLL<C, T>),
-        ("tqo_b", tqo_b_coll_abstr as IND_COLL<C, T>),
         ("nohesi", nohesi_coll_abstr as IND_COLL<C, T>),
         ("avg", avg_coll_abstr as IND_COLL<C, T>),
     ])

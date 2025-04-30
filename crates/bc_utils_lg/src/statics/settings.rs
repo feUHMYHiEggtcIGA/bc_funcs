@@ -55,24 +55,29 @@ pub static SETTINGS_IND_TEST: LazyLock<MAP_LINK<String, SETTINGS_IND>> = LazyLoc
             "rsi_2".to_string(),
             SETTINGS_IND{
                 key: String::from("rsi"),
-                kwargs_usize: MAP::from_iter([("window".to_string(), 3)]),
+                kwargs_usize: MAP::from_iter([("window".to_string(), 2)]),
                 kwargs_f64: MAP::default(),
                 kwargs_string: MAP::default(),
                 used_src: vec![],
-                used_ind: vec!["src_1".to_string()],
+                used_ind: vec!["rsi_1".to_string()],
             },
         ),
         (
-            "rsi_3".to_string(),
+            "ind".to_string(),
             SETTINGS_IND{
                 key: String::from("avg"),
                 kwargs_usize: MAP::default(),
                 kwargs_f64: MAP::default(),
                 kwargs_string: MAP::default(),
-                used_src: vec![],
-                used_ind: vec!["rsi_1".to_string(), "rsi_2".to_string()],
+                used_src: vec![
+                    SETTINGS_USED_SRC{
+                        key: "open".to_string(),
+                        sub_from_last_i: 1,
+                    }
+                ],
+                used_ind: vec!["rsi_2".to_string()],
             },
-        )
+        ),
     ]
         .into_iter()
         .collect()

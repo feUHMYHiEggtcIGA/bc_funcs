@@ -33,6 +33,7 @@ where
     let _w = *window * 10;
 
     for (i, el) in {
+        // (- 1) for change
         if *exc_last {&src[len_src - _w - 2..len_src - 1]}
         else {&src[len_src - _w - 1..]}
     }

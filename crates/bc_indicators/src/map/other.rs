@@ -5,8 +5,6 @@ use bc_utils_lg::types::maps::*;
 use bc_utils_lg::types::structures::ARGS;
 use rustc_hash::FxHashMap;
 
-use crate::ind::osc::trend::tqo_b::window_tqo_b_abstr;
-
 pub fn map_func_window_func_bf<T>() -> MAP_FUNC_USIZE<T> 
 where 
     T: Float,
@@ -16,7 +14,6 @@ where
         ("ema", |a: &ARGS<T>| -> usize {a.first().unwrap().unwrap_usize() * 10 + 1} as FUNC_USIZE<T>),
         ("rma", |a: &ARGS<T>| -> usize {a.first().unwrap().unwrap_usize() * 10 + 1} as FUNC_USIZE<T>),
         ("rsi", |a: &ARGS<T>| -> usize {a.first().unwrap().unwrap_usize() * 10 + 2} as FUNC_USIZE<T>),
-        ("tqo_b", window_tqo_b_abstr as FUNC_USIZE<T>),
         ("nohesi", |_: &ARGS<T>| -> usize {3} as FUNC_USIZE<T>),
     ])
 }
