@@ -24,6 +24,6 @@ path = "benches/ind/no_osc/trend/ema.rs"
 harness = false
 
 [[bench]]
-name = "ind_gw"
+name = "gw_ind"
 path = "benches/gw/ind.rs"
 harness = false

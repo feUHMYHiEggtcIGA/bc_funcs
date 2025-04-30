@@ -1,4 +1,4 @@
-use bc_utils_lg::structs::settings::{SETTINGS_IND, SETTINGS_USED_SRC};
+use bc_utils_lg::structs::settings::SETTINGS_IND;
 use num_traits::Float;
 use bc_utils_lg::types::funcs::FUNC_USIZE;
 use bc_utils_lg::types::maps::*;
