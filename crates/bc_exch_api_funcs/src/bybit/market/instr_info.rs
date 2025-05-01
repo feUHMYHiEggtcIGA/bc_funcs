@@ -7,7 +7,7 @@ use bc_utils_lg::structs::exch::bybit::result::RESULT_EXCH_BYBIT;
 use bc_utils_core::mechanisms::all_or_nothing;
 use bc_utils_lg::types::maps::MAP;
 
-use crate::bybit::url_const::INSTR_INFO;
+use crate::bybit::const_url::INSTR_INFO;
 
 
 pub async fn instr_info_req(

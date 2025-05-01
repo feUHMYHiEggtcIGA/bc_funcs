@@ -6,7 +6,7 @@ use bc_utils_lg::structs::exch::bybit::symbols::{
 use reqwest::{get, Error as Error_req};
 use bc_utils_core::mechanisms::all_or_nothing;
 
-use crate::bybit::url_const::TICKERS;
+use crate::bybit::const_url::TICKERS;
 
 
 pub async fn symbols_req(

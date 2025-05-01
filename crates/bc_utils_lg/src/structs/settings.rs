@@ -21,11 +21,21 @@ pub struct SETTINGS_IND {
 }
 
 #[derive(Serialize, Deserialize)]
+pub struct SETTINGS_EXCH {
+    pub api_url: String,
+    pub api_key: String,
+    pub api_secret: String,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct SETTINGS_MSG {
+    pub key: String,
+    pub chat: String,
+}
+
+#[derive(Serialize, Deserialize)]
 pub struct SETTINGS {
-    pub exch_api_key: String,
-    pub exch_api_secret: String,
-    pub msg_key: String,
-    pub msg_chat: String,
-    pub is_demo: bool,
+    pub exch: SETTINGS_EXCH,
+    pub msg: SETTINGS_MSG,
     pub indications: MAP<String, SETTINGS_IND>,
 }

@@ -10,7 +10,7 @@ use bc_utils_lg::structs::exch::bybit::orderbook::RESULT_ORDERBOOK;
 use bc_utils_lg::types::maps::MAP;
 use bc_utils_core::mechanisms::all_or_nothing;
 
-use crate::bybit::url_const::ORDERBOOK;
+use crate::bybit::const_url::ORDERBOOK;
 
 pub async fn orderbook_req(
     api_url: &str,

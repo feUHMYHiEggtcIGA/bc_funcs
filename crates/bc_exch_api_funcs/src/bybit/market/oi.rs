@@ -6,7 +6,7 @@ use bc_utils_lg::structs::exch::bybit::oi::{
 use bc_utils_lg::structs::exch::bybit::result::RESULT_EXCH_BYBIT;
 use bc_utils_core::mechanisms::all_or_nothing;
 
-use crate::bybit::url_const::OI;
+use crate::bybit::const_url::OI;
 
 
 pub async fn oi_req(
