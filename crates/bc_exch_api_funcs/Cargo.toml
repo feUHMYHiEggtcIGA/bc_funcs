@@ -1,6 +1,6 @@
 [package]
 name = "bc_exch_api_funcs"
-version = "0.1.5"
+version = "0.1.51"
 edition = "2024"
 
 [dependencies]
@@ -43,10 +43,10 @@ harness = false
 
 [[bench]]
 name = "acc_info_bybit"
-path = "benches/bybit/market/acc_info.rs"
+path = "benches/bybit/account/acc_info.rs"
 harness = false
 
 [[bench]]
 name = "wallet_balance_bybit"
-path = "benches/bybit/market/wallet_balance.rs"
+path = "benches/bybit/account/wallet_balance.rs"
 harness = false
