@@ -48,7 +48,7 @@ async fn klines_a_res_1() {
         .any(|v| v[0][0].parse::<usize>().unwrap() < v[1][0].parse::<usize>().unwrap())
     || res.len() != 10000
     {
-        panic!();
+        panic!("{}", res.len());
     }
 }
 
@@ -70,8 +70,25 @@ async fn klines_a_res_2() {
         .any(|v| v[0][0].parse::<usize>().unwrap() < v[1][0].parse::<usize>().unwrap())
     || res.len() != 1100
     {
-        println!("{}", res.len());
-        panic!();
+        panic!("{}", res.len());
+    }
+}
+
+#[tokio::test]
+async fn klines_a_res_3() {
+    let res = klines_a(
+        "https://api.bybit.com", 
+        "linear",
+        "BTCUSDT",
+        "1",
+        &1100,
+        &1669852800000,
+        &1671062400000,
+    )
+        .await;
+    if !res[0][0].parse::<usize>().unwrap() < res[1000][0].parse::<usize>().unwrap()
+    {
+        panic!("{} < {}", res[0][0], res[1000][0]);
     }
 }
 
