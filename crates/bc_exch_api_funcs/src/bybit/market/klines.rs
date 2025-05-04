@@ -45,6 +45,7 @@ pub async fn klines_req(
 }
 
 /// the function returns values from the beginning of the start to the end (in ascending order)
+/// It's a cumbersome implementation, but I don't want to fuck with it right now.
 pub async fn klines(
     api_url: &str,
     category: &str,
@@ -71,31 +72,38 @@ pub async fn klines(
     let mut limits = vec![];
     let mut time1 = vec![];
     let mut time2 = vec![];
-    let diff_st_end = start - end;
+    let diff_st_end = end - start;
     for time_  in ({
-        if diff_st_end != changes{
+        if diff_st_end != changes && start == &0 && end == &0 {
             time_stamp - changes
-        } else {
-            *end
-        }
-    }..{
-        if diff_st_end != changes{
-            time_stamp
+        } else if diff_st_end != changes && start == &0 && end != &0{
+            *end - changes
         } else {
             *start
+        }
+    }..{
+        if diff_st_end != changes && start == &0 && end == &0 {
+            time_stamp
+        } else if diff_st_end != changes && start != &0 && end == &0{
+            start + changes
+        } else {
+            *end
         }
     })
         .rev()
         .step_by(step)
     {
-        let sk = limits_num % 1000;
-        limits_num -= sk;
-        limits.push(match sk {
+        let sk = match limits_num % 1000 {
             0 => 1000,
             v => v
-        });
+        };
+        limits_num -= sk;
+        limits.push(sk);
         time1.push(time_ - step * 2);
         time2.push(time_ - step);
+        if limits_num == 0 {
+            break;
+        }
     }
     Ok(join_all(
         time1

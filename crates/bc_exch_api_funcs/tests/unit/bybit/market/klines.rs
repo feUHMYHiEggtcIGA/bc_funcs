@@ -32,7 +32,7 @@ async fn klines_a_lch_1() {
 
 #[tokio::test]
 async fn klines_a_res_1() {
-    if !klines_a(
+    let res = klines_a(
         "https://api.bybit.com", 
         "linear",
         "SUIUSDT",
@@ -41,11 +41,36 @@ async fn klines_a_res_1() {
         &0,
         &0,
     )
-        .await
+        .await;
+    if !res
         .windows(2)
         .take(2)
         .any(|v| v[0][0].parse::<usize>().unwrap() < v[1][0].parse::<usize>().unwrap())
+    || res.len() != 10000
     {
+        panic!();
+    }
+}
+
+#[tokio::test]
+async fn klines_a_res_2() {
+    let res = klines_a(
+        "https://api.bybit.com", 
+        "linear",
+        "BTCUSDT",
+        "1",
+        &1100,
+        &1669852800000,
+        &1671062400000,
+    )
+        .await;
+    if !res
+        .windows(2)
+        .take(2)
+        .any(|v| v[0][0].parse::<usize>().unwrap() < v[1][0].parse::<usize>().unwrap())
+    || res.len() != 1100
+    {
+        println!("{}", res.len());
         panic!();
     }
 }
