@@ -84,6 +84,7 @@ version = "0.1.2"
 dependencies = [
  "bc_exch_api_funcs",
  "bc_indicators",
+ "bc_signals",
  "bc_utils",
  "bc_utils_core",
  "bc_utils_lg",
@@ -99,6 +100,10 @@ dependencies = [
  "num-traits",
  "rustc-hash",
 ]
+
+[[package]]
+name = "bc_signals"
+version = "0.1.0"
 
 [[package]]
 name = "bc_utils"

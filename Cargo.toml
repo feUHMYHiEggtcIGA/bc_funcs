@@ -14,3 +14,4 @@ bc_indicators ={ path = "crates/bc_indicators"}
 bc_utils_lg ={ path = "crates/bc_utils_lg" }
 bc_exch_api_funcs={path = "crates/bc_exch_api_funcs"}
 bc_utils_core={path = "crates/bc_utils_core"}
+bc_signals={path = "crates/bc_signals"}

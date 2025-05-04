@@ -1,5 +1,6 @@
 use bc_exch_api_funcs::bybit::market::klines::*;
 
+
 #[tokio::test]
 async fn klines_req_lch_1() {
     klines_req(
@@ -27,6 +28,26 @@ async fn klines_a_lch_1() {
         &0,
     )
         .await;
+}
+
+#[tokio::test]
+async fn klines_a_res_1() {
+    if !klines_a(
+        "https://api.bybit.com", 
+        "linear",
+        "SUIUSDT",
+        "1",
+        &10000,
+        &0,
+        &0,
+    )
+        .await
+        .windows(2)
+        .take(2)
+        .any(|v| v[0][0].parse::<usize>().unwrap() < v[1][0].parse::<usize>().unwrap())
+    {
+        panic!();
+    }
 }
 
 #[tokio::test]

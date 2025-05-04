@@ -1,5 +1,7 @@
 #![allow(non_camel_case_types)]
 
+use std::time::{SystemTime, UNIX_EPOCH};
+
 use reqwest::{
     Error as Error_req,
     get,
@@ -42,6 +44,7 @@ pub async fn klines_req(
     .await
 }
 
+/// the function returns values from the beginning of the start to the end (in ascending order)
 pub async fn klines(
     api_url: &str,
     category: &str,
@@ -50,17 +53,74 @@ pub async fn klines(
     limit: &usize,
     start: &usize,
     end: &usize,
-) -> Result<Vec<Vec<String>>, Error_req>
+) -> Result<Vec<Vec<String>>, Box<dyn std::error::Error>>
 {
-    Ok(klines_req(
-        api_url, 
-        category, 
-        symbol, 
-        interval, 
-        limit, 
-        start, 
-        end
-    ).await?.result.list)
+    let inter = match interval {
+        "D" => 1440,
+        "W" => 10_080,
+        "M" => 43_200,
+        v => v.parse::<usize>().unwrap(),
+    };
+    let time_stamp = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_millis() as usize;
+    let changes = inter * limit * 60 * 1000;
+    let step = inter * 1000 * 60 * 1000;
+    let mut limits_num = *limit;
+    let mut limits = vec![];
+    let mut time1 = vec![];
+    let mut time2 = vec![];
+    let diff_st_end = start - end;
+    for time_  in ({
+        if diff_st_end != changes{
+            time_stamp - changes
+        } else {
+            *end
+        }
+    }..{
+        if diff_st_end != changes{
+            time_stamp
+        } else {
+            *start
+        }
+    })
+        .rev()
+        .step_by(step)
+    {
+        let sk = limits_num % 1000;
+        limits_num -= sk;
+        limits.push(match sk {
+            0 => 1000,
+            v => v
+        });
+        time1.push(time_ - step * 2);
+        time2.push(time_ - step);
+    }
+    Ok(join_all(
+        time1
+            .iter()
+            .zip(time2.iter())
+            .zip(limits.iter())
+            .map(|((time1_, time2_), l,)| klines_req(
+                api_url, 
+                category, 
+                symbol, 
+                interval, 
+                l,
+                time1_,
+                time2_,
+        ))
+    )
+        .await
+        .into_iter()
+        .map(|v| -> Result<Vec<Vec<String>>, Box<dyn std::error::Error>> {
+            let mut sk = v?.result.list;
+            sk.reverse();
+            Ok(sk)
+        })
+        .collect::<Result<Vec<Vec<Vec<String>>>, Box<dyn std::error::Error>>>()?
+        .concat())
 }
 
 pub async fn klines_a(
@@ -74,7 +134,7 @@ pub async fn klines_a(
 ) -> Vec<Vec<String>>
 {
     all_or_nothing(
-        async || Ok(klines_req(
+        async || klines(
             api_url,
             category,
             symbol,
@@ -82,7 +142,7 @@ pub async fn klines_a(
             limit,
             start,
             end,
-        ).await?.result.list),
+        ).await,
     ).await
 }
 
@@ -183,7 +243,7 @@ pub async fn klines_symbols<'a>(
     limit: &usize,
     start: &usize,
     end: &usize,
-) -> MAP<&'a str, Result<Vec<Vec<String>>, Error_req>>
+) -> MAP<&'a str, Result<Vec<Vec<String>>, Box<dyn std::error::Error>>>
 {
     join_all(
         symbols
