@@ -18,7 +18,7 @@ where
     T: Float,
 {
     let one_h = T::from(100.0).unwrap();
-    one_h - (one_h / (T::one() + *rma1 / *rma2))
+    (one_h - (one_h / (T::one() + *rma1 / *rma2))) / T::from(100.0).unwrap()
 }
 
 #[allow(clippy::implicit_hasher)]

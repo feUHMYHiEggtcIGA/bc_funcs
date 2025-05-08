@@ -15,6 +15,7 @@ where
         ("rma", |a: &ARGS<T>| -> usize {a.first().unwrap().unwrap_usize() * 10 + 1} as FUNC_USIZE<T>),
         ("rsi", |a: &ARGS<T>| -> usize {a.first().unwrap().unwrap_usize() * 10 + 2} as FUNC_USIZE<T>),
         ("nohesi", |_: &ARGS<T>| -> usize {3} as FUNC_USIZE<T>),
+        ("trend_ma", |_: &ARGS<T>| -> usize {2} as FUNC_USIZE<T>),
     ])
 }
 
