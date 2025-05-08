@@ -21,7 +21,6 @@ pub fn mm_coll(
         .windows(*window)
         .enumerate()
     {
-        let i = i * *window - {if i == 0 {0} else {1}};
         let (min, max) = el
             .iter()
             .enumerate()
@@ -29,11 +28,11 @@ pub fn mm_coll(
                 ((0, f64::INFINITY), (0, f64::NEG_INFINITY),),
                 |init, v| (
                     match init.0.1.partial_cmp(&v.1["low"]) {
-                        Some(Ordering::Greater) => (v.0, v.1["low"]),
+                        Some(Ordering::Greater) => (v.0 + i, v.1["low"]),
                         _ => init.0,
                     },
                     match init.1.1.partial_cmp(&v.1["high"]) {
-                        Some(Ordering::Less) => (v.0, v.1["high"]),
+                        Some(Ordering::Less) => (v.0 + i, v.1["high"]),
                         _ => init.1,
                     }
                 )
