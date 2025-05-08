@@ -75,3 +75,11 @@ pub static SRCS: LazyLock<SRCS_T<f64>> = LazyLock::new(|| SRCS_T::from_iter([
     ("low".to_string(), LOW.to_vec()),
     ("close".to_string(), CLOSE.to_vec()),
 ]));
+pub static SRC_VEC: LazyLock<Vec<SRC_T<f64>>> = LazyLock::new(|| (0..50).map(
+        |i| SRC_T::from_iter([
+        ("open".to_string(), OPEN[i]),
+        ("high".to_string(), HIGH[i]),
+        ("low".to_string(), LOW[i]),
+        ("close".to_string(), CLOSE[i]),
+    ])
+).collect());

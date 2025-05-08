@@ -104,6 +104,9 @@ dependencies = [
 [[package]]
 name = "bc_signals"
 version = "0.1.0"
+dependencies = [
+ "bc_utils_lg",
+]
 
 [[package]]
 name = "bc_utils"
