@@ -1,6 +1,7 @@
 use std::borrow::Borrow;
 
 use bc_utils_lg::types::structures::*;
+use bc_utils_lg::enums::indicators::T_HASHMAP;
 use bc_utils_lg::types::maps::MAP;
 use num_traits::Float;
 
@@ -32,10 +33,10 @@ pub fn bf_trend_ma_abstr<T, V>(
     src: &SRCS_ARG<V>,
     _: &ARGS<T>,
     exc_last: &bool,
-) -> MAP<&'static str, T>
+) -> BF_VEC<T>
 where 
     T: Float,
     V: Borrow<T>,
 {
-    bf_trend_ma(src[0], exc_last)
+    vec![T_HASHMAP::Float(bf_trend_ma(src[0], exc_last))]
 }

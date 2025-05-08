@@ -51,3 +51,15 @@ where
 {
     avg_coll(src)
 }
+
+pub fn avg_f_abstr<T>(
+    src: &SRCS_ARG<T>, 
+    _: &ARGS<T>
+) -> T
+where 
+    T: Float,
+    T: std::iter::Sum,
+    T: std::ops::AddAssign,
+{
+    avg(src[0])
+}

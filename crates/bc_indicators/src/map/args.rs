@@ -33,7 +33,7 @@ where
                     "nohesi" => vec![
                         T_ARGS::<T>::Float(T::from(setting.1.kwargs_f64["hesi"]).unwrap()),
                     ],
-                    "avg" => vec![],
+                    "avg" | "trend_ma" => vec![],
                     _ => panic!("key indication unknown"),
                 }
             )

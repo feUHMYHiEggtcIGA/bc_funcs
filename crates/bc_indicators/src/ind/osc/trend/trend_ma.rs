@@ -1,5 +1,5 @@
 use bc_utils_lg::types::structures::*;
-use bc_utils_lg::types::maps::{MAP, MAP_BF_VEC};
+use bc_utils_lg::types::maps::MAP;
 use num_traits::Float;
 
 use crate::bf::trend_ma::bf_trend_ma;
@@ -52,12 +52,22 @@ where
 }
 
 pub fn trend_ma_coll_abstr<C, T>(
-    src: &SRC_ARG<T>,
+    src: &SRCS_ARG<T>,
     _: &ARGS<T>,
 ) -> C
 where 
     T: Float,
     C: FromIterator<T>,
 {
-    trend_ma_coll(src)
+    trend_ma_coll(src[0])
+}
+
+pub fn trend_ma_f_abstr<T>(
+    src: &SRCS_ARG<T>,
+    _: &ARGS<T>,
+) -> T
+where 
+    T: Float,
+{
+    trend_ma_bf(&src[0][2], &mut bf_trend_ma(&src[0][..2], &false))
 }

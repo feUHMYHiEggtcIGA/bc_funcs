@@ -8,6 +8,7 @@ use bc_utils_lg::types::funcs::*;
 use bc_utils_lg::types::maps::*;
 use bc_utils_lg::statics::funcs::fn_ind_bf_abstr_default;
 
+use crate::bf::trend_ma::bf_trend_ma_abstr;
 use crate::bf::{
     ema::bf_ema_abstr,
     sma::bf_sma_abstr,
@@ -30,5 +31,6 @@ where
         ("rsi", bf_rsi_abstr as FUNC_BF_IND<T>),
         ("nohesi", bf_nohesi_abstr as FUNC_BF_IND<T>),
         ("avg", fn_ind_bf_abstr_default as FUNC_BF_IND<T>),
+        ("trend_ma", bf_trend_ma_abstr as FUNC_BF_IND<T>),
     ])
 }
