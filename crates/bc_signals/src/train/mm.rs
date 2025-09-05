@@ -1,61 +1,67 @@
 use std::cmp::{
     max_by_key, 
-    min_by_key, 
-    Ordering,
+    min_by_key,
+    Ordering::Equal,
 };
 
 use bc_utils_lg::types::structures::SRC;
 
-pub fn mm_coll(
+pub fn mm_coll<C>(
     src: &[SRC<f64>],
     key: &str,
-    window: &usize,
     min_distance: &usize,
+    max_distance: &usize,
     tp_th: &f64,
     tp_limit: &f64,
-) -> (Vec<f64>, Vec<f64>)
-{
-    let src_len = src.len();
-    let mut entrances = vec![0.0; src_len];
-    let mut exits = vec![0.0; src_len];
-    for (i, el) in src
-        .windows(*window)
-        .enumerate()
-    {
-        let (min, max) = el
-            .iter()
-            .enumerate()
-            .fold(
-                ((i, src[i][key]), (i, src[i][key]),),
-                |init, v| {
-                    let vkey = v.1[key];
-                    (
-                        match vkey.partial_cmp(&init.0.1) {
-                            Some(Ordering::Less) => (v.0 + i, vkey),
-                            _ => init.0,
-                        },
-                        match vkey.partial_cmp(&init.1.1) {
-                            Some(Ordering::Greater) => (v.0 + i, vkey),
-                            _ => init.1,
-                        },
+) -> C
+where
+    C: FromIterator<f64>
+{ 
+    let lenn = src.len();
+
+    (0..src.len())
+        .into_iter()
+        .map(
+            |i| if i <= lenn - max_distance {
+                let enum_ = src[i..i + max_distance].iter().map(|v| v[key]).enumerate();
+                let min_ = (
+                    enum_.clone().min_by(
+                        |v1, v2| 
+                        v1
+                            .1
+                            .partial_cmp(&v2.1)
+                            .unwrap_or(Equal)
                     )
+                        .unwrap_or_default(), 
+                    1.0,
+                );
+                let max_ = (
+                    enum_.max_by(
+                        |v1, v2| 
+                        v1
+                            .1
+                            .partial_cmp(&v2.1)
+                            .unwrap_or(Equal)
+                    )
+                        .unwrap_or_default(), 
+                    -1.0,
+                );
+                let diff = (max_.0.1 - min_.0.1) / max_.0.1;
+                if diff >= *tp_th  && diff <= *tp_limit
+
+                {
+                   if  *min_distance <= (min_.0.0.max(max_.0.0) - max_.0.0.min(min_.0.0)) {
+
+                        let res = min_by_key(max_, min_, |v1| v1.0.0);
+                        if res.0.0 == 0 {
+                             return res.1;
+                        }
+                        return 0.0;
+                    }
+                    return 0.0;
                 }
-            );
-        let index_min = min_by_key(&min, &max, |v| v.0);
-        let index_max = max_by_key(&min, &max, |v| v.0);
-        let range_ = (index_max.1 / index_min.1 - 1.0).abs();
-        if &(index_max.0 - index_min.0) >= min_distance 
-            && &range_ >= tp_th
-            && &range_ <= tp_limit
-        {
-            if index_min.1 < index_max.1 {
-                entrances[index_min.0] = 1.0;
-                exits[index_max.0] = -1.0;
-            } else {
-                entrances[index_min.0] = -1.0;
-                exits[index_max.0] = 1.0;
-            }
-        }
-    }
-    (entrances, exits)    
+                0.0
+            } else {0.0}
+        )
+        .collect()
 }
