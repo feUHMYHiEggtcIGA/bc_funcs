@@ -5,3 +5,5 @@ edition = "2024"
 
 [dependencies]
 bc_utils_lg ={ path = "../bc_utils_lg"}
+
+linfa = "0.7.1"	
