@@ -3,4 +3,4 @@
 use crate::structs::ml::POOL_EL;
 
 
-type TRAIN_POOL = Vec<POOL_EL>;
+pub type TRAIN_POOL = Vec<POOL_EL>;
