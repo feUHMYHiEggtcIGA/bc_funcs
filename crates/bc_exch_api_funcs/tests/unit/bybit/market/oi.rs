@@ -28,5 +28,6 @@ async fn oi_a_lch_1(){
         &0, 
         &1, 
         "",
-    ).await);
+        &f64::INFINITY,
+    ).await.unwrap());
 }

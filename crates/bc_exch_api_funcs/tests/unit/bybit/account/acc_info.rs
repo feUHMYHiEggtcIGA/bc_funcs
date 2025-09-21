@@ -11,7 +11,7 @@ async fn acc_info_req_lch_1() {
         &SETTINGS.exch.api_key,
         &SETTINGS.exch.api_secret,
         &SETTINGS.exch.api_url,
-    ).await);
+    ).await.unwrap());
 }
 
 #[tokio::test]
@@ -21,5 +21,6 @@ async fn acc_info_a_lch_1() {
         &SETTINGS.exch.api_key,
         &SETTINGS.exch.api_secret,
         &SETTINGS.exch.api_url,
-    ).await);
+        &f64::INFINITY,
+    ).await.unwrap());
 }

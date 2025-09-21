@@ -1,3 +1,5 @@
+#![warn(unused_must_use)]
+
 use bc_exch_api_funcs::bybit::market::klines::*;
 
 
@@ -26,8 +28,10 @@ async fn klines_a_lch_1() {
         &10,
         &0,
         &0,
+        &f64::INFINITY,
     )
-        .await;
+        .await
+        .unwrap();
 }
 
 #[tokio::test]
@@ -40,8 +44,10 @@ async fn klines_a_res_1() {
         &10000,
         &0,
         &0,
+        &f64::INFINITY,
     )
-        .await;
+        .await
+        .unwrap();
     if !res
         .windows(2)
         .take(2)
@@ -62,8 +68,10 @@ async fn klines_a_res_2() {
         &1100,
         &1669852800000,
         &1671062400000,
+        &f64::INFINITY,
     )
-        .await;
+        .await
+        .unwrap();
     if !res
         .windows(2)
         .take(2)
@@ -84,8 +92,10 @@ async fn klines_a_res_3() {
         &1100,
         &1669852800000,
         &1671062400000,
+        &f64::INFINITY,
     )
-        .await;
+        .await
+        .unwrap();
     if !res[0][0].parse::<usize>().unwrap() < res[1000][0].parse::<usize>().unwrap()
     {
         panic!("{} < {}", res[0][0], res[1000][0]);
@@ -120,8 +130,10 @@ async fn kline_symbols_a_lch_1() {
         "linear",
         symbols.as_slice(),
         "1",
+        &f64::INFINITY,
     )
-        .await;
+        .await
+        .unwrap();
 }
 
 #[tokio::test]
@@ -136,6 +148,7 @@ async fn kline_symbols_ao_lch_1() {
         "linear",
         symbols.as_slice(),
         "1",
+        &f64::INFINITY,
     )
         .await;
 }
@@ -174,6 +187,8 @@ async fn klines_symbols_a_lch_1() {
         &10,
         &0,
         &0,
+        &f64::INFINITY,
     )
-        .await;
+        .await
+        .unwrap();
 }

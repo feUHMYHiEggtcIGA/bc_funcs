@@ -1,5 +1,7 @@
 #![allow(non_camel_case_types)]
 
+use std::error::Error;
+
 use reqwest::{
     Error as Error_req,
     get,
@@ -46,14 +48,15 @@ pub async fn orderbook_a(
     category: &str,
     symbol: &str,
     limit: &usize,
-) -> RESULT_ORDERBOOK
+    wait_sec: &f64,
+) -> Result<RESULT_ORDERBOOK, Box<dyn Error>>
 {
     all_or_nothing(async || orderbook(
         api_url, 
         category, 
         symbol, 
-        limit
-    ).await).await
+        limit,
+    ).await, wait_sec).await
 }
 
 pub async fn orderbooks<'a>(
@@ -90,26 +93,28 @@ pub async fn orderbooks_a<'a>(
     category: &str,
     symbols: &'a [String],
     limit: &usize,
-) -> MAP<&'a str, RESULT_ORDERBOOK>
+    wait_sec: &f64,
+) -> Result<MAP<&'a str, RESULT_ORDERBOOK>, Box<dyn Error>>
 {
     join_all(
         symbols
             .iter()
             .map(
                 |v| async {
-                    (
+                    Ok((
                         v.as_str(), 
                         orderbook_a(
                             api_url, 
                             category, 
                             v.as_str(), 
                             limit,
-                        ).await
-                    )
+                            wait_sec
+                        ).await?
+                    ))
                 }
             )
     )
         .await
         .into_iter()
-        .collect()
+        .collect::<Result<_, Box<dyn Error>>>()
 }

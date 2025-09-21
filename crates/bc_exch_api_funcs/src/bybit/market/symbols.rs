@@ -1,3 +1,5 @@
+use std::error::Error;
+
 use bc_utils_lg::structs::exch::bybit::result::RESULT_EXCH_BYBIT;
 use bc_utils_lg::structs::exch::bybit::symbols::{
     RESULT_SYMBOLS, 
@@ -53,14 +55,19 @@ pub async fn symbols_a(
     category: &str,
     symbol: &str,
     base_coin: &str,
-    exp_date: &str
-) -> Vec<RESULT_SYMBOLS1>
+    exp_date: &str,
+    wait_time_sec: &f64,
+) -> Result<Vec<RESULT_SYMBOLS1>, Box<dyn Error>>
 {
-    all_or_nothing(async || symbols(
-        api_url, 
-        category, 
-        symbol, 
-        base_coin, 
-        exp_date
-    ).await).await
+    all_or_nothing(
+        async || symbols(
+            api_url, 
+            category, 
+            symbol, 
+            base_coin, 
+            exp_date,
+        )
+            .await, 
+        wait_time_sec
+    ).await
 }

@@ -1,4 +1,5 @@
 use std::time::{SystemTime, UNIX_EPOCH};
+use std::error::Error;
 
 use bc_utils_lg::structs::exch::bybit::result::RESULT_EXCH_BYBIT;
 use bc_utils_lg::structs::exch::bybit::wallet_balance::{
@@ -62,8 +63,9 @@ pub async fn wallet_balance_a(
     secr: &'static str,
     api_url: &str,
     account_type: &str,
-    coin: &str
-) -> Vec<RESULT_WALLET_BALANCE1>
+    coin: &str,
+    wait_sec: &f64,
+) -> Result<Vec<RESULT_WALLET_BALANCE1>, Box<dyn Error>>
 {
-    all_or_nothing(|| wallet_balance(client, token, secr, api_url, account_type, coin)).await
+    all_or_nothing(|| wallet_balance(client, token, secr, api_url, account_type, coin), wait_sec).await
 }

@@ -21,6 +21,7 @@ async fn symbols_a_lch_1() {
         "",
         "",
         "",
+        &f64::INFINITY,
     )
-        .await;
+        .await.unwrap();
 }

@@ -1,3 +1,5 @@
+use std::error::Error;
+
 use reqwest::{get, Error as Error_req};
 use bc_utils_lg::structs::exch::bybit::oi::{
     RESULT_OI,
@@ -70,7 +72,8 @@ pub async fn oi_a(
     end_time: &usize,
     limit: &usize,
     cursor: &str,
-) -> Vec<RESULT_OI1>
+    wait_sec: &f64,
+) -> Result<Vec<RESULT_OI1>, Box<dyn Error>>
 {
     all_or_nothing(||oi(
         api_url, 
@@ -81,6 +84,6 @@ pub async fn oi_a(
         end_time, 
         limit, 
         cursor
-    )).await
+    ), wait_sec).await
 }
 

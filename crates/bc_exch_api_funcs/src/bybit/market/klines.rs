@@ -1,6 +1,7 @@
 #![allow(non_camel_case_types)]
 
 use std::time::{SystemTime, UNIX_EPOCH};
+use std::error::Error;
 
 use reqwest::{
     Error as Error_req,
@@ -139,7 +140,8 @@ pub async fn klines_a(
     limit: &usize,
     start: &usize,
     end: &usize,
-) -> Vec<Vec<String>>
+    wait_sec: &f64,
+) -> Result<Vec<Vec<String>>, Box<dyn Error>>
 {
     all_or_nothing(
         async || klines(
@@ -151,6 +153,7 @@ pub async fn klines_a(
             start,
             end,
         ).await,
+        wait_sec,
     ).await
 }
 
@@ -195,16 +198,17 @@ pub async fn kline_symbols_a<'a>(
     category: &str,
     symbols: &'a [String],
     interval: &str,
-) -> MAP<&'a str, Vec<String>>
+    wait_sec: &f64
+) -> Result<MAP<&'a str, Vec<String>>, Box<dyn Error>>
 {
     join_all(
         symbols
            .iter()
            .map(|s| async {
-                (
+                Ok((
                     s.as_str(), 
                     async {
-                        klines_a(
+                        match klines_a(
                             api_url, 
                             category, 
                             s, 
@@ -212,18 +216,24 @@ pub async fn kline_symbols_a<'a>(
                             &1, 
                             &0, 
                             &0,
+                            wait_sec,
                         )
                             .await
-                            .into_iter()
+                            {
+                                Ok(v) => Ok(v.into_iter()
                             .next()
-                            .unwrap_or(vec![])
-                    }.await,
-                )
+                            .unwrap_or(vec![])),
+                                Err(_) => Err(Box::<dyn Error>::from("klines_a err"))
+                            }
+                            
+                           
+                    }.await?,
+                ))
            })
     )
         .await
         .into_iter()
-        .collect()
+        .collect::<Result<_, Box<dyn Error>>>()
 }
 
 pub async fn kline_symbols_ao<'a>(
@@ -231,7 +241,8 @@ pub async fn kline_symbols_ao<'a>(
     category: &'a str,
     symbols: &'a [String],
     interval: &'a str,
-) -> MAP<&'a str, Vec<String>>
+    wait_sec: &f64,
+) -> Result<MAP<&'a str, Vec<String>>, Box<dyn Error>>
 {   
     one_time_hm(
         async || kline_symbols_a(
@@ -239,6 +250,7 @@ pub async fn kline_symbols_ao<'a>(
             category, 
             symbols, 
             interval,
+            wait_sec,
         ).await,
     ).await
 }
@@ -285,13 +297,14 @@ pub async fn klines_symbols_a<'a>(
     limit: &usize,
     start: &usize,
     end: &usize,
-) -> MAP<&'a str, Vec<Vec<String>>>
+    wait_sec: &f64,
+) -> Result<MAP<&'a str, Vec<Vec<String>>>, Box<dyn Error>>
 {
     join_all(
         symbols
         .iter()
         .map(|s| async {
-            (
+            Ok((
                 s.as_str(), 
                 klines_a(
                     api_url, 
@@ -300,13 +313,14 @@ pub async fn klines_symbols_a<'a>(
                     interval, 
                     limit, 
                     start, 
-                    end
+                    end,
+                    wait_sec,
                 )
-                    .await
-            )
+                    .await?
+            ))
         })
     )
         .await
         .into_iter()
-        .collect()
+        .collect::<Result<_, Box<dyn Error>>>()
 }

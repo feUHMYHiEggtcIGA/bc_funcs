@@ -1,3 +1,5 @@
+use std::error::Error;
+
 use reqwest::{get, Error as Error_req};
 use bc_utils_lg::structs::exch::bybit::instr_info::{
     RESULT_INSTR_INFO,
@@ -59,7 +61,8 @@ pub async fn instr_info_a(
     symbol: &str,
     status: &str,
     base_coin: &str,
-) -> RESULT_INSTR_INFO1
+    wait_sec: &f64,
+) -> Result<RESULT_INSTR_INFO1, Box<dyn Error>>
 {
     all_or_nothing(
         async || instr_info(
@@ -68,7 +71,8 @@ pub async fn instr_info_a(
             symbol, 
             status, 
             base_coin, 
-        ).await
+        ).await,
+        wait_sec,
     ).await
 }
 
@@ -115,7 +119,8 @@ pub async fn instrs_info_a<'a>(
     symbols: &'a [String],
     status: &'a str,
     base_coin: &'a str,
-) -> MAP<&'a str, RESULT_INSTR_INFO1>
+    wait_sec: &f64,
+) -> Result<MAP<&'a str, RESULT_INSTR_INFO1>, Box<dyn Error>>
 {
     all_or_nothing(
         || instrs_info(
@@ -124,6 +129,7 @@ pub async fn instrs_info_a<'a>(
             symbols, 
             status, 
             base_coin
-        )
+        ),
+        wait_sec
     ).await
 }

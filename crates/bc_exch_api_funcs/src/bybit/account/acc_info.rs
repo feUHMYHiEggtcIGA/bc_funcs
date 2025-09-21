@@ -1,4 +1,5 @@
 use std::time::{SystemTime, UNIX_EPOCH};
+use std::error::Error;
 
 use bc_utils_lg::structs::exch::bybit::result::RESULT_EXCH_BYBIT;
 use bc_utils_lg::structs::exch::bybit::acc_info::RESULT_ACC_INFO;
@@ -53,7 +54,8 @@ pub async fn acc_info_a(
     token: &'static str,
     secr: &'static str,
     api_url: &str,
-) -> RESULT_ACC_INFO
+    wait_sec: &f64,
+) -> Result<RESULT_ACC_INFO, Box<dyn Error>>
 {
-    all_or_nothing(|| acc_info(client, token, secr, api_url,)).await
+    all_or_nothing(|| acc_info(client, token, secr, api_url,), wait_sec).await
 }

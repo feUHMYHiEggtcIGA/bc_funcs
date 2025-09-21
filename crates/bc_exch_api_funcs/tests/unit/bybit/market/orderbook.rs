@@ -22,8 +22,9 @@ async fn orderbook_a_lch_1(){
         "linear", 
         "SUIUSDT",
         &10,
+        &f64::INFINITY,
     )
-        .await;
+        .await.unwrap();
 }
 
 #[tokio::test]
@@ -54,6 +55,7 @@ async fn orderbooks_a_lch_1(){
         "linear", 
         symbols,
         &10,
+        &f64::INFINITY,
     )
-        .await;
+        .await.unwrap();
 }

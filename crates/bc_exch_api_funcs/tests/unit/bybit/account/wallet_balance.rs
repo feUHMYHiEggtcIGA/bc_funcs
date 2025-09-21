@@ -13,7 +13,7 @@ async fn wallet_balance_req_lch_1() {
         &SETTINGS.exch.api_url,
         "UNIFIED", 
         "USDT",
-    ).await);
+    ).await.unwrap());
 }
 
 #[tokio::test]
@@ -25,5 +25,6 @@ async fn wallet_balance_a_lch_1() {
         &SETTINGS.exch.api_url,
         "UNIFIED", 
         "USDT",
-    ).await);
+        &f64::INFINITY,
+    ).await.unwrap());
 }

@@ -52,6 +52,8 @@ async fn instrs_info_a_lch_1(){
         &["SUIUSDT".to_string(), "UNIUSDT".to_string(), "ETHUSDT".to_string()],
         "",
         "",
+        &f64::INFINITY,
     )
-        .await;
+        .await
+        .unwrap();
 }
