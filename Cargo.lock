@@ -69,7 +69,7 @@ name = "bc_exch_api_funcs"
 version = "0.1.61"
 dependencies = [
  "bc_utils_core 0.1.2 (git+https://github.com/feUHMYHiEggtcIGA/bc_utils_core.git)",
- "bc_utils_lg 0.1.6 (git+https://github.com/feUHMYHiEggtcIGA/bc_utils_lg.git)",
+ "bc_utils_lg 0.1.61 (git+https://github.com/feUHMYHiEggtcIGA/bc_utils_lg.git)",
  "criterion",
  "futures",
  "reqwest",
@@ -81,10 +81,10 @@ dependencies = [
 [[package]]
 name = "bc_exch_api_funcs"
 version = "0.1.61"
-source = "git+https://github.com/feUHMYHiEggtcIGA/bc_exch_api_funcs.git#bb8350d5a97577bcdce37c554f123ad06ef525b3"
+source = "git+https://github.com/feUHMYHiEggtcIGA/bc_exch_api_funcs.git#73c716f7f81aedefd73abe4999e86b90f369824f"
 dependencies = [
  "bc_utils_core 0.1.2 (git+https://github.com/feUHMYHiEggtcIGA/bc_utils_core.git)",
- "bc_utils_lg 0.1.6 (git+https://github.com/feUHMYHiEggtcIGA/bc_utils_lg.git)",
+ "bc_utils_lg 0.1.61 (git+https://github.com/feUHMYHiEggtcIGA/bc_utils_lg.git)",
  "futures",
  "reqwest",
  "serde",
@@ -101,7 +101,7 @@ dependencies = [
  "bc_signals",
  "bc_utils 0.1.21",
  "bc_utils_core 0.1.2",
- "bc_utils_lg 0.1.6",
+ "bc_utils_lg 0.1.61",
 ]
 
 [[package]]
@@ -109,7 +109,7 @@ name = "bc_indicators"
 version = "0.2.21"
 dependencies = [
  "bc_utils 0.1.21 (git+https://github.com/feUHMYHiEggtcIGA/bc_utils.git)",
- "bc_utils_lg 0.1.6 (git+https://github.com/feUHMYHiEggtcIGA/bc_utils_lg.git)",
+ "bc_utils_lg 0.1.61 (git+https://github.com/feUHMYHiEggtcIGA/bc_utils_lg.git)",
  "criterion",
  "num-traits",
  "rustc-hash",
@@ -119,7 +119,7 @@ dependencies = [
 name = "bc_signals"
 version = "0.1.0"
 dependencies = [
- "bc_utils_lg 0.1.6 (git+https://github.com/feUHMYHiEggtcIGA/bc_utils_lg.git)",
+ "bc_utils_lg 0.1.61 (git+https://github.com/feUHMYHiEggtcIGA/bc_utils_lg.git)",
  "ndarray",
 ]
 
@@ -143,7 +143,7 @@ name = "bc_utils_core"
 version = "0.1.2"
 dependencies = [
  "bc_exch_api_funcs 0.1.61 (git+https://github.com/feUHMYHiEggtcIGA/bc_exch_api_funcs.git)",
- "bc_utils_lg 0.1.6 (git+https://github.com/feUHMYHiEggtcIGA/bc_utils_lg.git)",
+ "bc_utils_lg 0.1.61 (git+https://github.com/feUHMYHiEggtcIGA/bc_utils_lg.git)",
  "hex",
  "hmac",
  "reqwest",
@@ -156,7 +156,7 @@ name = "bc_utils_core"
 version = "0.1.2"
 source = "git+https://github.com/feUHMYHiEggtcIGA/bc_utils_core.git#096d75d792a73acac104d9d863529dc4849beccc"
 dependencies = [
- "bc_utils_lg 0.1.6 (git+https://github.com/feUHMYHiEggtcIGA/bc_utils_lg.git)",
+ "bc_utils_lg 0.1.61 (git+https://github.com/feUHMYHiEggtcIGA/bc_utils_lg.git)",
  "hex",
  "hmac",
  "reqwest",
@@ -166,7 +166,7 @@ dependencies = [
 
 [[package]]
 name = "bc_utils_lg"
-version = "0.1.6"
+version = "0.1.61"
 dependencies = [
  "indexmap",
  "num-traits",
@@ -177,8 +177,8 @@ dependencies = [
 
 [[package]]
 name = "bc_utils_lg"
-version = "0.1.6"
-source = "git+https://github.com/feUHMYHiEggtcIGA/bc_utils_lg.git#c039a7259b7581428d484dcc16927ee9ea1ffc74"
+version = "0.1.61"
+source = "git+https://github.com/feUHMYHiEggtcIGA/bc_utils_lg.git#cb029804ea71faf46ff925bd3abe53ef9cf4dc25"
 dependencies = [
  "indexmap",
  "num-traits",
@@ -1170,9 +1170,9 @@ dependencies = [
 
 [[package]]
 name = "quote"
-version = "1.0.40"
+version = "1.0.41"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1885c039570dc00dcb4ff087a89e185fd56bae234ddc7f056a945bf36467248d"
+checksum = "ce25767e7b499d1b604768e7cde645d14cc8584231ea6b295e9c9eb22c02e1d1"
 dependencies = [
  "proc-macro2",
 ]
